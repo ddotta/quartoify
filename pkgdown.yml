@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2025-11-26T15:28Z
+last_built: 2025-11-26T15:35Z
 urls:
   reference: https://ddotta.github.io/quartoify/reference
   article: https://ddotta.github.io/quartoify/articles
