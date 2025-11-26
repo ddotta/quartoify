@@ -12,6 +12,8 @@ LazyData: true
 RoxygenNote: 7.0.0
 URL: https://ddotta.github.io/quartoify/, https://github.com/ddotta/quartoify
 BugReports: https://github.com/ddotta/quartoify/issues
+Imports:
+    rstudioapi
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

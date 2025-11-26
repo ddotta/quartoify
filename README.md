@@ -44,6 +44,15 @@ devtools::install_github("ddotta/quartoify")
 
 ## Usage
 
+### RStudio Add-in (Recommended)
+
+The easiest way to use `quartoify` is through the RStudio add-in:
+
+1. Open your R script in RStudio
+2. Go to **Addins** menu → **Convert R Script to Quarto**
+3. Follow the prompts to specify output file, title, and author
+4. The Quarto document will be created and optionally opened
+
 ### Basic example
 
 ```r

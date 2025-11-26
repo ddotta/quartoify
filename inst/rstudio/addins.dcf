@@ -1,0 +1,4 @@
+Name: Convert R Script to Quarto
+Description: Convert the active R script to a Quarto markdown document
+Binding: rtoqmd_addin
+Interactive: true
