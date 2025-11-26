@@ -15,6 +15,15 @@ status](https://github.com/ddotta/quartoify/workflows/R-CMD-check/badge.svg)](ht
 
 The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through a special comment system.
 
+### Typical Use Case
+
+If you have a working R script that contains comments, you may want to generate a Quarto document from this script that will allow you to automatically produce displayable HTML documentation. This is particularly useful for:
+
+- **Sharing analyses**: Transform your working scripts into professional-looking reports without rewriting everything
+- **Documentation**: Automatically generate documentation from your commented code
+- **Reproducible research**: Create self-documenting analyses where code and explanations are seamlessly integrated
+- **Code review**: Present your code in a more readable format for stakeholders who prefer formatted documents over raw scripts
+
 ## Features
 
 - **Automatic conversion**: Transforms your R scripts (.R) into Quarto documents (.qmd)
