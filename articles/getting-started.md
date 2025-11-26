@@ -1,0 +1,158 @@
+# Getting Started with quartoify
+
+## Introduction
+
+`quartoify` is an R package that automatically converts R scripts into
+Quarto markdown documents (.qmd). This vignette will guide you through
+the basic usage and features of the package.
+
+## Installation
+
+You can install the development version of quartoify from GitHub:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ddotta/quartoify")
+```
+
+## Basic Usage
+
+The main function of the package is
+[`rtoqmd()`](https://ddotta.github.io/quartoify/reference/rtoqmd.md).
+Here’s a simple example:
+
+``` r
+library(quartoify)
+
+# Convert an R script to a Quarto document
+rtoqmd("my_script.R", "my_document.qmd")
+```
+
+## Structuring Your R Script
+
+For optimal conversion, structure your R script using special comment
+syntax:
+
+### Headers
+
+Use `# ##` for level 2 headers, `# ###` for level 3, and so on up to
+level 6:
+
+``` r
+# ## Main Section
+
+# ### Subsection
+
+# #### Sub-subsection
+```
+
+### Comments
+
+Regular comments (single `#`) become explanatory text in the output:
+
+``` r
+# This comment will appear as plain text
+# in the Quarto document
+```
+
+### Code
+
+Any non-commented code is automatically grouped into executable code
+blocks:
+
+``` r
+library(dplyr)
+
+iris |> 
+  filter(Species == "setosa") |>
+  summarize(mean_length = mean(Sepal.Length))
+```
+
+## Customization Options
+
+You can customize the output document with several parameters:
+
+``` r
+rtoqmd(
+  input_file = "my_script.R",
+  output_file = "my_document.qmd",
+  title = "My Analysis Report",
+  author = "Your Name",
+  format = "html"
+)
+```
+
+### Parameters
+
+- `input_file`: Path to your R script
+- `output_file`: Path for the output Quarto document (optional)
+- `title`: Title for the document (default: “My title”)
+- `author`: Author name (default: “Damien Dotta”)
+- `format`: Output format (default: “html”)
+
+## Complete Example
+
+Let’s look at a complete example using the included sample file:
+
+``` r
+# Get the example file path
+example_file <- system.file("examples", "example.R", package = "quartoify")
+
+# Convert it
+rtoqmd(
+  input_file = example_file,
+  output_file = "iris_analysis.qmd",
+  title = "Iris Dataset Analysis",
+  author = "Data Analyst"
+)
+```
+
+This will create a Quarto document with:
+
+- A YAML header with title, author, and format information
+- A table of contents
+- Properly formatted headers
+- Explanatory text from comments
+- Executable R code blocks
+
+## Rendering the Output
+
+Once you have your `.qmd` file, you can render it to HTML using Quarto:
+
+``` bash
+quarto render iris_analysis.qmd
+```
+
+Or from R:
+
+``` r
+quarto::quarto_render("iris_analysis.qmd")
+```
+
+## Use Cases
+
+`quartoify` is particularly useful for:
+
+1.  **Documentation**: Transform working scripts into professional
+    documentation
+2.  **Sharing analyses**: Create readable reports from existing code
+3.  **Reproducible research**: Combine code and narrative seamlessly
+4.  **Code review**: Present code in a more accessible format
+
+## Tips and Best Practices
+
+1.  **Structure your comments**: Use header comments (`# ##`, `# ###`)
+    to organize your analysis into logical sections
+2.  **Add explanatory text**: Use regular comments to explain what your
+    code does
+3.  **Group related code**: Keep related operations together; they’ll be
+    grouped into the same code block
+4.  **Test incrementally**: Start with a small script to see how the
+    conversion works
+
+## Conclusion
+
+`quartoify` makes it easy to transform your R scripts into professional
+Quarto documents without manual reformatting. By following simple
+commenting conventions, you can automatically generate well-structured,
+reproducible documentation from your existing code.
