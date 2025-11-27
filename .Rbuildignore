@@ -13,3 +13,6 @@
 ^.*\.qmd$
 ^.*\.html$
 ^output_files$
+^test_addin\.R$
+^test_output\.qmd$
+^test_output\.html$

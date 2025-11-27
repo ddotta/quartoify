@@ -120,8 +120,8 @@ rtoqmd_addin <- function() {
     ),
     miniUI::gadgetTitleBar(
       "Convert R Script to Quarto",
-      left = miniUI::miniTitleBarCancelButton("cancel", "↩"),
-      right = miniUI::miniTitleBarButton("done", shiny::HTML("GO ▶"), primary = TRUE)
+      left = miniUI::miniTitleBarCancelButton("cancel", "\u21a9"),
+      right = miniUI::miniTitleBarButton("done", shiny::HTML("GO \u25b6"), primary = TRUE)
     ),
     shiny::div(id = "loader", class = "loader", shiny::div(class = "spinner")),
     miniUI::miniContentPanel(
@@ -242,14 +242,14 @@ rtoqmd_addin <- function() {
         code_fold = "Fold code blocks by default"
       ),
       fr = list(
-        input_file = "Fichier d'entrée :",
+        input_file = "Fichier d'entr\u00e9e :",
         output_file = "Chemin du fichier de sortie :",
         title = "Titre du document :",
         author = "Nom de l'auteur :",
-        render = "Générer le HTML après conversion",
-        open_html = "Ouvrir le fichier HTML dans le navigateur (si généré)",
-        open_qmd = "Ouvrir le fichier .qmd dans l'éditeur après conversion",
-        code_fold = "Replier les blocs de code par défaut"
+        render = "G\u00e9n\u00e9rer le HTML apr\u00e8s conversion",
+        open_html = "Ouvrir le fichier HTML dans le navigateur (si g\u00e9n\u00e9r\u00e9)",
+        open_qmd = "Ouvrir le fichier .qmd dans l'\u00e9diteur apr\u00e8s conversion",
+        code_fold = "Replier les blocs de code par d\u00e9faut"
       )
     )
     
