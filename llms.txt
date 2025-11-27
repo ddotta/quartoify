@@ -1,8 +1,8 @@
-# 📦 `quartoify` ![](reference/figures/hex_quartoify.png)
+# 📦 `quartify` ![](reference/figures/hex_quartify.png)
 
 ## Description
 
-`quartoify` is an R package that automatically converts R scripts into
+`quartify` is an R package that automatically converts R scripts into
 Quarto markdown documents (.qmd).
 
 The package facilitates the transformation of your R analyses into
@@ -42,18 +42,18 @@ particularly useful for:
 
 ## Installation
 
-You can install the development version of quartoify from GitHub:
+You can install the development version of quartify from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ddotta/quartoify")
+devtools::install_github("ddotta/quartify")
 ```
 
 ## Usage
 
 ### RStudio Add-in (Recommended)
 
-The easiest way to use `quartoify` is through the RStudio add-in:
+The easiest way to use `quartify` is through the RStudio add-in:
 
 1.  Open your R script in RStudio
 2.  Go to **Addins** menu → **Convert R Script to Quarto**
@@ -63,7 +63,7 @@ The easiest way to use `quartoify` is through the RStudio add-in:
 ### Basic example
 
 ``` r
-library(quartoify)
+library(quartify)
 
 # Convert an R script to a Quarto document
 rtoqmd("my_script.R", "my_document.qmd")
@@ -86,7 +86,7 @@ An example file is included in the package to test the function:
 
 ``` r
 # Locate the example file
-example_file <- system.file("examples", "example.R", package = "quartoify")
+example_file <- system.file("examples", "example.R", package = "quartify")
 
 # Convert the example file
 rtoqmd(example_file, "test_output.qmd")
@@ -137,7 +137,7 @@ The generated .qmd document contains:
 
 ## Output example
 
-From the example script, `quartoify` generates a structured Quarto
+From the example script, `quartify` generates a structured Quarto
 document with: - Navigable table of contents - Code organized into
 reusable blocks - Clear documentation between code sections - Ready for
 HTML, PDF, or other formats supported by Quarto
@@ -152,7 +152,7 @@ MIT
 
 Convert R scripts to Quarto markdown
 
-- [`rtoqmd()`](https://ddotta.github.io/quartoify/reference/rtoqmd.md) :
+- [`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md) :
   Convert R Script to Quarto Markdown
 
 # Articles
@@ -160,4 +160,4 @@ Convert R scripts to Quarto markdown
 ### All vignettes
 
 - [Getting Started with
-  quartoify](https://ddotta.github.io/quartoify/articles/getting-started.md):
+  quartify](https://ddotta.github.io/quartify/articles/getting-started.md):

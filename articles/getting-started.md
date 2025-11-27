@@ -1,28 +1,28 @@
-# Getting Started with quartoify
+# Getting Started with quartify
 
 ## Introduction
 
-`quartoify` is an R package that automatically converts R scripts into
+`quartify` is an R package that automatically converts R scripts into
 Quarto markdown documents (.qmd). This vignette will guide you through
 the basic usage and features of the package.
 
 ## Installation
 
-You can install the development version of quartoify from GitHub:
+You can install the development version of quartify from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ddotta/quartoify")
+devtools::install_github("ddotta/quartify")
 ```
 
 ## Basic Usage
 
 The main function of the package is
-[`rtoqmd()`](https://ddotta.github.io/quartoify/reference/rtoqmd.md).
+[`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md).
 Here’s a simple example:
 
 ``` r
-library(quartoify)
+library(quartify)
 
 # Convert an R script to a Quarto document
 rtoqmd("my_script.R", "my_document.qmd")
@@ -96,7 +96,7 @@ Let’s look at a complete example using the included sample file:
 
 ``` r
 # Get the example file path
-example_file <- system.file("examples", "example.R", package = "quartoify")
+example_file <- system.file("examples", "example.R", package = "quartify")
 
 # Convert it
 rtoqmd(
@@ -131,7 +131,7 @@ quarto::quarto_render("iris_analysis.qmd")
 
 ## Use Cases
 
-`quartoify` is particularly useful for:
+`quartify` is particularly useful for:
 
 1.  **Documentation**: Transform working scripts into professional
     documentation
@@ -152,7 +152,7 @@ quarto::quarto_render("iris_analysis.qmd")
 
 ## Conclusion
 
-`quartoify` makes it easy to transform your R scripts into professional
+`quartify` makes it easy to transform your R scripts into professional
 Quarto documents without manual reformatting. By following simple
 commenting conventions, you can automatically generate well-structured,
 reproducible documentation from your existing code.

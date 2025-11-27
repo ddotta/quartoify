@@ -1,4 +1,4 @@
 # License
 
     YEAR: 2025
-    COPYRIGHT HOLDER: quartoify authors
+    COPYRIGHT HOLDER: quartify authors
