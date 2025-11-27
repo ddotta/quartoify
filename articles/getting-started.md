@@ -30,9 +30,17 @@ Here’s a simple example:
 ``` r
 library(quartify)
 
-# Convert an R script to a Quarto document
+# Convert an R script to a Quarto document and render to HTML
 rtoqmd("my_script.R", "my_document.qmd")
+
+# Convert only, without rendering to HTML
+rtoqmd("my_script.R", "my_document.qmd", render = FALSE)
 ```
+
+By default,
+[`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md)
+will: 1. Create the .qmd file 2. Render it to HTML using Quarto 3. Open
+the HTML file in your default browser
 
 ## Structuring Your R Script
 
@@ -190,6 +198,8 @@ rtoqmd(
 - `title`: Title for the document (default: “My title”)
 - `author`: Author name (default: “Damien Dotta”)
 - `format`: Output format (default: “html”)
+- `render`: Whether to render the .qmd to HTML (default: TRUE)
+- `open_html`: Whether to open the HTML in browser (default: TRUE)
 
 ## Converting the Example
 
@@ -280,17 +290,40 @@ iris %>%
 
     ## Rendering the Output
 
-    Once you have your `.qmd` file, you can render it to HTML using Quarto:
+    ### Automatic Rendering (Recommended)
+
+    By default, `rtoqmd()` automatically renders your Quarto document to HTML:
 
 
-    ``` bash
-    quarto render iris_analysis.qmd
+    ``` r
+    # This will create both .qmd and .html files, then open the HTML
+    rtoqmd(example_file, "iris_analysis.qmd")
+
+The function will: 1. Check if Quarto is installed 2. Render the .qmd
+file to HTML 3. Open the HTML file in your default browser
+
+If you don’t want automatic rendering:
+
+``` r
+rtoqmd(example_file, "iris_analysis.qmd", render = FALSE)
+```
+
+### Manual Rendering
+
+You can also render manually using Quarto:
+
+``` bash
+quarto render iris_analysis.qmd
+```
 
 Or from R:
 
 ``` r
 quarto::quarto_render("iris_analysis.qmd")
 ```
+
+**Note:** Quarto must be installed on your system. Download it from
+[quarto.org](https://quarto.org/docs/get-started/).
 
 ## Use Cases
 

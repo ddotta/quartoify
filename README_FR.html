@@ -74,6 +74,8 @@
 <strong>En-tête YAML personnalisable</strong> : Possibilité de définir le titre, l’auteur et le format de sortie</li>
 <li>
 <strong>Table des matières</strong> : Génération automatique d’une table des matières dans le document Quarto avec la profondeur appropriée</li>
+<li>
+<strong>Génération HTML automatique</strong> : Génère optionnellement le fichier HTML à partir du .qmd et l’ouvre dans le navigateur (activé par défaut)</li>
 </ul></div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a></h2>
@@ -91,15 +93,19 @@
 <li>Allez dans le menu <strong>Addins</strong> → <strong>Convert R Script to Quarto</strong>
 </li>
 <li>Suivez les instructions pour spécifier le fichier de sortie, le titre et l’auteur</li>
-<li>Le document Quarto sera créé et optionnellement ouvert</li>
+<li>Choisissez si vous voulez générer le HTML</li>
+<li>Le document Quarto sera créé, optionnellement généré en HTML, et ouvert dans votre navigateur</li>
 </ol></div>
 <div class="section level3">
 <h3 id="exemple-basique">Exemple basique<a class="anchor" aria-label="anchor" href="#exemple-basique"></a></h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Convertir un script R en document Quarto</span></span>
-<span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Convertir un script R en document Quarto et générer le HTML</span></span>
+<span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convertir seulement, sans générer le HTML</span></span>
+<span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span>, render <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="personnalisation">Personnalisation<a class="anchor" aria-label="anchor" href="#personnalisation"></a></h3>
@@ -109,7 +115,9 @@
 <span>       output_file <span class="op">=</span> <span class="st">"mon_document.qmd"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Mon analyse statistique"</span>,</span>
 <span>       author <span class="op">=</span> <span class="st">"Votre nom"</span>,</span>
-<span>       format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<span>       format <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>       render <span class="op">=</span> <span class="cn">TRUE</span>,      <span class="co"># Générer le HTML (par défaut)</span></span>
+<span>       open_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   <span class="co"># Ouvrir le HTML dans le navigateur (par défaut)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="utilisation-du-fichier-exemple">Utilisation du fichier exemple<a class="anchor" aria-label="anchor" href="#utilisation-du-fichier-exemple"></a></h3>

@@ -98,8 +98,14 @@ exemple simple :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Convertir un script R en document Quarto</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Convertir un script R en document Quarto et générer le HTML</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convertir seulement, sans générer le HTML</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span>, render <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Par défaut, <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> va : 1. Créer le fichier .qmd 2. Le
+générer en HTML avec Quarto 3. Ouvrir le fichier HTML dans votre
+navigateur par défaut</p>
 </div>
 <div class="section level2">
 <h2 id="structurer-votre-script-r">Structurer votre script R<a class="anchor" aria-label="anchor" href="#structurer-votre-script-r"></a>
@@ -278,6 +284,12 @@ title”)</li>
 Dotta”)</li>
 <li>
 <code>format</code> : Format de sortie (par défaut : “html”)</li>
+<li>
+<code>render</code> : Générer le HTML à partir du .qmd (par défaut :
+TRUE)</li>
+<li>
+<code>open_html</code> : Ouvrir le HTML dans le navigateur (par
+défaut : TRUE)</li>
 </ul>
 </div>
 </div>
@@ -363,15 +375,32 @@ Notez comment :
 
 ## Rendu de la sortie
 
-Une fois que vous avez votre fichier `.qmd`, vous pouvez le rendre en HTML en utilisant Quarto :
+### Rendu automatique (Recommandé)
+
+Par défaut, `rtoqmd()` génère automatiquement votre document Quarto en HTML :
 
 
-``` bash
-quarto render analyse_iris.qmd</code></pre>
-<p>Ou depuis R :</p>
+``` r
+# Ceci créera les fichiers .qmd et .html, puis ouvrira le HTML
+rtoqmd(example_file, "analyse_iris.qmd")</code></pre>
+<p>La fonction va : 1. Vérifier si Quarto est installé 2. Générer le
+fichier .qmd en HTML 3. Ouvrir le fichier HTML dans votre navigateur par
+défaut</p>
+<p>Si vous ne voulez pas de rendu automatique :</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">quarto</span><span class="fu">::</span><span class="fu">quarto_render</span><span class="op">(</span><span class="st">"analyse_iris.qmd"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">example_file</span>, <span class="st">"analyse_iris.qmd"</span>, render <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level3">
+<h3 id="rendu-manuel">Rendu manuel<a class="anchor" aria-label="anchor" href="#rendu-manuel"></a>
+</h3>
+<p>Vous pouvez également générer manuellement en utilisant Quarto :</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="ex">quarto</span> render analyse_iris.qmd</span></code></pre></div>
+<p>Ou depuis R :</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">quarto</span><span class="fu">::</span><span class="fu">quarto_render</span><span class="op">(</span><span class="st">"analyse_iris.qmd"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Note :</strong> Quarto doit être installé sur votre système.
+Téléchargez-le depuis <a href="https://quarto.org/docs/get-started/" class="external-link">quarto.org</a>.</p>
 </div>
 </div>
 <div class="section level2">

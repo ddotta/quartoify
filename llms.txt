@@ -44,6 +44,8 @@ particularly useful for:
   output format
 - **Table of contents**: Automatic generation of a table of contents in
   the Quarto document with proper depth
+- **Automatic HTML rendering**: Optionally renders the .qmd file to HTML
+  and opens it in your browser (enabled by default)
 
 ## Installation
 
@@ -63,15 +65,20 @@ The easiest way to use `quartify` is through the RStudio add-in:
 1.  Open your R script in RStudio
 2.  Go to **Addins** menu → **Convert R Script to Quarto**
 3.  Follow the prompts to specify output file, title, and author
-4.  The Quarto document will be created and optionally opened
+4.  Choose whether to render to HTML
+5.  The Quarto document will be created, optionally rendered to HTML,
+    and opened in your browser
 
 ### Basic example
 
 ``` r
 library(quartify)
 
-# Convert an R script to a Quarto document
+# Convert an R script to a Quarto document and render to HTML
 rtoqmd("my_script.R", "my_document.qmd")
+
+# Convert only, without rendering to HTML
+rtoqmd("my_script.R", "my_document.qmd", render = FALSE)
 ```
 
 ### Customization
@@ -82,7 +89,9 @@ rtoqmd("my_script.R",
        output_file = "my_document.qmd",
        title = "My statistical analysis",
        author = "Your name",
-       format = "html")
+       format = "html",
+       render = TRUE,      # Render to HTML (default)
+       open_html = TRUE)   # Open HTML in browser (default)
 ```
 
 ### Using the example file

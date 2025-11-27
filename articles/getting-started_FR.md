@@ -31,9 +31,17 @@ Voici un exemple simple :
 ``` r
 library(quartify)
 
-# Convertir un script R en document Quarto
+# Convertir un script R en document Quarto et générer le HTML
 rtoqmd("mon_script.R", "mon_document.qmd")
+
+# Convertir seulement, sans générer le HTML
+rtoqmd("mon_script.R", "mon_document.qmd", render = FALSE)
 ```
+
+Par défaut,
+[`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md) va
+: 1. Créer le fichier .qmd 2. Le générer en HTML avec Quarto 3. Ouvrir
+le fichier HTML dans votre navigateur par défaut
 
 ## Structurer votre script R
 
@@ -201,6 +209,8 @@ rtoqmd(
 - `title` : Titre du document (par défaut : “My title”)
 - `author` : Nom de l’auteur (par défaut : “Damien Dotta”)
 - `format` : Format de sortie (par défaut : “html”)
+- `render` : Générer le HTML à partir du .qmd (par défaut : TRUE)
+- `open_html` : Ouvrir le HTML dans le navigateur (par défaut : TRUE)
 
 ## Conversion de l’exemple
 
@@ -291,17 +301,41 @@ iris %>%
 
     ## Rendu de la sortie
 
-    Une fois que vous avez votre fichier `.qmd`, vous pouvez le rendre en HTML en utilisant Quarto :
+    ### Rendu automatique (Recommandé)
+
+    Par défaut, `rtoqmd()` génère automatiquement votre document Quarto en HTML :
 
 
-    ``` bash
-    quarto render analyse_iris.qmd
+    ``` r
+    # Ceci créera les fichiers .qmd et .html, puis ouvrira le HTML
+    rtoqmd(example_file, "analyse_iris.qmd")
+
+La fonction va : 1. Vérifier si Quarto est installé 2. Générer le
+fichier .qmd en HTML 3. Ouvrir le fichier HTML dans votre navigateur par
+défaut
+
+Si vous ne voulez pas de rendu automatique :
+
+``` r
+rtoqmd(example_file, "analyse_iris.qmd", render = FALSE)
+```
+
+### Rendu manuel
+
+Vous pouvez également générer manuellement en utilisant Quarto :
+
+``` bash
+quarto render analyse_iris.qmd
+```
 
 Ou depuis R :
 
 ``` r
 quarto::quarto_render("analyse_iris.qmd")
 ```
+
+**Note :** Quarto doit être installé sur votre système. Téléchargez-le
+depuis [quarto.org](https://quarto.org/docs/get-started/).
 
 ## Cas d’usage
 
