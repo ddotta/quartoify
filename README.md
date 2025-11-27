@@ -1,15 +1,15 @@
 <!-- badges: start -->
 ![GitHub top
-language](https://img.shields.io/github/languages/top/ddotta/quartoify)
+language](https://img.shields.io/github/languages/top/ddotta/quartify)
 [![R check
-status](https://github.com/ddotta/quartoify/workflows/R-CMD-check/badge.svg)](https://github.com/ddotta/quartoify/actions/workflows/check-release.yaml)
+status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](https://github.com/ddotta/quartify/actions/workflows/check-release.yaml)
 <!-- badges: end -->
 
-# :package: `quartoify` <img src="man/figures/hex_quartoify.png" width=90 align="right"/>
+# :package: `quartify` <img src="man/figures/hex_quartify.png" width=90 align="right"/>
 
 ## Description
 
-`quartoify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).
+`quartify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).
 
 The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through a special comment system.
 
@@ -33,18 +33,18 @@ If you have a working R script that contains comments, you may want to generate 
 
 ## Installation
 
-You can install the development version of quartoify from GitHub:
+You can install the development version of quartify from GitHub:
 
-```r
+``` r
 # install.packages("devtools")
-devtools::install_github("ddotta/quartoify")
+devtools::install_github("ddotta/quartify")
 ```
 
 ## Usage
 
 ### RStudio Add-in (Recommended)
 
-The easiest way to use `quartoify` is through the RStudio add-in:
+The easiest way to use `quartify` is through the RStudio add-in:
 
 1. Open your R script in RStudio
 2. Go to **Addins** menu → **Convert R Script to Quarto**
@@ -54,7 +54,7 @@ The easiest way to use `quartoify` is through the RStudio add-in:
 ### Basic example
 
 ```r
-library(quartoify)
+library(quartify)
 
 # Convert an R script to a Quarto document
 rtoqmd("my_script.R", "my_document.qmd")
@@ -77,7 +77,7 @@ An example file is included in the package to test the function:
 
 ```r
 # Locate the example file
-example_file <- system.file("examples", "example.R", package = "quartoify")
+example_file <- system.file("examples", "example.R", package = "quartify")
 
 # Convert the example file
 rtoqmd(example_file, "test_output.qmd")
@@ -126,7 +126,7 @@ The generated .qmd document contains:
 
 ## Output example
 
-From the example script, `quartoify` generates a structured Quarto document with:
+From the example script, `quartify` generates a structured Quarto document with:
 - Navigable table of contents
 - Code organized into reusable blocks
 - Clear documentation between code sections

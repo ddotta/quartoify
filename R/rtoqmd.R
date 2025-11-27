@@ -15,7 +15,7 @@
 #' @examples
 #' \dontrun{
 #' # Use example file included in package
-#' example_file <- system.file("examples", "example.R", package = "quartoify")
+#' example_file <- system.file("examples", "example.R", package = "quartify")
 #' rtoqmd(example_file, "output.qmd")
 #' }
 rtoqmd <- function(input_file, output_file = NULL, 

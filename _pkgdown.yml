@@ -1,4 +1,4 @@
-url: https://ddotta.github.io/quartoify/
+url: https://ddotta.github.io/quartify/
 template:
   bootstrap: 5
   bootswatch: flatly
@@ -8,7 +8,7 @@ template:
     btn-border-radius: 0.25rem
 
 home:
-  title: quartoify
+  title: quartify
   description: Convert R scripts to Quarto markdown documents
 
 navbar:
@@ -32,7 +32,7 @@ navbar:
       href: news/index.html
     github:
       icon: fab fa-github fa-lg
-      href: https://github.com/ddotta/quartoify
+      href: https://github.com/ddotta/quartify
       aria-label: GitHub
 
 reference:

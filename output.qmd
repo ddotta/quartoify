@@ -4,7 +4,7 @@ author: "Votre nom"
 format: html
 toc: true
 toc-title: Sommaire
-toc-depth: 4
+toc-depth: 6
 toc-location: left
 output:
   html_document:

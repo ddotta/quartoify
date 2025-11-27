@@ -1,4 +1,4 @@
-Package: quartoify
+Package: quartify
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -10,8 +10,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.0
-URL: https://ddotta.github.io/quartoify/, https://github.com/ddotta/quartoify
-BugReports: https://github.com/ddotta/quartoify/issues
+URL: https://ddotta.github.io/quartify/, https://github.com/ddotta/quartify
+BugReports: https://github.com/ddotta/quartify/issues
 Imports:
     rstudioapi
 Suggests: 

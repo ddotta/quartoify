@@ -1,4 +1,4 @@
 library(testthat)
-library(quartoify)
+library(quartify)
 
-test_check("quartoify")
+test_check("quartify")
