@@ -1,7 +1,10 @@
 #' Convert R Script to Quarto Markdown
 #'
 #' This function converts an R script to Quarto markdown format.
-#' Comments starting with # ## to # ###### are converted to markdown headers (levels 2 to 6).
+#' It recognizes RStudio code sections with different levels:
+#' - ## Title #### creates a level 2 header
+#' - ### Title ==== creates a level 3 header
+#' - #### Title ---- creates a level 4 header
 #' Regular comments are converted to plain text.
 #' Code blocks are wrapped in code chunks.
 #'
@@ -46,7 +49,7 @@ rtoqmd <- function(input_file, output_file = NULL,
   output <- c(output, paste0('format: ', format))
   output <- c(output, "toc: true")
   output <- c(output, "toc-title: Sommaire")
-  output <- c(output, "toc-depth: 6")
+  output <- c(output, "toc-depth: 4")
   output <- c(output, "toc-location: left")
   output <- c(output, "output:")
   output <- c(output, "  html_document:")
@@ -66,8 +69,9 @@ rtoqmd <- function(input_file, output_file = NULL,
     if (grepl("^#'", line)) {
       # Ignore roxygen comments - do nothing
       
-    # Check if line is a header comment (# ## or # ###)
-    } else if (grepl("^#\\s*#{2,}", line)) {
+    # Check if line is a RStudio code section
+    } else if (grepl("^##\\s+.+\\s+#{4,}\\s*$", line)) {
+      # Level 2: ## Title ####
       # Flush any accumulated code
       if (length(code_block) > 0) {
         output <- c(output, "```{.r}")
@@ -77,9 +81,41 @@ rtoqmd <- function(input_file, output_file = NULL,
         code_block <- character()
       }
       
-      # Convert header
-      header <- sub("^#\\s*", "", line)
-      output <- c(output, header)
+      # Extract title and create level 2 header
+      title_text <- sub("^##\\s+(.+?)\\s+#{4,}\\s*$", "\\1", line)
+      output <- c(output, paste0("## ", title_text))
+      output <- c(output, "")
+      
+    } else if (grepl("^###\\s+.+\\s+={4,}\\s*$", line)) {
+      # Level 3: ### Title ====
+      # Flush any accumulated code
+      if (length(code_block) > 0) {
+        output <- c(output, "```{.r}")
+        output <- c(output, code_block)
+        output <- c(output, "```")
+        output <- c(output, "")
+        code_block <- character()
+      }
+      
+      # Extract title and create level 3 header
+      title_text <- sub("^###\\s+(.+?)\\s+={4,}\\s*$", "\\1", line)
+      output <- c(output, paste0("### ", title_text))
+      output <- c(output, "")
+      
+    } else if (grepl("^####\\s+.+\\s+-{4,}\\s*$", line)) {
+      # Level 4: #### Title ----
+      # Flush any accumulated code
+      if (length(code_block) > 0) {
+        output <- c(output, "```{.r}")
+        output <- c(output, code_block)
+        output <- c(output, "```")
+        output <- c(output, "")
+        code_block <- character()
+      }
+      
+      # Extract title and create level 4 header
+      title_text <- sub("^####\\s+(.+?)\\s+-{4,}\\s*$", "\\1", line)
+      output <- c(output, paste0("#### ", title_text))
       output <- c(output, "")
       
     } else if (grepl("^#", line)) {

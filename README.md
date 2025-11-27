@@ -11,7 +11,7 @@ status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](htt
 
 `quartify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).
 
-The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through a special comment system.
+The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through RStudio code sections. It recognizes the standard RStudio code section syntax (`####`, `====`, `----`) to create properly indented navigation structures.
 
 ### Typical Use Case
 
@@ -25,11 +25,11 @@ If you have a working R script that contains comments, you may want to generate 
 ## Features
 
 - **Automatic conversion**: Transforms your R scripts (.R) into Quarto documents (.qmd)
-- **Title management**: Special comments `# ##` to `# ######` become level 2 to 6 markdown headers
+- **RStudio code sections support**: Recognizes RStudio code sections (`####`, `====`, `----`) and converts them to proper markdown headers with correct indentation levels
 - **Comment preservation**: Regular comments are converted into explanatory text
 - **Code organization**: R code is automatically organized into executable blocks
 - **Customizable YAML header**: Ability to define title, author, and output format
-- **Table of contents**: Automatic generation of a table of contents in the Quarto document
+- **Table of contents**: Automatic generation of a table of contents in the Quarto document with proper depth
 
 ## Installation
 
@@ -85,49 +85,113 @@ rtoqmd(example_file, "test_output.qmd")
 
 ## Source R script format
 
-For the conversion to work properly, structure your R script as follows:
+For the conversion to work properly, structure your R script using RStudio code sections:
 
 ```r
 library(dplyr)
 
-# ## Level 2 title
+## Title 2 ####
 
-# ### Level 3 subtitle
+### Title 3 ====
 
-# Analysis description
-# This section explains what the code does
+# Start of statistical processing
+# Counting the number of observations by species
 
 iris |> 
   count(Species)
 
-# ### Another subtitle
+### Title 3 ====
 
-# Data filtering
+# Filter the data.frame on Species "setosa"
 
 iris |> 
   filter(Species == "setosa")
+
+#### Title 4 ----
+
+# Select column Species
+
+iris %>% 
+  select(Species)
 ```
 
 ### Conversion rules
 
-- **Titles**: Comments `# ##` to `# ######` become markdown headers (levels 2 to 6)
+- **Code sections**: RStudio code sections become markdown headers
+  - `## Title ####` creates a level 2 header
+  - `### Title ====` creates a level 3 header  
+  - `#### Title ----` creates a level 4 header
 - **Comments**: Simple comments `#` become explanatory text
 - **Code**: Uncommented code is grouped into Quarto code blocks
 - **Consecutive blocks**: Consecutive code lines are grouped in the same block
+
+This follows the [RStudio code sections convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html) which provides proper indentation in RStudio's document outline navigation.
 
 ## Generated Quarto document structure
 
 The generated .qmd document contains:
 
 - A complete YAML header with table of contents configuration
-- Titles and subtitles from your special comments
+- Properly structured headers from RStudio code sections
 - Textual explanations from your regular comments
 - Formatted and executable R code blocks
 
 ## Output example
 
-From the example script, `quartify` generates a structured Quarto document with:
-- Navigable table of contents
+From the example R script shown above, `quartify` generates:
+
+```markdown
+---
+title: "My title"
+author: "Damien Dotta"
+format: html
+toc: true
+toc-title: Sommaire
+toc-depth: 4  
+toc-location: left
+output: 
+  html_document:
+  number_sections: TRUE
+  output-file: example.html
+---
+
+```{.r}
+library(dplyr)
+```
+
+## Title 2
+
+### Title 3
+
+Start of statistical processing
+Counting the number of observations by species
+
+```{.r}
+iris |> 
+  count(Species)
+```
+
+### Title 3
+
+Filter the data.frame on Species "setosa"
+
+```{.r}
+iris |> 
+  filter(Species == "setosa")
+```
+
+#### Title 4
+
+Select column Species
+
+```{.r}
+iris %>% 
+  select(Species)
+```
+```
+
+The generated document includes:
+- Navigable table of contents with proper hierarchy
 - Code organized into reusable blocks
 - Clear documentation between code sections
 - Ready for HTML, PDF, or other formats supported by Quarto

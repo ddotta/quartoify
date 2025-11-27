@@ -9,7 +9,7 @@ Description: Automatically converts R scripts into Quarto markdown documents (.q
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.0
+RoxygenNote: 7.2.3
 URL: https://ddotta.github.io/quartify/, https://github.com/ddotta/quartify
 BugReports: https://github.com/ddotta/quartify/issues
 Imports:

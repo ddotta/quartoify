@@ -1,15 +1,15 @@
 ---
-title: "Mon analyse statistique"
-author: "Votre nom"
+title: "Iris Dataset Analysis"
+author: "Data Analyst"
 format: html
 toc: true
 toc-title: Sommaire
-toc-depth: 6
+toc-depth: 4
 toc-location: left
 output:
   html_document:
   number_sections: TRUE
-  output-file: output.html
+  output-file: iris_analysis.html
 ---
 
 ```{.r}
@@ -36,4 +36,13 @@ Filter the data.frame on Species "setosa"
 ```{.r}
 iris |> 
   filter(Species == "setosa")
+```
+
+#### Title 4
+
+Select column Species
+
+```{.r}
+iris %>% 
+  select(Species)
 ```

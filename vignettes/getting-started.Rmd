@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-`quartify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd). This vignette will guide you through the basic usage and features of the package.
+`quartify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd). The package recognizes RStudio code sections to create properly structured documents with navigation. This vignette will guide you through the basic usage and features of the package.
 
 ## Installation
 
@@ -40,19 +40,25 @@ rtoqmd("my_script.R", "my_document.qmd")
 
 ## Structuring Your R Script
 
-For optimal conversion, structure your R script using special comment syntax:
+For optimal conversion, structure your R script using RStudio code sections:
 
-### Headers
+### Code Sections
 
-Use `# ##` for level 2 headers, `# ###` for level 3, and so on up to level 6:
+Use RStudio code section syntax to create headers at different levels:
 
 ```r
-# ## Main Section
+## Main Section ####
 
-# ### Subsection
+### Subsection ====
 
-# #### Sub-subsection
+#### Sub-subsection ----
 ```
+
+This follows the [RStudio code sections convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html) which provides proper indentation in RStudio's document outline:
+
+- `## Title ####` creates a level 2 header
+- `### Title ====` creates a level 3 header
+- `#### Title ----` creates a level 4 header
 
 ### Comments
 
@@ -147,11 +153,12 @@ quarto::quarto_render("iris_analysis.qmd")
 
 ## Tips and Best Practices
 
-1. **Structure your comments**: Use header comments (`# ##`, `# ###`) to organize your analysis into logical sections
+1. **Use RStudio code sections**: Structure your analysis using `####`, `====`, and `----` to create proper navigation hierarchy
 2. **Add explanatory text**: Use regular comments to explain what your code does
 3. **Group related code**: Keep related operations together; they'll be grouped into the same code block
 4. **Test incrementally**: Start with a small script to see how the conversion works
+5. **Navigate easily**: RStudio code sections allow you to navigate your document structure easily before and after conversion
 
 ## Conclusion
 
-`quartify` makes it easy to transform your R scripts into professional Quarto documents without manual reformatting. By following simple commenting conventions, you can automatically generate well-structured, reproducible documentation from your existing code.
+`quartify` makes it easy to transform your R scripts into professional Quarto documents without manual reformatting. By following RStudio code section conventions, you can automatically generate well-structured, reproducible documentation from your existing code with proper navigation hierarchy.
