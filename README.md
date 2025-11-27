@@ -1,6 +1,4 @@
 <!-- badges: start -->
-![GitHub top
-language](https://img.shields.io/github/languages/top/ddotta/quartify)
 [![R check
 status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](https://github.com/ddotta/quartify/actions/workflows/check-release.yaml)
 <!-- badges: end -->
