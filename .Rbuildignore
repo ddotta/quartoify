@@ -9,3 +9,7 @@
 ^LICENSE\.md$
 ^dev$
 ^output\.qmd$
+^README_FR\.md$
+^.*\.qmd$
+^.*\.html$
+^output_files$

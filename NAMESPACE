@@ -2,3 +2,4 @@
 
 export(rtoqmd)
 export(rtoqmd_addin)
+importFrom(utils,browseURL)

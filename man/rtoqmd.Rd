@@ -9,7 +9,9 @@ rtoqmd(
   output_file = NULL,
   title = "My title",
   author = "Damien Dotta",
-  format = "html"
+  format = "html",
+  render = TRUE,
+  open_html = TRUE
 )
 }
 \arguments{
@@ -22,9 +24,13 @@ rtoqmd(
 \item{author}{Author name (default: "Damien Dotta")}
 
 \item{format}{Output format (default: "html")}
+
+\item{render}{Logical, whether to render the .qmd file to HTML after creation (default: TRUE)}
+
+\item{open_html}{Logical, whether to open the HTML file in browser after rendering (default: TRUE, only used if render = TRUE)}
 }
 \value{
-NULL (creates output file)
+Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 }
 \description{
 This function converts an R script to Quarto markdown format.
@@ -33,13 +39,18 @@ It recognizes RStudio code sections with different levels:
 - ### Title ==== creates a level 3 header
 - #### Title ---- creates a level 4 header
 Regular comments are converted to plain text.
-Code blocks are wrapped in non-executable code chunks ({.r} syntax)
+Code blocks are wrapped in non-executable code chunks (\code{\{.r\}} syntax)
 for static documentation purposes.
 }
 \examples{
 \dontrun{
 # Use example file included in package
 example_file <- system.file("examples", "example.R", package = "quartify")
+
+# Convert and render to HTML
 rtoqmd(example_file, "output.qmd")
+
+# Convert only, without rendering
+rtoqmd(example_file, "output.qmd", render = FALSE)
 }
 }

@@ -6,7 +6,7 @@
 #' - ### Title ==== creates a level 3 header
 #' - #### Title ---- creates a level 4 header
 #' Regular comments are converted to plain text.
-#' Code blocks are wrapped in non-executable code chunks ({.r} syntax)
+#' Code blocks are wrapped in non-executable code chunks (\code{\{.r\}} syntax)
 #' for static documentation purposes.
 #'
 #' @param input_file Path to the input R script file
@@ -16,7 +16,8 @@
 #' @param format Output format (default: "html")
 #' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: TRUE, only used if render = TRUE)
-#' @return NULL (creates output file and optionally renders it)
+#' @return Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
+#' @importFrom utils browseURL
 #' @export
 #' @examples
 #' \dontrun{
