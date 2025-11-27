@@ -324,7 +324,14 @@ Notice how:
 - Code blocks are properly formatted with syntax highlighting
 - The table of contents will show the hierarchical structure
 
-**Important note about code chunks:** The generated code chunks use standard R chunks. The YAML header includes global `execute` options (`eval: false` and `echo: true`), which creates **non-executable** code blocks. Additionally, the HTML format uses `embed-resources: true` to create **self-contained HTML files** (see [Quarto documentation](https://quarto.org/docs/output-formats/html-basics.html#self-contained)). This is intentional - `quartify` is designed to create **static documentation** of your R script, not an executable notebook. The code is displayed with syntax highlighting for reading and documentation purposes, but won't be executed when rendering the Quarto document. This approach is ideal for:
+**Important note about code chunks:**  
+The generated code chunks use standard R chunks.  
+The YAML header includes global `execute` options (`eval: false` and `echo: true`), which creates **non-executable** code blocks.   
+Additionally, the HTML format uses `embed-resources: true` to create **self-contained HTML files** (see [Quarto documentation](https://quarto.org/docs/output-formats/html-basics.html#self-contained)).  
+This is intentional - `quartify` is designed to create **static documentation** of your R script, not an executable notebook.  
+The code is displayed with syntax highlighting for reading and documentation purposes, but won't be executed when rendering the Quarto document.  
+
+This approach is ideal for: 
 
 - Documenting existing scripts without modifying their execution
 - Creating static references of your code

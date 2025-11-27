@@ -50,7 +50,6 @@ La façon la plus simple d'utiliser `quartify` est via l'add-in RStudio avec son
 2. Allez dans le menu **Addins** → **Convert R Script to Quarto**
 3. Une fenêtre de dialogue apparaîtra (700x800px) avec :
    - Boutons de sélection de langue **EN/FR** en haut à droite
-   - **Logo hex quartify** centré en haut
    - Formulaire pour spécifier :
      - Le chemin du fichier de sortie
      - Le titre du document et le nom de l'auteur
@@ -138,11 +137,11 @@ iris %>%
 
 Les sections de code RStudio deviennent des en-têtes markdown. **Critique** : les symboles de fin doivent contenir au moins 4 caractères :
 
-- `## Titre ####` → En-tête de niveau 2 (au moins 4 `#` à la fin)
-- `### Titre ====` → En-tête de niveau 3 (au moins 4 `=` à la fin)
-- `#### Titre ----` → En-tête de niveau 4 (au moins 4 `-` à la fin)
+- `## Titre ----` → En-tête de niveau 2 (au moins 4 `#`, `=` ou `-` à la fin)
+- `### Titre ----` → En-tête de niveau 3 (au moins 4 `#`, `=` ou `-` à la fin)
+- `#### Titre ----` → En-tête de niveau 4 (au moins 4 `#`, `=` ou `-` à la fin)
 
-**Note :** Vous pouvez utiliser `#`, `=`, ou `-` indifféremment comme symboles de fin (ex : `## Titre ====` ou `### Titre ----` fonctionneront), mais il est recommandé de suivre la convention RStudio pour la cohérence.
+**Note :** Vous pouvez utiliser `#`, `=`, ou `-` indifféremment comme symboles de fin (ex : `## Titre ====` ou `### Titre ----` fonctionneront).
 
 #### 2. Commentaires réguliers (Texte)
 

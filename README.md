@@ -51,7 +51,6 @@ The easiest way to use `quartify` is through the RStudio add-in with its interac
 2. Go to **Addins** menu → **Convert R Script to Quarto**
 3. A dialog window will appear (700x800px) with:
    - **EN/FR** language selector buttons at the top right
-   - **quartify hex logo** centered at the top
    - Form fields to specify:
      - Output file path
      - Document title and author name
