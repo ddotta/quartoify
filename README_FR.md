@@ -177,8 +177,8 @@ iris %>%
 
 - Toujours inclure un espace après `#` pour les commentaires
 - Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin
-- **Commentaires autonomes** (en début de ligne) → deviennent du texte en dehors des blocs de code
-- **Commentaires en ligne** (dans le code) → restent à l'intérieur des blocs de code
+- **Les commentaires avec un `#` en début de ligne** → deviennent du texte en dehors des blocs de code
+- **Les commentaires dans le code** → restent à l'intérieur des blocs de code
 - Les lignes de code consécutives sont regroupées dans le même bloc
 - Les lignes vides entre les blocs sont ignorées
 

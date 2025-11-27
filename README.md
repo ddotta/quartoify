@@ -5,7 +5,7 @@ status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](htt
 
 # :package: `quartify` <img src="man/figures/hex_quartify.png" width=90 align="right"/>
 
-🇫🇷 [Version française](README_FR.md)
+🇫🇷 [Version française](https://ddotta.github.io/quartify/README_FR.html)
 
 ## Description
 
@@ -82,8 +82,9 @@ rtoqmd("my_script.R",
        title = "My statistical analysis",
        author = "Your name",
        format = "html",
-       render = TRUE,      # Render to HTML (default)
-       open_html = TRUE)   # Open HTML in browser (default)
+       render = TRUE,       # Render to HTML (default)
+       open_html = FALSE,   # Open HTML in browser (default: FALSE)
+       code_fold = FALSE)   # Fold code blocks (default: FALSE)
 ```
 
 ### Using the example file
@@ -178,8 +179,8 @@ iris %>%
 
 - Always include a space after `#` for comments
 - Section headers MUST have at least 4 trailing symbols
-- **Standalone comments** (at line start) → become text outside code blocks
-- **Inline comments** (within code) → stay inside code blocks
+- **Standalone comments with `#` at line start** → become text outside code blocks
+- **Inline comments within code** → stay inside code blocks
 - Consecutive code lines are grouped in the same block
 - Empty lines between blocks are ignored
 
