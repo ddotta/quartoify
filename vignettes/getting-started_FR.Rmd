@@ -50,6 +50,32 @@ Par défaut, `rtoqmd()` va :
 2. Le générer en HTML avec Quarto
 3. Ouvrir le fichier HTML dans votre navigateur par défaut
 
+### Emplacement des fichiers de sortie
+
+Comprendre où les fichiers sont créés :
+
+- **Si vous spécifiez un chemin `output_file`** : Le fichier .qmd est créé à cet emplacement exact, et le fichier .html (si rendu) est créé dans le même répertoire avec le même nom de base.
+
+```{r eval=FALSE}
+# Crée : /chemin/vers/mon_analyse.qmd et /chemin/vers/mon_analyse.html
+rtoqmd("script.R", "/chemin/vers/mon_analyse.qmd")
+```
+
+- **Si vous ne spécifiez pas `output_file`** : Le fichier .qmd est créé dans le même répertoire que votre script R d'entrée, avec l'extension `.R` remplacée par `.qmd`.
+
+```{r eval=FALSE}
+# Si script.R est dans /home/utilisateur/scripts/
+# Crée : /home/utilisateur/scripts/script.qmd et /home/utilisateur/scripts/script.html
+rtoqmd("/home/utilisateur/scripts/script.R")
+```
+
+- **Chemins relatifs** : Si vous utilisez des chemins relatifs, les fichiers sont créés relativement à votre répertoire de travail actuel (vérifiez avec `getwd()`).
+
+```{r eval=FALSE}
+# Crée les fichiers dans votre répertoire de travail actuel
+rtoqmd("script.R", "sortie.qmd")
+```
+
 ## Structurer votre script R
 
 Pour une conversion optimale, vous devez suivre des règles de commentaires spécifiques dans votre script R. `quartify` reconnaît trois types de lignes :
