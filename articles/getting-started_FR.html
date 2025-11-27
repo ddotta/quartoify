@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Getting Started with quartify • quartify</title>
+<title>Démarrage avec quartify • quartify</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started with quartify">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Démarrage avec quartify">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,142 +58,149 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Getting Started with quartify</h1>
+      <h1>Démarrage avec quartify</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
-      <div class="d-none name"><code>getting-started.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/vignettes/getting-started_FR.Rmd" class="external-link"><code>vignettes/getting-started_FR.Rmd</code></a></small>
+      <div class="d-none name"><code>getting-started_FR.Rmd</code></div>
     </div>
 
     
     
 <div class="alert alert-info">
-<p><strong><a href="getting-started_FR.html">Version française
-disponible</a></strong> / <strong>French version available</strong></p>
+<p><strong><a href="getting-started.html">English version
+available</a></strong> / <strong>Version anglaise
+disponible</strong></p>
 </div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><code>quartify</code> is an R package that automatically converts R
-scripts into Quarto markdown documents (.qmd). The package recognizes
-RStudio code sections to create properly structured documents with
-navigation. This vignette will guide you through the basic usage and
-features of the package.</p>
+<p><code>quartify</code> est un package R qui convertit automatiquement
+des scripts R en documents Quarto markdown (.qmd). Le package reconnaît
+les sections de code RStudio pour créer des documents correctement
+structurés avec navigation. Cette vignette vous guidera à travers
+l’utilisation basique et les fonctionnalités du package.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of quartify from GitHub:</p>
+<p>Vous pouvez installer la version de développement de quartify depuis
+GitHub :</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ddotta/quartify"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="basic-usage">Basic Usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
+<h2 id="utilisation-basique">Utilisation basique<a class="anchor" aria-label="anchor" href="#utilisation-basique"></a>
 </h2>
-<p>The main function of the package is <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code>. Here’s a
-simple example:</p>
+<p>La fonction principale du package est <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code>. Voici un
+exemple simple :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Convert an R script to a Quarto document</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"my_script.R"</span>, <span class="st">"my_document.qmd"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Convertir un script R en document Quarto</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="structuring-your-r-script">Structuring Your R Script<a class="anchor" aria-label="anchor" href="#structuring-your-r-script"></a>
+<h2 id="structurer-votre-script-r">Structurer votre script R<a class="anchor" aria-label="anchor" href="#structurer-votre-script-r"></a>
 </h2>
-<p>For optimal conversion, you need to follow specific commenting rules
-in your R script. <code>quartify</code> recognizes three types of
-lines:</p>
+<p>Pour une conversion optimale, vous devez suivre des règles de
+commentaires spécifiques dans votre script R. <code>quartify</code>
+reconnaît trois types de lignes :</p>
 <div class="section level3">
-<h3 id="code-sections-headers">1. Code Sections (Headers)<a class="anchor" aria-label="anchor" href="#code-sections-headers"></a>
+<h3 id="sections-de-code-en-têtes">1. Sections de code (En-têtes)<a class="anchor" aria-label="anchor" href="#sections-de-code-en-t%C3%AAtes"></a>
 </h3>
-<p>Use RStudio code section syntax to create headers at different
-levels. These sections MUST follow this exact pattern:</p>
+<p>Utilisez la syntaxe des sections de code RStudio pour créer des
+en-têtes à différents niveaux. Ces sections DOIVENT suivre ce modèle
+exact :</p>
 <ul>
 <li>
-<strong>Level 2</strong>: <code>## Title ####</code> (at least 4
-<code>#</code> symbols at the end)</li>
+<strong>Niveau 2</strong> : <code>## Titre ####</code> (au moins 4
+symboles <code>#</code> à la fin)</li>
 <li>
-<strong>Level 3</strong>: <code>### Title ====</code> (at least 4
-<code>=</code> symbols at the end)</li>
+<strong>Niveau 3</strong> : <code>### Titre ====</code> (au moins 4
+symboles <code>=</code> à la fin)</li>
 <li>
-<strong>Level 4</strong>: <code>#### Title ----</code> (at least 4
-<code>-</code> symbols at the end)</li>
+<strong>Niveau 4</strong> : <code>#### Titre ----</code> (au moins 4
+symboles <code>-</code> à la fin)</li>
 </ul>
-<p><strong>Important rules:</strong></p>
+<p><strong>Règles importantes :</strong></p>
 <ul>
-<li>There must be at least one space between the title text and the
-trailing symbols</li>
-<li>The trailing symbols (<code>####</code>, <code>====</code>,
-<code>----</code>) must be at least 4 characters long</li>
-<li>This follows the <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">RStudio
-code sections convention</a>
+<li>Il doit y avoir au moins un espace entre le texte du titre et les
+symboles de fin</li>
+<li>Les symboles de fin (<code>####</code>, <code>====</code>,
+<code>----</code>) doivent contenir au moins 4 caractères</li>
+<li>Ceci suit la <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">convention
+des sections de code RStudio</a>
 </li>
 </ul>
-<p><strong>Example:</strong></p>
+<p><strong>Exemple :</strong></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Data Loading ####</span></span>
+<code class="sourceCode R"><span><span class="co">## Chargement des données ####</span></span>
 <span></span>
 <span><span class="co">### Import CSV ====</span></span>
 <span></span>
-<span><span class="co">#### Check Missing Values ----</span></span></code></pre></div>
+<span><span class="co">#### Vérification valeurs manquantes ----</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="regular-comments-text">2. Regular Comments (Text)<a class="anchor" aria-label="anchor" href="#regular-comments-text"></a>
+<h3 id="commentaires-réguliers-texte">2. Commentaires réguliers (Texte)<a class="anchor" aria-label="anchor" href="#commentaires-r%C3%A9guliers-texte"></a>
 </h3>
-<p>Single <code>#</code> comments become explanatory text in the Quarto
-document:</p>
+<p>Les commentaires simples avec <code>#</code> deviennent du texte
+explicatif dans le document Quarto :</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># This is a regular comment</span></span>
-<span><span class="co"># It will appear as plain text in the output</span></span>
-<span><span class="co"># Use these to explain what your code does</span></span></code></pre></div>
-<p><strong>Rules:</strong></p>
+<code class="sourceCode R"><span><span class="co"># Ceci est un commentaire régulier</span></span>
+<span><span class="co"># Il apparaîtra comme texte simple dans la sortie</span></span>
+<span><span class="co"># Utilisez-les pour expliquer ce que fait votre code</span></span></code></pre></div>
+<p><strong>Règles :</strong></p>
 <ul>
-<li>Start with a single <code>#</code> followed by a space</li>
-<li>Multiple consecutive comment lines will each become a separate
-paragraph</li>
-<li>Empty comment lines are ignored</li>
+<li>Commencez par un seul <code>#</code> suivi d’un espace</li>
+<li>Plusieurs lignes de commentaires consécutives deviendront chacune un
+paragraphe séparé</li>
+<li>Les lignes de commentaires vides sont ignorées</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="code-lines">3. Code Lines<a class="anchor" aria-label="anchor" href="#code-lines"></a>
+<h3 id="lignes-de-code">3. Lignes de code<a class="anchor" aria-label="anchor" href="#lignes-de-code"></a>
 </h3>
-<p>Any line that is NOT a comment becomes executable R code:</p>
+<p>Toute ligne qui N’EST PAS un commentaire devient du code R exécutable
+:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">summarize</span><span class="op">(</span>mean_length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Rules:</strong></p>
+<p><strong>Règles :</strong></p>
 <ul>
-<li>Consecutive code lines are grouped into a single code chunk</li>
-<li>Empty lines between code blocks are ignored</li>
-<li>Code blocks are separated by comments or section headers</li>
+<li>Les lignes de code consécutives sont regroupées dans un seul chunk
+de code</li>
+<li>Les lignes vides entre les blocs de code sont ignorées</li>
+<li>Les blocs de code sont séparés par des commentaires ou des en-têtes
+de section</li>
 </ul>
-<p><strong>Important:</strong> You can include comments WITHIN code
-blocks. These comments will be preserved inside the R code chunk:</p>
+<p><strong>Important :</strong> Vous pouvez inclure des commentaires À
+L’INTÉRIEUR des blocs de code. Ces commentaires seront préservés dans le
+chunk de code R :</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="co"># Select a column</span></span>
+<span>  <span class="co"># Sélectionner une colonne</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
-<p>This will render as:</p>
+<p>Ceci sera rendu comme :</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="in">```{.r}</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="in">iris %&gt;% </span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="in">  # Select a column</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="in">  # Sélectionner une colonne</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="in">  select(Species)</span></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>The difference: - <strong>Comments at the start of a line</strong>
-(standalone) → become text OUTSIDE code blocks - <strong>Comments within
-code</strong> (indented or part of a pipeline) → stay INSIDE code
-blocks</p>
+<p>La différence : - <strong>Commentaires en début de ligne</strong>
+(autonomes) → deviennent du texte EN DEHORS des blocs de code -
+<strong>Commentaires dans le code</strong> (indentés ou partie d’un
+pipeline) → restent À L’INTÉRIEUR des blocs de code</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="complete-example-example-r">Complete Example: example.R<a class="anchor" aria-label="anchor" href="#complete-example-example-r"></a>
+<h2 id="exemple-complet-example-r">Exemple complet : example.R<a class="anchor" aria-label="anchor" href="#exemple-complet-example-r"></a>
 </h2>
-<p>Here’s the complete example R script included in the package:</p>
+<p>Voici le script R exemple complet inclus dans le package :</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -221,79 +228,81 @@ blocks</p>
 <span><span class="va">iris</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># Select a column</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
-<p>This script demonstrates:</p>
+<p>Ce script démontre :</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Code without section</strong>: <code><a href="https://dplyr.tidyverse.org" class="external-link">library(dplyr)</a></code>
-becomes a code chunk</li>
+<strong>Code sans section</strong> : <code><a href="https://dplyr.tidyverse.org" class="external-link">library(dplyr)</a></code>
+devient un chunk de code</li>
 <li>
-<strong>Section headers</strong>: <code>## Title 2 ####</code>,
+<strong>En-têtes de section</strong> : <code>## Title 2 ####</code>,
 <code>### Title 3 ====</code>, <code>#### Title 4 ----</code>
 </li>
 <li>
-<strong>Standalone comments</strong>:
-<code># Select column Species</code> becomes readable text</li>
+<strong>Commentaires autonomes</strong> :
+<code># Select column Species</code> devient du texte lisible</li>
 <li>
-<strong>Inline comments</strong>: <code># Select a column</code>
-stays inside the code block</li>
+<strong>Commentaires en ligne</strong> :
+<code># Select a column</code> reste dans le bloc de code</li>
 <li>
-<strong>Code blocks</strong>: Separated by standalone comments or
-sections</li>
+<strong>Blocs de code</strong> : Séparés par des commentaires
+autonomes ou des sections</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="customization-options">Customization Options<a class="anchor" aria-label="anchor" href="#customization-options"></a>
+<h2 id="options-de-personnalisation">Options de personnalisation<a class="anchor" aria-label="anchor" href="#options-de-personnalisation"></a>
 </h2>
-<p>You can customize the output document with several parameters:</p>
+<p>Vous pouvez personnaliser le document de sortie avec plusieurs
+paramètres :</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span></span>
-<span>  input_file <span class="op">=</span> <span class="st">"my_script.R"</span>,</span>
-<span>  output_file <span class="op">=</span> <span class="st">"my_document.qmd"</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"My Analysis Report"</span>,</span>
-<span>  author <span class="op">=</span> <span class="st">"Your Name"</span>,</span>
+<span>  input_file <span class="op">=</span> <span class="st">"mon_script.R"</span>,</span>
+<span>  output_file <span class="op">=</span> <span class="st">"mon_document.qmd"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Mon rapport d'analyse"</span>,</span>
+<span>  author <span class="op">=</span> <span class="st">"Votre nom"</span>,</span>
 <span>  format <span class="op">=</span> <span class="st">"html"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
+<h3 id="paramètres">Paramètres<a class="anchor" aria-label="anchor" href="#param%C3%A8tres"></a>
 </h3>
 <ul>
 <li>
-<code>input_file</code>: Path to your R script</li>
+<code>input_file</code> : Chemin vers votre script R</li>
 <li>
-<code>output_file</code>: Path for the output Quarto document
-(optional)</li>
+<code>output_file</code> : Chemin pour le document Quarto de sortie
+(optionnel)</li>
 <li>
-<code>title</code>: Title for the document (default: “My
+<code>title</code> : Titre du document (par défaut : “My
 title”)</li>
 <li>
-<code>author</code>: Author name (default: “Damien Dotta”)</li>
+<code>author</code> : Nom de l’auteur (par défaut : “Damien
+Dotta”)</li>
 <li>
-<code>format</code>: Output format (default: “html”)</li>
+<code>format</code> : Format de sortie (par défaut : “html”)</li>
 </ul>
 </div>
 </div>
 <div class="section level2">
-<h2 id="converting-the-example">Converting the Example<a class="anchor" aria-label="anchor" href="#converting-the-example"></a>
+<h2 id="conversion-de-lexemple">Conversion de l’exemple<a class="anchor" aria-label="anchor" href="#conversion-de-lexemple"></a>
 </h2>
-<p>To convert the example script above:</p>
+<p>Pour convertir le script exemple ci-dessus :</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Get the example file path</span></span>
+<code class="sourceCode R"><span><span class="co"># Obtenir le chemin du fichier exemple</span></span>
 <span><span class="va">example_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"example.R"</span>, package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Convert it</span></span>
+<span><span class="co"># Le convertir</span></span>
 <span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span></span>
 <span>  input_file <span class="op">=</span> <span class="va">example_file</span>,</span>
-<span>  output_file <span class="op">=</span> <span class="st">"iris_analysis.qmd"</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Iris Dataset Analysis"</span>,</span>
-<span>  author <span class="op">=</span> <span class="st">"Data Analyst"</span></span>
+<span>  output_file <span class="op">=</span> <span class="st">"analyse_iris.qmd"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Analyse du jeu de données Iris"</span>,</span>
+<span>  author <span class="op">=</span> <span class="st">"Analyste de données"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="generated-output">Generated Output<a class="anchor" aria-label="anchor" href="#generated-output"></a>
+<h3 id="sortie-générée">Sortie générée<a class="anchor" aria-label="anchor" href="#sortie-g%C3%A9n%C3%A9r%C3%A9e"></a>
 </h3>
-<p>This produces the following Quarto document:</p>
+<p>Ceci produit le document Quarto suivant :</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Iris Dataset Analysis"</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Data Analyst"</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Analyse du jeu de données Iris"</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Analyste de données"</span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="an">toc-title:</span><span class="co"> Sommaire</span></span>
@@ -302,7 +311,7 @@ title”)</li>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="an">output:</span><span class="co"> </span></span>
 <span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">  html_document:</span></span>
 <span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">  number_sections: TRUE</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">  output-file: iris_analysis.html</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">  output-file: analyse_iris.html</span></span>
 <span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a></span>
 <span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="in">```{.r}</span></span>
@@ -337,167 +346,169 @@ title”)</li>
 <span>  <span class="co"># Select a column</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
-Notice how:
+Notez comment :
 
-- Each code section becomes a proper markdown header
-- Standalone comments become readable text paragraphs
-- Inline comments (within code) are preserved in code blocks
-- Code blocks are properly formatted with syntax highlighting
-- The table of contents will show the hierarchical structure
+- Chaque section de code devient un en-tête markdown approprié
+- Les commentaires autonomes deviennent des paragraphes de texte lisible
+- Les commentaires en ligne (dans le code) sont préservés dans les blocs de code
+- Les blocs de code sont correctement formatés avec coloration syntaxique
+- La table des matières montrera la structure hiérarchique
 
-**Important note about code chunks:** The generated code chunks use the `{.r}` syntax, which creates **non-executable** code blocks. This is intentional - `quartify` is designed to create **static documentation** of your R script, not an executable notebook. The code is displayed with syntax highlighting for reading and documentation purposes, but won't be executed when rendering the Quarto document. This approach is ideal for:
+**Note importante sur les chunks de code :** Les chunks de code générés utilisent la syntaxe `{.r}`, qui crée des blocs de code **non exécutables**. C'est intentionnel - `quartify` est conçu pour créer une **documentation statique** de votre script R, pas un notebook exécutable. Le code est affiché avec coloration syntaxique à des fins de lecture et de documentation, mais ne sera pas exécuté lors du rendu du document Quarto. Cette approche est idéale pour :
 
-- Documenting existing scripts without modifying their execution
-- Creating static references of your code
-- Sharing code examples that readers can copy and run in their own environment
-- Ensuring the documentation process doesn't interfere with your original script's behavior
+- Documenter des scripts existants sans modifier leur exécution
+- Créer des références statiques de votre code
+- Partager des exemples de code que les lecteurs peuvent copier et exécuter dans leur propre environnement
+- S'assurer que le processus de documentation n'interfère pas avec le comportement de votre script original
 
-## Rendering the Output
+## Rendu de la sortie
 
-Once you have your `.qmd` file, you can render it to HTML using Quarto:
+Une fois que vous avez votre fichier `.qmd`, vous pouvez le rendre en HTML en utilisant Quarto :
 
 
 ``` bash
-quarto render iris_analysis.qmd</code></pre>
-<p>Or from R:</p>
+quarto render analyse_iris.qmd</code></pre>
+<p>Ou depuis R :</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">quarto</span><span class="fu">::</span><span class="fu">quarto_render</span><span class="op">(</span><span class="st">"iris_analysis.qmd"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">quarto</span><span class="fu">::</span><span class="fu">quarto_render</span><span class="op">(</span><span class="st">"analyse_iris.qmd"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="use-cases">Use Cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
+<h2 id="cas-dusage">Cas d’usage<a class="anchor" aria-label="anchor" href="#cas-dusage"></a>
 </h2>
-<p><code>quartify</code> is particularly useful for:</p>
+<p><code>quartify</code> est particulièrement utile pour :</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Documentation</strong>: Transform working scripts into
-professional documentation</li>
+<strong>Documentation</strong> : Transformer des scripts de travail
+en documentation professionnelle</li>
 <li>
-<strong>Sharing analyses</strong>: Create readable reports from
-existing code</li>
+<strong>Partage d’analyses</strong> : Créer des rapports lisibles à
+partir de code existant</li>
 <li>
-<strong>Reproducible research</strong>: Combine code and narrative
-seamlessly</li>
+<strong>Recherche reproductible</strong> : Combiner code et
+narration de manière transparente</li>
 <li>
-<strong>Code review</strong>: Present code in a more accessible
-format</li>
+<strong>Revue de code</strong> : Présenter le code dans un format
+plus accessible</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="comment-rules-summary">Comment Rules Summary<a class="anchor" aria-label="anchor" href="#comment-rules-summary"></a>
+<h2 id="résumé-des-règles-de-commentaires">Résumé des règles de commentaires<a class="anchor" aria-label="anchor" href="#r%C3%A9sum%C3%A9-des-r%C3%A8gles-de-commentaires"></a>
 </h2>
 <table class="table">
 <colgroup>
-<col width="19%">
-<col width="25%">
-<col width="25%">
+<col width="17%">
+<col width="26%">
 <col width="29%">
+<col width="26%">
 </colgroup>
 <thead><tr class="header">
 <th>Type</th>
-<th>Syntax</th>
-<th>Result</th>
-<th>Example</th>
+<th>Syntaxe</th>
+<th>Résultat</th>
+<th>Exemple</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><strong>Level 2 Header</strong></td>
-<td><code>## Title ####</code></td>
-<td>Markdown <code>## Title</code>
+<td><strong>En-tête niveau 2</strong></td>
+<td><code>## Titre ####</code></td>
+<td>Markdown <code>## Titre</code>
 </td>
-<td><code>## Data Analysis ####</code></td>
+<td><code>## Analyse de données ####</code></td>
 </tr>
 <tr class="even">
-<td><strong>Level 3 Header</strong></td>
-<td><code>### Title ====</code></td>
-<td>Markdown <code>### Title</code>
+<td><strong>En-tête niveau 3</strong></td>
+<td><code>### Titre ====</code></td>
+<td>Markdown <code>### Titre</code>
 </td>
-<td><code>### Preprocessing ====</code></td>
+<td><code>### Prétraitement ====</code></td>
 </tr>
 <tr class="odd">
-<td><strong>Level 4 Header</strong></td>
-<td><code>#### Title ----</code></td>
-<td>Markdown <code>#### Title</code>
+<td><strong>En-tête niveau 4</strong></td>
+<td><code>#### Titre ----</code></td>
+<td>Markdown <code>#### Titre</code>
 </td>
-<td><code>#### Remove NA ----</code></td>
+<td><code>#### Supprimer NA ----</code></td>
 </tr>
 <tr class="even">
-<td><strong>Standalone Comment</strong></td>
-<td><code># Text</code></td>
-<td>Plain text paragraph</td>
-<td><code># This filters the data</code></td>
+<td><strong>Commentaire autonome</strong></td>
+<td><code># Texte</code></td>
+<td>Paragraphe de texte</td>
+<td><code># Ceci filtre les données</code></td>
 </tr>
 <tr class="odd">
 <td><strong>Code</strong></td>
-<td>No <code>#</code> prefix</td>
-<td>R code chunk</td>
+<td>Sans préfixe <code>#</code>
+</td>
+<td>Chunk de code R</td>
 <td><code>iris %&gt;% filter(...)</code></td>
 </tr>
 <tr class="even">
-<td><strong>Inline Comment</strong></td>
+<td><strong>Commentaire en ligne</strong></td>
 <td>
-<code># Text</code> in code</td>
-<td>Stays in code chunk</td>
-<td><code>iris %&gt;% # comment</code></td>
+<code># Texte</code> dans code</td>
+<td>Reste dans chunk</td>
+<td><code>iris %&gt;% # commentaire</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Critical rules to avoid errors:</strong></p>
+<p><strong>Règles critiques pour éviter les erreurs :</strong></p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Spacing</strong>: Always include a space after
-<code>#</code> for comments and section headers</li>
+<strong>Espacement</strong> : Toujours inclure un espace après
+<code>#</code> pour les commentaires et en-têtes de section</li>
 <li>
-<strong>Trailing symbols</strong>: Section headers MUST have at
-least 4 trailing symbols (<code>####</code>, <code>====</code>, or
-<code>----</code>)</li>
+<strong>Symboles de fin</strong> : Les en-têtes de section DOIVENT
+avoir au moins 4 symboles de fin (<code>####</code>, <code>====</code>,
+ou <code>----</code>)</li>
 <li>
-<strong>No mixing</strong>: Don’t mix section syntax (e.g., don’t
-use <code>## Title ====</code>)</li>
+<strong>Pas de mélange</strong> : Ne mélangez pas la syntaxe des
+sections (ex : n’utilisez pas <code>## Titre ====</code>)</li>
 <li>
-<strong>Roxygen comments</strong>: Lines starting with
-<code>#'</code> are ignored (for package development)</li>
+<strong>Commentaires Roxygen</strong> : Les lignes commençant par
+<code>#'</code> sont ignorées (pour développement de packages)</li>
 <li>
-<strong>Comment context</strong>: Comments at the start of a line
-become text; comments within code stay in code blocks</li>
+<strong>Contexte du commentaire</strong> : Les commentaires en début
+de ligne deviennent du texte ; les commentaires dans le code restent
+dans les blocs de code</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="tips-and-best-practices">Tips and Best Practices<a class="anchor" aria-label="anchor" href="#tips-and-best-practices"></a>
+<h2 id="conseils-et-bonnes-pratiques">Conseils et bonnes pratiques<a class="anchor" aria-label="anchor" href="#conseils-et-bonnes-pratiques"></a>
 </h2>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Start with structure</strong>: Define your section headers
-first to create the document outline</li>
+<strong>Commencez par la structure</strong> : Définissez d’abord vos
+en-têtes de section pour créer le plan du document</li>
 <li>
-<strong>Use consistent levels</strong>: Follow a logical hierarchy
-(2 → 3 → 4, don’t skip levels)</li>
+<strong>Utilisez des niveaux cohérents</strong> : Suivez une
+hiérarchie logique (2 → 3 → 4, ne sautez pas de niveaux)</li>
 <li>
-<strong>Add explanatory text</strong>: Use regular comments to
-explain what your code does</li>
+<strong>Ajoutez du texte explicatif</strong> : Utilisez des
+commentaires réguliers pour expliquer ce que fait votre code</li>
 <li>
-<strong>Group related code</strong>: Keep related operations
-together; they’ll be grouped into the same code block</li>
+<strong>Regroupez le code connexe</strong> : Gardez les opérations
+liées ensemble ; elles seront regroupées dans le même bloc de code</li>
 <li>
-<strong>Test incrementally</strong>: Start with a small script to
-see how the conversion works</li>
+<strong>Testez de manière incrémentale</strong> : Commencez avec un
+petit script pour voir comment fonctionne la conversion</li>
 <li>
-<strong>Navigate easily</strong>: In RStudio, use the document
-outline (Ctrl+Shift+O) to see your structure</li>
+<strong>Naviguez facilement</strong> : Dans RStudio, utilisez le
+plan du document (Ctrl+Shift+O) pour voir votre structure</li>
 <li>
-<strong>Comment liberally</strong>: More comments = better
-documentation in the final Quarto document</li>
+<strong>Commentez généreusement</strong> : Plus de commentaires =
+meilleure documentation dans le document Quarto final</li>
 </ol>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p><code>quartify</code> makes it easy to transform your R scripts into
-professional Quarto documents without manual reformatting. By following
-RStudio code section conventions, you can automatically generate
-well-structured, reproducible documentation from your existing code with
-proper navigation hierarchy.</p>
+<p><code>quartify</code> facilite la transformation de vos scripts R en
+documents Quarto professionnels sans reformatage manuel. En suivant les
+conventions des sections de code RStudio, vous pouvez automatiquement
+générer une documentation bien structurée et reproductible à partir de
+votre code existant avec une hiérarchie de navigation appropriée.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

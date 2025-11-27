@@ -1,10 +1,16 @@
 # Getting Started with quartify
 
+**[Version française
+disponible](https://ddotta.github.io/quartify/articles/getting-started_FR.md)**
+/ **French version available**
+
 ## Introduction
 
 `quartify` is an R package that automatically converts R scripts into
-Quarto markdown documents (.qmd). This vignette will guide you through
-the basic usage and features of the package.
+Quarto markdown documents (.qmd). The package recognizes RStudio code
+sections to create properly structured documents with navigation. This
+vignette will guide you through the basic usage and features of the
+package.
 
 ## Installation
 
@@ -30,35 +36,57 @@ rtoqmd("my_script.R", "my_document.qmd")
 
 ## Structuring Your R Script
 
-For optimal conversion, structure your R script using special comment
-syntax:
+For optimal conversion, you need to follow specific commenting rules in
+your R script. `quartify` recognizes three types of lines:
 
-### Headers
+### 1. Code Sections (Headers)
 
-Use `# ##` for level 2 headers, `# ###` for level 3, and so on up to
-level 6:
+Use RStudio code section syntax to create headers at different levels.
+These sections MUST follow this exact pattern:
+
+- **Level 2**: `## Title ####` (at least 4 `#` symbols at the end)
+- **Level 3**: `### Title ====` (at least 4 `=` symbols at the end)
+- **Level 4**: `#### Title ----` (at least 4 `-` symbols at the end)
+
+**Important rules:**
+
+- There must be at least one space between the title text and the
+  trailing symbols
+- The trailing symbols (`####`, `====`, `----`) must be at least 4
+  characters long
+- This follows the [RStudio code sections
+  convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
+
+**Example:**
 
 ``` r
-# ## Main Section
+## Data Loading ####
 
-# ### Subsection
+### Import CSV ====
 
-# #### Sub-subsection
+#### Check Missing Values ----
 ```
 
-### Comments
+### 2. Regular Comments (Text)
 
-Regular comments (single `#`) become explanatory text in the output:
+Single `#` comments become explanatory text in the Quarto document:
 
 ``` r
-# This comment will appear as plain text
-# in the Quarto document
+# This is a regular comment
+# It will appear as plain text in the output
+# Use these to explain what your code does
 ```
 
-### Code
+**Rules:**
 
-Any non-commented code is automatically grouped into executable code
-blocks:
+- Start with a single `#` followed by a space
+- Multiple consecutive comment lines will each become a separate
+  paragraph
+- Empty comment lines are ignored
+
+### 3. Code Lines
+
+Any line that is NOT a comment becomes executable R code:
 
 ``` r
 library(dplyr)
@@ -67,6 +95,79 @@ iris |>
   filter(Species == "setosa") |>
   summarize(mean_length = mean(Sepal.Length))
 ```
+
+**Rules:**
+
+- Consecutive code lines are grouped into a single code chunk
+- Empty lines between code blocks are ignored
+- Code blocks are separated by comments or section headers
+
+**Important:** You can include comments WITHIN code blocks. These
+comments will be preserved inside the R code chunk:
+
+``` r
+iris %>% 
+  # Select a column
+  select(Species)
+```
+
+This will render as:
+
+```` markdown
+```{.r}
+iris %>% 
+  # Select a column
+  select(Species)
+```
+````
+
+The difference: - **Comments at the start of a line** (standalone) →
+become text OUTSIDE code blocks - **Comments within code** (indented or
+part of a pipeline) → stay INSIDE code blocks
+
+## Complete Example: example.R
+
+Here’s the complete example R script included in the package:
+
+``` r
+library(dplyr)
+
+## Title 2 ####
+
+### Title 3 ====
+
+# Start of statistical processing
+# Counting the number of observations by species
+
+iris |> 
+  count(Species)
+
+### Title 3 ====
+
+# Filter the data.frame on Species "setosa"
+
+iris |> 
+  filter(Species == "setosa")
+
+#### Title 4 ----
+
+# Select column Species
+
+iris %>% 
+  # Select a column
+  select(Species)
+```
+
+This script demonstrates:
+
+1.  **Code without section**:
+    [`library(dplyr)`](https://dplyr.tidyverse.org) becomes a code chunk
+2.  **Section headers**: `## Title 2 ####`, `### Title 3 ====`,
+    `#### Title 4 ----`
+3.  **Standalone comments**: `# Select column Species` becomes readable
+    text
+4.  **Inline comments**: `# Select a column` stays inside the code block
+5.  **Code blocks**: Separated by standalone comments or sections
 
 ## Customization Options
 
@@ -90,9 +191,9 @@ rtoqmd(
 - `author`: Author name (default: “Damien Dotta”)
 - `format`: Output format (default: “html”)
 
-## Complete Example
+## Converting the Example
 
-Let’s look at a complete example using the included sample file:
+To convert the example script above:
 
 ``` r
 # Get the example file path
@@ -107,21 +208,83 @@ rtoqmd(
 )
 ```
 
-This will create a Quarto document with:
+### Generated Output
 
-- A YAML header with title, author, and format information
-- A table of contents
-- Properly formatted headers
-- Explanatory text from comments
-- Executable R code blocks
+This produces the following Quarto document:
 
-## Rendering the Output
+``` markdown
+---
+title: "Iris Dataset Analysis"
+author: "Data Analyst"
+format: html
+toc: true
+toc-title: Sommaire
+toc-depth: 4  
+toc-location: left
+output: 
+  html_document:
+  number_sections: TRUE
+  output-file: iris_analysis.html
+---
 
-Once you have your `.qmd` file, you can render it to HTML using Quarto:
-
-``` bash
-quarto render iris_analysis.qmd
+```{.r}
+library(dplyr)
 ```
+
+## Title 2
+
+### Title 3
+
+Start of statistical processing
+
+Counting the number of observations by species
+
+``` r
+iris |> 
+  count(Species)
+```
+
+### Title 3
+
+Filter the data.frame on Species “setosa”
+
+``` r
+iris |> 
+  filter(Species == "setosa")
+```
+
+#### Title 4
+
+Select column Species
+
+``` r
+iris %>% 
+  # Select a column
+  select(Species)
+```
+
+    Notice how:
+
+    - Each code section becomes a proper markdown header
+    - Standalone comments become readable text paragraphs
+    - Inline comments (within code) are preserved in code blocks
+    - Code blocks are properly formatted with syntax highlighting
+    - The table of contents will show the hierarchical structure
+
+    **Important note about code chunks:** The generated code chunks use the `{.r}` syntax, which creates **non-executable** code blocks. This is intentional - `quartify` is designed to create **static documentation** of your R script, not an executable notebook. The code is displayed with syntax highlighting for reading and documentation purposes, but won't be executed when rendering the Quarto document. This approach is ideal for:
+
+    - Documenting existing scripts without modifying their execution
+    - Creating static references of your code
+    - Sharing code examples that readers can copy and run in their own environment
+    - Ensuring the documentation process doesn't interfere with your original script's behavior
+
+    ## Rendering the Output
+
+    Once you have your `.qmd` file, you can render it to HTML using Quarto:
+
+
+    ``` bash
+    quarto render iris_analysis.qmd
 
 Or from R:
 
@@ -139,20 +302,51 @@ quarto::quarto_render("iris_analysis.qmd")
 3.  **Reproducible research**: Combine code and narrative seamlessly
 4.  **Code review**: Present code in a more accessible format
 
+## Comment Rules Summary
+
+| Type                   | Syntax            | Result                | Example                   |
+|------------------------|-------------------|-----------------------|---------------------------|
+| **Level 2 Header**     | `## Title ####`   | Markdown `## Title`   | `## Data Analysis ####`   |
+| **Level 3 Header**     | `### Title ====`  | Markdown `### Title`  | `### Preprocessing ====`  |
+| **Level 4 Header**     | `#### Title ----` | Markdown `#### Title` | `#### Remove NA ----`     |
+| **Standalone Comment** | `# Text`          | Plain text paragraph  | `# This filters the data` |
+| **Code**               | No `#` prefix     | R code chunk          | `iris %>% filter(...)`    |
+| **Inline Comment**     | `# Text` in code  | Stays in code chunk   | `iris %>% # comment`      |
+
+**Critical rules to avoid errors:**
+
+1.  **Spacing**: Always include a space after `#` for comments and
+    section headers
+2.  **Trailing symbols**: Section headers MUST have at least 4 trailing
+    symbols (`####`, `====`, or `----`)
+3.  **No mixing**: Don’t mix section syntax (e.g., don’t use
+    `## Title ====`)
+4.  **Roxygen comments**: Lines starting with `#'` are ignored (for
+    package development)
+5.  **Comment context**: Comments at the start of a line become text;
+    comments within code stay in code blocks
+
 ## Tips and Best Practices
 
-1.  **Structure your comments**: Use header comments (`# ##`, `# ###`)
-    to organize your analysis into logical sections
-2.  **Add explanatory text**: Use regular comments to explain what your
+1.  **Start with structure**: Define your section headers first to
+    create the document outline
+2.  **Use consistent levels**: Follow a logical hierarchy (2 → 3 → 4,
+    don’t skip levels)
+3.  **Add explanatory text**: Use regular comments to explain what your
     code does
-3.  **Group related code**: Keep related operations together; they’ll be
+4.  **Group related code**: Keep related operations together; they’ll be
     grouped into the same code block
-4.  **Test incrementally**: Start with a small script to see how the
+5.  **Test incrementally**: Start with a small script to see how the
     conversion works
+6.  **Navigate easily**: In RStudio, use the document outline
+    (Ctrl+Shift+O) to see your structure
+7.  **Comment liberally**: More comments = better documentation in the
+    final Quarto document
 
 ## Conclusion
 
 `quartify` makes it easy to transform your R scripts into professional
-Quarto documents without manual reformatting. By following simple
-commenting conventions, you can automatically generate well-structured,
-reproducible documentation from your existing code.
+Quarto documents without manual reformatting. By following RStudio code
+section conventions, you can automatically generate well-structured,
+reproducible documentation from your existing code with proper
+navigation hierarchy.

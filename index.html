@@ -37,6 +37,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="articles/getting-started_FR.html">Démarrage (Français)</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -58,11 +59,12 @@
 <div class="page-header"><h1 id="package-quartify-">
 <span class="emoji" data-emoji="package">📦</span> <code>quartify</code> <img src="reference/figures/hex_quartify.png" width="90" align="right"><a class="anchor" aria-label="anchor" href="#package-quartify-"></a>
 </h1></div>
+<p><a href="README_FR.html">Version française</a></p>
 <div class="section level2">
 <h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h2>
 <p><code>quartify</code> is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).</p>
-<p>The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through a special comment system.</p>
+<p>The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through RStudio code sections. It recognizes the standard RStudio code section syntax (<code>####</code>, <code>====</code>, <code>----</code>) to create properly indented navigation structures.</p>
 <div class="section level3">
 <h3 id="typical-use-case">Typical Use Case<a class="anchor" aria-label="anchor" href="#typical-use-case"></a>
 </h3>
@@ -86,7 +88,7 @@
 <li>
 <strong>Automatic conversion</strong>: Transforms your R scripts (.R) into Quarto documents (.qmd)</li>
 <li>
-<strong>Title management</strong>: Special comments <code># ##</code> to <code># ######</code> become level 2 to 6 markdown headers</li>
+<strong>RStudio code sections support</strong>: Recognizes RStudio code sections (<code>####</code>, <code>====</code>, <code>----</code>) and converts them to proper markdown headers with correct indentation levels</li>
 <li>
 <strong>Comment preservation</strong>: Regular comments are converted into explanatory text</li>
 <li>
@@ -94,7 +96,7 @@
 <li>
 <strong>Customizable YAML header</strong>: Ability to define title, author, and output format</li>
 <li>
-<strong>Table of contents</strong>: Automatic generation of a table of contents in the Quarto document</li>
+<strong>Table of contents</strong>: Automatic generation of a table of contents in the Quarto document with proper depth</li>
 </ul>
 </div>
 <div class="section level2">
@@ -155,39 +157,87 @@
 <div class="section level2">
 <h2 id="source-r-script-format">Source R script format<a class="anchor" aria-label="anchor" href="#source-r-script-format"></a>
 </h2>
-<p>For the conversion to work properly, structure your R script as follows:</p>
+<p>For the conversion to work properly, structure your R script using RStudio code sections:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># ## Level 2 title</span></span>
+<span><span class="co">## Title 2 ####</span></span>
 <span></span>
-<span><span class="co"># ### Level 3 subtitle</span></span>
+<span><span class="co">### Title 3 ====</span></span>
 <span></span>
-<span><span class="co"># Analysis description</span></span>
-<span><span class="co"># This section explains what the code does</span></span>
+<span><span class="co"># Start of statistical processing</span></span>
+<span><span class="co"># Counting the number of observations by species</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># ### Another subtitle</span></span>
+<span><span class="co">### Title 3 ====</span></span>
 <span></span>
-<span><span class="co"># Data filtering</span></span>
+<span><span class="co"># Filter the data.frame on Species "setosa"</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#### Title 4 ----</span></span>
+<span></span>
+<span><span class="co"># Select column Species</span></span>
+<span></span>
+<span><span class="va">iris</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Select a column</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="conversion-rules">Conversion rules<a class="anchor" aria-label="anchor" href="#conversion-rules"></a>
+<h3 id="commenting-rules">Commenting Rules<a class="anchor" aria-label="anchor" href="#commenting-rules"></a>
 </h3>
+<p><code>quartify</code> recognizes three types of lines in your R script:</p>
+<div class="section level4">
+<h4 id="id_1-code-sections-headers">1. Code Sections (Headers)<a class="anchor" aria-label="anchor" href="#id_1-code-sections-headers"></a>
+</h4>
+<p>RStudio code sections become markdown headers. <strong>Critical</strong>: trailing symbols must be at least 4 characters long:</p>
 <ul>
 <li>
-<strong>Titles</strong>: Comments <code># ##</code> to <code># ######</code> become markdown headers (levels 2 to 6)</li>
+<code>## Title ####</code> → Level 2 header (at least 4 <code>#</code> at the end)</li>
 <li>
-<strong>Comments</strong>: Simple comments <code>#</code> become explanatory text</li>
+<code>### Title ====</code> → Level 3 header (at least 4 <code>=</code> at the end)</li>
 <li>
-<strong>Code</strong>: Uncommented code is grouped into Quarto code blocks</li>
-<li>
-<strong>Consecutive blocks</strong>: Consecutive code lines are grouped in the same block</li>
+<code>#### Title ----</code> → Level 4 header (at least 4 <code>-</code> at the end)</li>
 </ul>
+</div>
+<div class="section level4">
+<h4 id="id_2-regular-comments-text">2. Regular Comments (Text)<a class="anchor" aria-label="anchor" href="#id_2-regular-comments-text"></a>
+</h4>
+<p>Single <code>#</code> comments <strong>at the start of a line</strong> become explanatory text:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This is a standalone comment</span></span>
+<span><span class="co"># It becomes plain text in the Quarto document</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="id_3-code-lines">3. Code Lines<a class="anchor" aria-label="anchor" href="#id_3-code-lines"></a>
+</h4>
+<p>Uncommented lines become executable R code chunks:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="id_4-inline-comments-within-code">4. Inline Comments (Within Code)<a class="anchor" aria-label="anchor" href="#id_4-inline-comments-within-code"></a>
+</h4>
+<p>Comments <strong>within code blocks</strong> are preserved inside the R code chunk:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># This comment stays in the code block</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Important rules:</strong></p>
+<ul>
+<li>Always include a space after <code>#</code> for comments</li>
+<li>Section headers MUST have at least 4 trailing symbols</li>
+<li>
+<strong>Standalone comments</strong> (at line start) → become text outside code blocks</li>
+<li>
+<strong>Inline comments</strong> (within code) → stay inside code blocks</li>
+<li>Consecutive code lines are grouped in the same block</li>
+<li>Empty lines between blocks are ignored</li>
+</ul>
+<p>This follows the <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">RStudio code sections convention</a> which provides proper indentation in RStudio’s document outline navigation.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -196,7 +246,7 @@
 <p>The generated .qmd document contains:</p>
 <ul>
 <li>A complete YAML header with table of contents configuration</li>
-<li>Titles and subtitles from your special comments</li>
+<li>Properly structured headers from RStudio code sections</li>
 <li>Textual explanations from your regular comments</li>
 <li>Formatted and executable R code blocks</li>
 </ul>
@@ -204,7 +254,55 @@
 <div class="section level2">
 <h2 id="output-example">Output example<a class="anchor" aria-label="anchor" href="#output-example"></a>
 </h2>
-<p>From the example script, <code>quartify</code> generates a structured Quarto document with: - Navigable table of contents - Code organized into reusable blocks - Clear documentation between code sections - Ready for HTML, PDF, or other formats supported by Quarto</p>
+<p>From the example R script shown above, <code>quartify</code> generates:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> "My title"</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Damien Dotta"</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="an">toc-title:</span><span class="co"> Sommaire</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="an">toc-depth:</span><span class="co"> 4  </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="an">toc-location:</span><span class="co"> left</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="an">output:</span><span class="co"> </span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">  html_document:</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">  number_sections: TRUE</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">  output-file: example.html</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="in">```{.r}</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="in">library(dplyr)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="title-2">Title 2<a class="anchor" aria-label="anchor" href="#title-2"></a>
+</h2>
+<div class="section level3">
+<h3 id="title-3">Title 3<a class="anchor" aria-label="anchor" href="#title-3"></a>
+</h3>
+<p>Start of statistical processing Counting the number of observations by species</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="title-3-1">Title 3<a class="anchor" aria-label="anchor" href="#title-3-1"></a>
+</h3>
+<p>Filter the data.frame on Species “setosa”</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="title-4">Title 4<a class="anchor" aria-label="anchor" href="#title-4"></a>
+</h4>
+<p>Select column Species</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># Select a column</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
+<p>```</p>
+<p>The generated document includes: - Navigable table of contents with proper hierarchy - Code organized into reusable blocks - Inline comments preserved within code blocks - Clear documentation between code sections - <strong>Non-executable code chunks</strong> (<code>{.r}</code> syntax) for static documentation - Ready for HTML, PDF, or other formats supported by Quarto</p>
+<p><strong>Note:</strong> Code chunks are intentionally non-executable to provide static documentation of your R script without executing the code during rendering.</p>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -218,6 +316,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/ddotta/quartify/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/ddotta/quartify/issues" class="external-link">Report a bug</a></li>
+<li><a href="articles/getting-started_FR.html">Documentation en français</a></li>
 </ul>
 </div>
 
@@ -240,7 +339,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Your Name <br><small class="roles"> Maintainer </small>   </li>
+<li>
+<a href="https://github.com/ddotta" class="external-link">Damien Dotta</a> <br><small class="roles"> Maintainer </small>   </li>
 </ul>
 </div>
 
@@ -256,7 +356,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Your Name.</p>
+  <p>Developed by <a href="https://github.com/ddotta" class="external-link">Damien Dotta</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

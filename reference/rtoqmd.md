@@ -1,15 +1,22 @@
 # Convert R Script to Quarto Markdown
 
-This function converts an R script to Quarto markdown format. Comments
-starting with \# \## to \# \###### are converted to markdown headers
-(levels 2 to 6). Regular comments are converted to plain text. Code
-blocks are wrapped in code chunks.
+This function converts an R script to Quarto markdown format. It
+recognizes RStudio code sections with different levels: - \## Title
+\#### creates a level 2 header - \### Title ==== creates a level 3
+header - \#### Title —- creates a level 4 header Regular comments are
+converted to plain text. Code blocks are wrapped in non-executable code
+chunks (.r syntax) for static documentation purposes.
 
 ## Usage
 
 ``` r
-rtoqmd(input_file, output_file = NULL, title = "My title", 
-       author = "Damien Dotta", format = "html")
+rtoqmd(
+  input_file,
+  output_file = NULL,
+  title = "My title",
+  author = "Damien Dotta",
+  format = "html"
+)
 ```
 
 ## Arguments

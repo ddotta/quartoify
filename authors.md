@@ -2,19 +2,20 @@
 
 ## Authors
 
-- **Your Name**. Maintainer.
+- **[Damien Dotta](https://github.com/ddotta)**. Maintainer.
 
 ## Citation
 
 Source:
 [`DESCRIPTION`](https://github.com/ddotta/quartify/blob/main/DESCRIPTION)
 
-Name Y (2025). *quartify: What the Package Does (Title Case)*. R package
-version 0.1.0, <https://ddotta.github.io/quartify/>.
+Dotta D (2025). *quartify: Convert R Scripts to Quarto Markdown
+Documents*. R package version 0.1.0,
+<https://ddotta.github.io/quartify/>.
 
     @Manual{,
-      title = {quartify: What the Package Does (Title Case)},
-      author = {Your Name},
+      title = {quartify: Convert R Scripts to Quarto Markdown Documents},
+      author = {Damien Dotta},
       year = {2025},
       note = {R package version 0.1.0},
       url = {https://ddotta.github.io/quartify/},
