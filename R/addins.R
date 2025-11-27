@@ -49,6 +49,32 @@ rtoqmd_addin <- function() {
     shiny::h3("quartify", style = "color: #0073e6; font-weight: bold;")
   }
   
+  # Get flag images paths
+  english_flag_path <- system.file("man", "figures", "english_flag.png", package = "quartify")
+  if (english_flag_path == "") {
+    english_flag_path <- file.path("man", "figures", "english_flag.png")
+  }
+  
+  french_flag_path <- system.file("man", "figures", "french_flag.png", package = "quartify")
+  if (french_flag_path == "") {
+    french_flag_path <- file.path("man", "figures", "french_flag.png")
+  }
+  
+  # Create flag images HTML
+  english_flag_html <- if (file.exists(english_flag_path)) {
+    flag_base64 <- paste0("data:image/png;base64,", base64enc::base64encode(english_flag_path))
+    shiny::HTML(paste0('<img src="', flag_base64, '" width="20" style="margin-right: 5px; vertical-align: middle;"/> EN'))
+  } else {
+    "EN"
+  }
+  
+  french_flag_html <- if (file.exists(french_flag_path)) {
+    flag_base64 <- paste0("data:image/png;base64,", base64enc::base64encode(french_flag_path))
+    shiny::HTML(paste0('<img src="', flag_base64, '" width="20" style="margin-right: 5px; vertical-align: middle;"/> FR'))
+  } else {
+    "FR"
+  }
+  
   # Define UI
   ui <- miniUI::miniPage(
     shiny::tags$head(
@@ -109,13 +135,13 @@ rtoqmd_addin <- function() {
               style = "text-align: right; margin-bottom: 10px;",
               shiny::actionButton(
                 "lang_en",
-                "EN",
+                english_flag_html,
                 style = "margin-right: 5px; padding: 5px 10px; font-size: 12px;",
                 class = "btn-sm"
               ),
               shiny::actionButton(
                 "lang_fr",
-                "FR",
+                french_flag_html,
                 style = "padding: 5px 10px; font-size: 12px;",
                 class = "btn-sm"
               )
