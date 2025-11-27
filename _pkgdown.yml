@@ -10,6 +10,9 @@ template:
 home:
   title: quartify
   description: Convert R scripts to Quarto markdown documents
+  links:
+  - text: Documentation en français
+    href: articles/getting-started_FR.html
 
 navbar:
   structure:
@@ -27,6 +30,8 @@ navbar:
       menu:
       - text: Getting Started
         href: articles/getting-started.html
+      - text: Démarrage (Français)
+        href: articles/getting-started_FR.html
     news:
       text: Changelog
       href: news/index.html
