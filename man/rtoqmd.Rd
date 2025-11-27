@@ -33,7 +33,8 @@ It recognizes RStudio code sections with different levels:
 - ### Title ==== creates a level 3 header
 - #### Title ---- creates a level 4 header
 Regular comments are converted to plain text.
-Code blocks are wrapped in code chunks.
+Code blocks are wrapped in non-executable code chunks ({.r} syntax)
+for static documentation purposes.
 }
 \examples{
 \dontrun{
