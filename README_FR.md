@@ -134,6 +134,8 @@ Les sections de code RStudio deviennent des en-têtes markdown. **Critique** : l
 - `### Titre ====` → En-tête de niveau 3 (au moins 4 `=` à la fin)
 - `#### Titre ----` → En-tête de niveau 4 (au moins 4 `-` à la fin)
 
+**Note :** Vous pouvez utiliser `#`, `=`, ou `-` indifféremment comme symboles de fin (ex : `## Titre ====` ou `### Titre ----` fonctionneront), mais il est recommandé de suivre la convention RStudio pour la cohérence.
+
 #### 2. Commentaires réguliers (Texte)
 
 Les commentaires simples avec `#` **en début de ligne** deviennent du texte explicatif :
@@ -142,6 +144,8 @@ Les commentaires simples avec `#` **en début de ligne** deviennent du texte exp
 # Ceci est un commentaire autonome
 # Il devient du texte simple dans le document Quarto
 ```
+
+**Astuce :** Utilisez le [raccourci Commenter/Décommenter](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) de RStudio (`Ctrl+Shift+C` sur Windows/Linux ou `Cmd+Shift+C` sur Mac) pour ajouter ou retirer rapidement des commentaires.
 
 #### 3. Lignes de code
 

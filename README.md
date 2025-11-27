@@ -135,6 +135,8 @@ RStudio code sections become markdown headers. **Critical**: trailing symbols mu
 - `### Title ====` → Level 3 header (at least 4 `=` at the end)
 - `#### Title ----` → Level 4 header (at least 4 `-` at the end)
 
+**Note:** You can use `#`, `=`, or `-` interchangeably as trailing symbols (e.g., `## Title ====` or `### Title ----` will work), but it's recommended to follow the RStudio convention for consistency.
+
 #### 2. Regular Comments (Text)
 
 Single `#` comments **at the start of a line** become explanatory text:
@@ -143,6 +145,8 @@ Single `#` comments **at the start of a line** become explanatory text:
 # This is a standalone comment
 # It becomes plain text in the Quarto document
 ```
+
+**Tip:** Use RStudio's [Comment/Uncomment shortcut](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) (`Ctrl+Shift+C` on Windows/Linux or `Cmd+Shift+C` on Mac) to quickly add or remove comments.
 
 #### 3. Code Lines
 

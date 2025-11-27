@@ -65,7 +65,8 @@ Utilisez la syntaxe des sections de code RStudio pour créer des en-têtes à di
 **Règles importantes :**
 
 - Il doit y avoir au moins un espace entre le texte du titre et les symboles de fin
-- Les symboles de fin (`####`, `====`, `----`) doivent contenir au moins 4 caractères
+- Les symboles de fin doivent contenir au moins 4 caractères
+- Vous pouvez utiliser `#`, `=`, ou `-` indifféremment (ex : `## Titre ====` fonctionne), mais il est recommandé de suivre la convention RStudio pour la cohérence
 - Ceci suit la [convention des sections de code RStudio](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
 
 **Exemple :**
@@ -93,6 +94,8 @@ Les commentaires simples avec `#` deviennent du texte explicatif dans le documen
 - Commencez par un seul `#` suivi d'un espace
 - Plusieurs lignes de commentaires consécutives deviendront chacune un paragraphe séparé
 - Les lignes de commentaires vides sont ignorées
+
+**Astuce :** Utilisez le [raccourci Commenter/Décommenter](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) de RStudio (`Ctrl+Shift+C` sur Windows/Linux ou `Cmd+Shift+C` sur Mac) pour ajouter ou retirer rapidement des commentaires de votre code.
 
 ### 3. Lignes de code
 
@@ -348,10 +351,11 @@ quarto::quarto_render("analyse_iris.qmd")
 **Règles critiques pour éviter les erreurs :**
 
 1. **Espacement** : Toujours inclure un espace après `#` pour les commentaires et en-têtes de section
-2. **Symboles de fin** : Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin (`####`, `====`, ou `----`)
-3. **Pas de mélange** : Ne mélangez pas la syntaxe des sections (ex : n'utilisez pas `## Titre ====`)
+2. **Symboles de fin** : Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin
+3. **Flexibilité des symboles** : Vous pouvez utiliser `#`, `=`, ou `-` indifféremment pour les symboles de fin, mais suivre la convention RStudio est recommandé
 4. **Commentaires Roxygen** : Les lignes commençant par `#'` sont ignorées (pour développement de packages)
 5. **Contexte du commentaire** : Les commentaires en début de ligne deviennent du texte ; les commentaires dans le code restent dans les blocs de code
+6. **Raccourci clavier** : Utilisez `Ctrl+Shift+C` (Windows/Linux) ou `Cmd+Shift+C` (Mac) pour commenter/décommenter rapidement
 
 ## Conseils et bonnes pratiques
 

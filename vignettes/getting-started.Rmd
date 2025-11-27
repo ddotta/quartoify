@@ -65,7 +65,8 @@ Use RStudio code section syntax to create headers at different levels. These sec
 **Important rules:**
 
 - There must be at least one space between the title text and the trailing symbols
-- The trailing symbols (`####`, `====`, `----`) must be at least 4 characters long
+- The trailing symbols must be at least 4 characters long
+- You can use `#`, `=`, or `-` interchangeably (e.g., `## Title ====` works), but following the RStudio convention is recommended for consistency
 - This follows the [RStudio code sections convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
 
 **Example:**
@@ -93,6 +94,8 @@ Single `#` comments become explanatory text in the Quarto document:
 - Start with a single `#` followed by a space
 - Multiple consecutive comment lines will each become a separate paragraph
 - Empty comment lines are ignored
+
+**Tip:** Use RStudio's [Comment/Uncomment shortcut](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) (`Ctrl+Shift+C` on Windows/Linux or `Cmd+Shift+C` on Mac) to quickly add or remove comments from your code.
 
 ### 3. Code Lines
 
@@ -348,10 +351,11 @@ quarto::quarto_render("iris_analysis.qmd")
 **Critical rules to avoid errors:**
 
 1. **Spacing**: Always include a space after `#` for comments and section headers
-2. **Trailing symbols**: Section headers MUST have at least 4 trailing symbols (`####`, `====`, or `----`)
-3. **No mixing**: Don't mix section syntax (e.g., don't use `## Title ====`)
+2. **Trailing symbols**: Section headers MUST have at least 4 trailing symbols
+3. **Symbol flexibility**: You can use `#`, `=`, or `-` interchangeably for trailing symbols, but following the RStudio convention is recommended
 4. **Roxygen comments**: Lines starting with `#'` are ignored (for package development)
 5. **Comment context**: Comments at the start of a line become text; comments within code stay in code blocks
+6. **Keyboard shortcut**: Use `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) to comment/uncomment lines quickly
 
 ## Tips and Best Practices
 
