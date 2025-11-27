@@ -4,7 +4,7 @@
 
 # :package: `quartify` <img src="man/figures/hex_quartify.png" width=90 align="right"/>
 
-🇬🇧 [English version](README.md)
+🇬🇧 [English version](https://ddotta.github.io/quartify/index.html)
 
 ## Description
 
