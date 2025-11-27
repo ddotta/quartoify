@@ -225,10 +225,11 @@ rtoqmd(
 - `input_file` : Chemin vers votre script R
 - `output_file` : Chemin pour le document Quarto de sortie (optionnel)
 - `title` : Titre du document (par défaut : "My title")
-- `author` : Nom de l'auteur (par défaut : "Damien Dotta")
+- `author` : Nom de l'auteur (par défaut : "Your name")
 - `format` : Format de sortie (par défaut : "html")
 - `render` : Générer le HTML à partir du .qmd (par défaut : TRUE)
-- `open_html` : Ouvrir le HTML dans le navigateur (par défaut : TRUE)
+- `open_html` : Ouvrir le HTML dans le navigateur (par défaut : FALSE)
+- `code_fold` : Replier les blocs de code par défaut (par défaut : FALSE)
 
 ## Conversion de l'exemple
 

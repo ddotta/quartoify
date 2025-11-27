@@ -225,10 +225,11 @@ rtoqmd(
 - `input_file`: Path to your R script
 - `output_file`: Path for the output Quarto document (optional)
 - `title`: Title for the document (default: "My title")
-- `author`: Author name (default: "Damien Dotta")
+- `author`: Author name (default: "Your name")
 - `format`: Output format (default: "html")
 - `render`: Whether to render the .qmd to HTML (default: TRUE)
-- `open_html`: Whether to open the HTML in browser (default: TRUE)
+- `open_html`: Whether to open the HTML in browser (default: FALSE)
+- `code_fold`: Whether to fold code blocks by default (default: FALSE)
 
 ## Converting the Example
 

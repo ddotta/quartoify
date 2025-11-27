@@ -186,12 +186,11 @@ Ceci suit la [convention des sections de code RStudio](https://docs.posit.co/ide
 
 ## Sortie et documentation
 
-Le document .qmd généré contient :
-- Un en-tête YAML complet avec configuration de la table des matières
-- Des en-têtes correctement structurés à partir des sections de code RStudio
-- Des explications textuelles à partir de vos commentaires réguliers
-- **Chunks de code non exécutables** (syntaxe `{.r}`) pour une documentation statique
-- Prêt pour HTML, PDF ou d'autres formats supportés par Quarto
+Le document .qmd généré contient :  
+- Un en-tête YAML complet avec configuration de la table des matières  
+- Des en-têtes correctement structurés à partir des sections de code RStudio  
+- Des explications textuelles à partir de vos commentaires  
+- **Chunks de code non exécutables** pour une documentation statique  
 
 📝 **Pour un exemple complet de la sortie générée**, consultez la [vignette Démarrage](https://ddotta.github.io/quartify/articles/getting-started_FR.html#sortie-g%C3%A9n%C3%A9r%C3%A9e)
 
