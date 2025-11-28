@@ -88,12 +88,14 @@ Use RStudio code section syntax to create headers at different levels. These sec
 - **Level 3**: `### Title ====` (at least 4 `=` symbols at the end)
 - **Level 4**: `#### Title ----` (at least 4 `-` symbols at the end)
 
-**Important rules:**
+::: {.alert .alert-warning}
+<span style="color: red;">**Important rules:**
 
 - There must be at least one space between the title text and the trailing symbols
 - The trailing symbols must be at least 4 characters long
 - You can use `#`, `=`, or `-` interchangeably (e.g., `## Title ====` works), but following the RStudio convention is recommended for consistency
-- This follows the [RStudio code sections convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
+- This follows the [RStudio code sections convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)</span>
+:::
 
 **Example:**
 
@@ -352,7 +354,7 @@ rtoqmd(example_file, "iris_analysis.qmd")
 The function will:
 1. Check if Quarto is installed
 2. Render the .qmd file to HTML
-3. Open the HTML file in your default browser
+3. Open the HTML file in your default browser (if `open_html = TRUE`)
 
 If you don't want automatic rendering:
 
@@ -380,10 +382,8 @@ quarto::quarto_render("iris_analysis.qmd")
 
 `quartify` is particularly useful for:
 
-1. **Documentation**: Transform working scripts into professional documentation
-2. **Sharing analyses**: Create readable reports from existing code
-3. **Reproducible research**: Combine code and narrative seamlessly
-4. **Code review**: Present code in a more accessible format
+1. **Documentation**: Transform working scripts into documentation
+2. **Code review**: Present code in a more accessible format
 
 ## Comment Rules Summary
 
