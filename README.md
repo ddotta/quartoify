@@ -12,15 +12,13 @@ status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](htt
 
 `quartify` is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).
 
-The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through RStudio code sections. It recognizes the standard RStudio code section syntax (`####`, `====`, `----`) to create properly indented navigation structures.
+The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through [RStudio code sections](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html). It recognizes the standard RStudio code section syntax (`####`, `====`, `----`) to create properly indented navigation structures.
 
-### Typical Use Case
+### Use Cases
 
 If you have a working R script that contains comments, you may want to generate a Quarto document from this script that will allow you to automatically produce displayable HTML documentation. This is particularly useful for:
 
-- **Sharing analyses**: Transform your working scripts into professional-looking reports without rewriting everything
 - **Documentation**: Automatically generate documentation from your commented code
-- **Reproducible research**: Create self-documenting analyses where code and explanations are seamlessly integrated
 - **Code review**: Present your code in a more readable format for stakeholders who prefer formatted documents over raw scripts
 
 ## Features
@@ -29,9 +27,9 @@ If you have a working R script that contains comments, you may want to generate 
 - **RStudio code sections support**: Recognizes RStudio code sections (`####`, `====`, `----`) and converts them to proper markdown headers with correct indentation levels
 - **Comment preservation**: Regular comments are converted into explanatory text
 - **Code organization**: R code is automatically organized into executable blocks
-- **Customizable YAML header**: Ability to define title, author, and output format
+- **Customizable YAML header**: Ability to define title, author, and other parameters  
 - **Table of contents**: Automatic generation of a table of contents in the Quarto document with proper depth
-- **Automatic HTML rendering**: Optionally renders the .qmd file to HTML and opens it in your browser (enabled by default)
+- **Automatic HTML rendering**: Optionally renders the .qmd file to HTML and opens it in your browser (disabled by default)
 
 ## Installation
 
@@ -44,18 +42,18 @@ devtools::install_github("ddotta/quartify")
 
 ## Usage
 
-### RStudio Add-in (Recommended)
+### RStudio Add-in
 
 The easiest way to use `quartify` is through the RStudio add-in with its interactive Shiny interface:
 
 1. Open your R script in RStudio
 2. Go to **Addins** menu → **Convert R Script to Quarto**
-3. A dialog window will appear (700x800px) with:
+3. A dialog window will appear with:
    - **EN/FR** language selector buttons at the top right
    - Form fields to specify:
      - Output file path
      - Document title and author name
-     - Rendering options (render to HTML, open HTML, open QMD)
+     - Rendering options
 4. Click **GO** to convert your script (or ↩ to cancel)
 
 The interface adapts to your language choice, displaying all labels in English or French.
@@ -82,9 +80,8 @@ rtoqmd("my_script.R",
        title = "My statistical analysis",
        author = "Your name",
        format = "html",
-       render = TRUE,       # Render to HTML (default)
-       open_html = FALSE,   # Open HTML in browser (default: FALSE)
-       code_fold = FALSE)   # Fold code blocks (default: FALSE)
+       render = TRUE,      # Render to HTML 
+       open_html = TRUE)   # Open HTML in browser
 ```
 
 ### Using the example file
@@ -140,11 +137,11 @@ iris %>%
 
 RStudio code sections become markdown headers. **Critical**: trailing symbols must be at least 4 characters long:
 
-- `## Title ####` → Level 2 header (at least 4 `#` at the end)
-- `### Title ====` → Level 3 header (at least 4 `=` at the end)
-- `#### Title ----` → Level 4 header (at least 4 `-` at the end)
+- `## Title ----` → Level 2 header (at least 4 `#`, `=` or `-` at the end)
+- `### Title ----` → Level 3 header (at least 4 `#`, `=` or `-` at the end)
+- `#### Title ----` → Level 4 header (at least 4 `#`, `=` or `-` at the end)
 
-**Note:** You can use `#`, `=`, or `-` interchangeably as trailing symbols (e.g., `## Title ====` or `### Title ----` will work), but it's recommended to follow the RStudio convention for consistency.
+**Note:** You can use `#`, `=`, or `-` interchangeably as trailing symbols (e.g., `## Title ====` or `### Title ----` will work).
 
 #### 2. Regular Comments (Text)
 
