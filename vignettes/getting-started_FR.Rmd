@@ -244,6 +244,7 @@ rtoqmd(
 - `render` : Générer le HTML à partir du .qmd (par défaut : TRUE)
 - `open_html` : Ouvrir le HTML dans le navigateur (par défaut : FALSE)
 - `code_fold` : Replier les blocs de code par défaut (par défaut : FALSE)
+- `number_sections` : Numéroter les sections automatiquement (par défaut : TRUE)
 
 ## Conversion de l'exemple
 

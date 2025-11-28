@@ -246,3 +246,23 @@ test_that("rtoqmd handles markdown tables in comments", {
   unlink(temp_r)
   unlink(temp_qmd)
 })
+
+test_that("rtoqmd number_sections parameter works correctly", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  writeLines("x <- 1", temp_r)
+  
+  # Test with number_sections = TRUE (default)
+  rtoqmd(temp_r, temp_qmd, render = FALSE)
+  output <- readLines(temp_qmd)
+  expect_true(any(grepl("number-sections: true", output)))
+  
+  # Test with number_sections = FALSE
+  rtoqmd(temp_r, temp_qmd, render = FALSE, number_sections = FALSE)
+  output <- readLines(temp_qmd)
+  expect_true(any(grepl("number-sections: false", output)))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})

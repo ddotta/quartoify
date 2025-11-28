@@ -79,8 +79,9 @@ rtoqmd("mon_script.R",
        title = "Mon analyse statistique",
        author = "Votre nom",
        format = "html",
-       render = TRUE,      # Générer le HTML 
-       open_html = TRUE)   # Ouvrir le HTML dans le navigateur 
+       render = TRUE,            # G\u00e9n\u00e9rer le HTML 
+       open_html = TRUE,         # Ouvrir le HTML dans le navigateur
+       number_sections = TRUE)   # Num\u00e9roter les sections automatiquement
 ```
 
 ### Utilisation du fichier exemple

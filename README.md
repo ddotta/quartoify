@@ -80,8 +80,9 @@ rtoqmd("my_script.R",
        title = "My statistical analysis",
        author = "Your name",
        format = "html",
-       render = TRUE,      # Render to HTML 
-       open_html = TRUE)   # Open HTML in browser
+       render = TRUE,         # Render to HTML 
+       open_html = TRUE,      # Open HTML in browser
+       number_sections = TRUE) # Number sections automatically
 ```
 
 ### Using the example file

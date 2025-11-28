@@ -244,6 +244,7 @@ rtoqmd(
 - `render`: Whether to render the .qmd to HTML (default: TRUE)
 - `open_html`: Whether to open the HTML in browser (default: FALSE)
 - `code_fold`: Whether to fold code blocks by default (default: FALSE)
+- `number_sections`: Whether to number sections automatically (default: TRUE)
 
 ## Converting the Example
 
