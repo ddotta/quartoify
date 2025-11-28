@@ -124,15 +124,22 @@ Les commentaires simples avec `#` deviennent du texte explicatif dans le documen
 - Les lignes de commentaires vides séparent les blocs de commentaires
 - **Tableaux Markdown** : Vous pouvez inclure des tableaux Markdown dans les commentaires. Les lignes consécutives de commentaires seront préservées ensemble, permettant un rendu correct des tableaux
 
+::: {.alert .alert-info}
+**Important pour les tableaux Markdown :** Les lignes formant un tableau doivent être **isolées des autres commentaires** par une ligne vide avant et après le tableau. Cela garantit que le tableau est traité comme un bloc séparé et sera correctement rendu.
+:::
+
 **Exemple de tableau Markdown :**
 
 ```r
 # Résultats de l'analyse :
+
 # | fruit  | prix   |
 # |--------|--------|
 # | pomme  | 2.05   |
 # | poire  | 1.37   |
 # | orange | 3.09   |
+#
+# Le tableau ci-dessus est correctement isolé.
 ```
 
 **Astuce :** Utilisez le [raccourci Commenter/Décommenter](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) de RStudio (`Ctrl+Shift+C` sur Windows/Linux ou `Cmd+Shift+C` sur Mac) pour ajouter ou retirer rapidement des commentaires de votre code.

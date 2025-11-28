@@ -1,10 +1,11 @@
 ---
-title: "Tableaux Markdown Example"
+title: "My Analysis"
 author: "Your name"
 format:
   html:
     embed-resources: true
     code-fold: false
+    number-sections: true
 toc: true
 toc-title: Sommaire
 toc-depth: 4
@@ -14,7 +15,6 @@ execute:
   echo: true
 output:
   html_document:
-  number_sections: TRUE
   output-file: markdown_tables.html
 ---
 
@@ -27,12 +27,12 @@ library(dplyr)
 ### Données de fruits
 
 Voici un tableau simple de fruits et de prix :
+
 | fruit  | price  |
 |--------|--------|
 | apple  | 2.05   |
 | pear   | 1.37   |
 | orange | 3.09   |
-
 Ce tableau sera correctement rendu en HTML.
 
 ```{r}
@@ -43,11 +43,13 @@ iris %>%
 ### Tableau de comparaison
 
 Comparaison des espèces :
+
 | Species    | Sepal.Length (mean) |
 |------------|---------------------|
 | setosa     | 5.01                |
 | versicolor | 5.94                |
 | virginica  | 6.59                |
+Les données ci-dessous permettent de calculer ces moyennes.
 
 ```{r}
 iris %>% 

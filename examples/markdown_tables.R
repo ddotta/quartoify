@@ -5,12 +5,13 @@ library(dplyr)
 ### Données de fruits ====
 
 # Voici un tableau simple de fruits et de prix :
+
 # | fruit  | price  |
 # |--------|--------|
 # | apple  | 2.05   |
 # | pear   | 1.37   |
 # | orange | 3.09   |
-
+#
 # Ce tableau sera correctement rendu en HTML.
 
 iris %>% 
@@ -19,11 +20,14 @@ iris %>%
 ### Tableau de comparaison ====
 
 # Comparaison des espèces :
+
 # | Species    | Sepal.Length (mean) |
 # |------------|---------------------|
 # | setosa     | 5.01                |
 # | versicolor | 5.94                |
 # | virginica  | 6.59                |
+#
+# Les données ci-dessous permettent de calculer ces moyennes.
 
 iris %>% 
   group_by(Species) %>% 

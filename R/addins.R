@@ -172,6 +172,13 @@ rtoqmd_addin <- function() {
               value = ifelse(Sys.getenv("USER") != "", Sys.getenv("USER"), "Your name"),
               width = "100%"
             ),
+            shiny::selectInput(
+              "format",
+              shiny::textOutput("label_format"),
+              choices = c("HTML" = "html", "PDF" = "pdf"),
+              selected = "html",
+              width = "100%"
+            ),
             shiny::div(
               style = "width: 100%;",
               shiny::checkboxInput(
@@ -245,8 +252,9 @@ rtoqmd_addin <- function() {
         output_file = "Output file path:",
         title = "Document title:",
         author = "Author name:",
-        render = "Render to HTML after conversion",
-        open_html = "Open HTML file in browser (if rendered)",
+        format = "Output format:",
+        render = "Render after conversion",
+        open_html = "Open output file after rendering",
         open_qmd = "Open .qmd file in editor after conversion",
         code_fold = "Fold code blocks by default",
         number_sections = "Number sections automatically"
@@ -256,8 +264,9 @@ rtoqmd_addin <- function() {
         output_file = "Chemin du fichier de sortie :",
         title = "Titre du document :",
         author = "Nom de l'auteur :",
-        render = "G\u00e9n\u00e9rer le HTML apr\u00e8s conversion",
-        open_html = "Ouvrir le fichier HTML dans le navigateur (si g\u00e9n\u00e9r\u00e9)",
+        format = "Format de sortie :",
+        render = "G\u00e9n\u00e9rer apr\u00e8s conversion",
+        open_html = "Ouvrir le fichier g\u00e9n\u00e9r\u00e9 apr\u00e8s rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'\u00e9diteur apr\u00e8s conversion",
         code_fold = "Replier les blocs de code par d\u00e9faut",
         number_sections = "Num\u00e9roter les sections automatiquement"
@@ -269,6 +278,7 @@ rtoqmd_addin <- function() {
     output$label_output_file <- shiny::renderText({ translations[[lang()]]$output_file })
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
+    output$label_format <- shiny::renderText({ translations[[lang()]]$format })
     output$label_render <- shiny::renderText({ translations[[lang()]]$render })
     output$label_open_html <- shiny::renderText({ translations[[lang()]]$open_html })
     output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
@@ -285,6 +295,7 @@ rtoqmd_addin <- function() {
       output_file <- shiny::req(input$output_file)
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
+      format <- shiny::req(input$format)
       render <- input$render
       open_html <- input$open_html
       open_qmd <- input$open_qmd
@@ -298,7 +309,7 @@ rtoqmd_addin <- function() {
           output_file = output_file,
           title = title,
           author = author,
-          format = "html",
+          format = format,
           render = render,
           open_html = open_html && render,
           code_fold = code_fold,
