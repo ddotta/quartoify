@@ -209,3 +209,40 @@ test_that("rtoqmd customizes YAML header", {
   unlink(temp_r)
   unlink(temp_qmd)
 })
+
+test_that("rtoqmd handles markdown tables in comments", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  writeLines(c(
+    "# Table example:",
+    "# | fruit  | price  |",
+    "# |--------|--------|",
+    "# | apple  | 2.05   |",
+    "# | pear   | 1.37   |",
+    "",
+    "x <- 1"
+  ), temp_r)
+  
+  rtoqmd(temp_r, temp_qmd, render = FALSE)
+  output <- readLines(temp_qmd)
+  
+  # Check all table lines are present
+  expect_true(any(grepl("Table example:", output)))
+  expect_true(any(grepl("\\| fruit", output)))
+  expect_true(any(grepl("\\|--------", output)))
+  expect_true(any(grepl("\\| apple", output)))
+  expect_true(any(grepl("\\| pear", output)))
+  
+  # Find consecutive comment lines (table should be together)
+  # Look for the table example line and check following lines
+  table_intro_line <- grep("Table example:", output)[1]
+  
+  # The next few lines should be the table without empty lines between them
+  expect_true(grepl("\\| fruit", output[table_intro_line + 1]))
+  expect_true(grepl("\\|--------", output[table_intro_line + 2]))
+  expect_true(grepl("\\| apple", output[table_intro_line + 3]))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})

@@ -24,3 +24,15 @@ iris |>
 iris %>% 
   # Select a column
   select(Species)
+
+## Markdown tables in comments ####
+
+# You can include markdown tables in comments:
+# | Species    | Count |
+# |------------|-------|
+# | setosa     | 50    |
+# | versicolor | 50    |
+# | virginica  | 50    |
+
+iris %>%
+  count(Species)

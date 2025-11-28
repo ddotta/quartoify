@@ -84,6 +84,7 @@ rtoqmd <- function(input_file, output_file = NULL,
   # Process lines
   i <- 1
   code_block <- character()
+  comment_block <- character()
   
   while (i <= length(lines)) {
     line <- lines[i]
@@ -104,6 +105,13 @@ rtoqmd <- function(input_file, output_file = NULL,
         code_block <- character()
       }
       
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
+      }
+      
       # Extract title and create level 2 header
       title_text <- sub("^##\\s+(.+?)\\s+#{4,}\\s*$", "\\1", line)
       output <- c(output, paste0("## ", title_text))
@@ -118,6 +126,13 @@ rtoqmd <- function(input_file, output_file = NULL,
         output <- c(output, "```")
         output <- c(output, "")
         code_block <- character()
+      }
+      
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
       }
       
       # Extract title and create level 3 header
@@ -136,6 +151,13 @@ rtoqmd <- function(input_file, output_file = NULL,
         code_block <- character()
       }
       
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
+      }
+      
       # Extract title and create level 4 header
       title_text <- sub("^####\\s+(.+?)\\s+-{4,}\\s*$", "\\1", line)
       output <- c(output, paste0("#### ", title_text))
@@ -152,25 +174,39 @@ rtoqmd <- function(input_file, output_file = NULL,
         code_block <- character()
       }
       
-      # Convert to plain text
+      # Convert to plain text and accumulate in comment block
       comment_text <- sub("^#\\s*", "", line)
       if (nzchar(comment_text)) {
-        output <- c(output, comment_text)
-        output <- c(output, "")
+        comment_block <- c(comment_block, comment_text)
       }
       
     } else if (grepl("^\\s*$", line)) {
-      # Empty line - just skip it in code accumulation
-      if (length(code_block) > 0) {
-        # Don't add empty lines within code blocks
+      # Empty line
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
       }
       
     } else {
-      # Code line - accumulate
+      # Code line
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
+      }
+      # Accumulate code
       code_block <- c(code_block, line)
     }
     
     i <- i + 1
+  }
+  
+  # Flush any remaining comments
+  if (length(comment_block) > 0) {
+    output <- c(output, comment_block)
   }
   
   # Flush any remaining code
