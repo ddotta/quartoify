@@ -1,9 +1,13 @@
 ---
-title: "My Analysis"
-author: "Your name"
+title: "Iris analysis"
+author: "Damien Dotta"
+date: "November 28, 2025"
+description: "Example file for package quartify"
 format:
   html:
     embed-resources: true
+    code-fold: false
+    number-sections: true
 toc: true
 toc-title: Sommaire
 toc-depth: 4
@@ -13,7 +17,6 @@ execute:
   echo: true
 output:
   html_document:
-  number_sections: TRUE
   output-file: example.html
 ---
 
@@ -26,7 +29,6 @@ library(dplyr)
 ### Title 3
 
 Start of statistical processing
-
 Counting the number of observations by species
 
 ```{r}
@@ -51,4 +53,19 @@ Select column Species
 iris %>% 
   # Select a column
   select(Species)
+```
+
+## Markdown tables in comments
+
+You can include markdown tables in comments:
+
+| Species    | Count |
+|------------|-------|
+| setosa     | 50    |
+| versicolor | 50    |
+| virginica  | 50    |
+
+```{r}
+iris %>%
+  count(Species)
 ```

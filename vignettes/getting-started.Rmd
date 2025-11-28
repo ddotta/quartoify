@@ -80,6 +80,65 @@ rtoqmd("script.R", "output.qmd")
 
 For optimal conversion, you need to follow specific commenting rules in your R script. `quartify` recognizes three types of lines:
 
+### 0. Document Metadata (Optional)
+
+You can define your document's metadata directly in your R script using special comments at the beginning of the file. These metadata will appear in the YAML header of the generated Quarto document.
+
+**Recognized metadata:**
+
+- **Title**: `# Title : My title` or `# Titre : Mon titre`
+- **Author**: `# Author : My name` or `# Auteur : Mon nom`
+- **Date**: `# Date : 2025-11-28`
+- **Description**: `# Description : Description of your script`
+
+::: {.alert .alert-success}
+**Tip - RStudio Snippets:** To save time, you can create an [RStudio snippet](https://docs.posit.co/ide/user/ide/guide/productivity/snippets.html) to automatically insert this metadata header. Add this snippet to your R snippets (Tools > Edit Code Snippets > R):
+
+```
+snippet header
+	# Title : ${1}
+	#
+	# Author : ${2}
+	#
+	# Date : ${3}
+	#
+	# Description : ${4}
+	#
+```
+
+Once defined, type `header` followed by `Tab` in your R script to automatically insert the metadata structure.
+:::
+
+**Complete example with metadata:**
+
+```r
+# Title : Iris Data Analysis
+#
+# Author : Jane Doe
+#
+# Date : 2025-11-28
+#
+# Description : Explore differences between iris species
+#
+
+library(dplyr)
+
+## Descriptive Analysis ####
+
+# Calculate statistics by species
+
+iris |> 
+  group_by(Species) |>
+  summarize(mean_sepal = mean(Sepal.Length))
+```
+
+**Behavior:**
+
+- If metadata is found in the script, it **overrides** the `rtoqmd()` function parameters
+- If no metadata is found, the function's `title` and `author` parameters are used
+- Metadata lines are **automatically removed** from the document body (they only appear in the YAML)
+- `Date` and `Description` metadata are optional
+
 ### 1. Code Sections (Headers)
 
 Use RStudio code section syntax to create headers at different levels. These sections MUST follow this exact pattern:

@@ -266,3 +266,132 @@ test_that("rtoqmd number_sections parameter works correctly", {
   unlink(temp_r)
   unlink(temp_qmd)
 })
+
+test_that("rtoqmd extracts metadata from comments - French version", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  writeLines(c(
+    "# Titre : Analyse des iris",
+    "#",
+    "# Auteur : Jean Dupont",
+    "#",
+    "# Date : 2025-11-28",
+    "#",
+    "# Description : Analyser les données iris",
+    "#",
+    "library(dplyr)",
+    "x <- 1"
+  ), temp_r)
+  
+  rtoqmd(temp_r, temp_qmd, render = FALSE)
+  output <- readLines(temp_qmd)
+  
+  # Check metadata is correctly extracted
+  expect_true(any(grepl('title: "Analyse des iris"', output)))
+  expect_true(any(grepl('author: "Jean Dupont"', output)))
+  expect_true(any(grepl('date: "2025-11-28"', output)))
+  expect_true(any(grepl('description: "Analyser les données iris"', output)))
+  
+  # Check metadata lines are not in the body of the document
+  # (they should only be in YAML header)
+  body_start <- grep("^---$", output)[2] + 1
+  body_lines <- output[body_start:length(output)]
+  expect_false(any(grepl("Titre :", body_lines)))
+  expect_false(any(grepl("Auteur :", body_lines)))
+  expect_false(any(grepl("Description :", body_lines)))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})
+
+test_that("rtoqmd extracts metadata from comments - English version", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  writeLines(c(
+    "# Title : Iris Analysis",
+    "#",
+    "# Author : John Doe",
+    "#",
+    "# Date : 2025-11-28",
+    "#",
+    "# Description : Analyze iris dataset",
+    "#",
+    "library(dplyr)",
+    "x <- 1"
+  ), temp_r)
+  
+  rtoqmd(temp_r, temp_qmd, render = FALSE)
+  output <- readLines(temp_qmd)
+  
+  # Check metadata is correctly extracted
+  expect_true(any(grepl('title: "Iris Analysis"', output)))
+  expect_true(any(grepl('author: "John Doe"', output)))
+  expect_true(any(grepl('date: "2025-11-28"', output)))
+  expect_true(any(grepl('description: "Analyze iris dataset"', output)))
+  
+  # Check metadata lines are not in the body
+  body_start <- grep("^---$", output)[2] + 1
+  body_lines <- output[body_start:length(output)]
+  expect_false(any(grepl("Title :", body_lines)))
+  expect_false(any(grepl("Author :", body_lines)))
+  expect_false(any(grepl("Description :", body_lines)))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})
+
+test_that("rtoqmd uses function parameters when no metadata in script", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  # Script without metadata comments
+  writeLines(c(
+    "library(dplyr)",
+    "x <- 1"
+  ), temp_r)
+  
+  rtoqmd(temp_r, temp_qmd, 
+         title = "Default Title",
+         author = "Default Author",
+         render = FALSE)
+  output <- readLines(temp_qmd)
+  
+  # Should use function parameters
+  expect_true(any(grepl('title: "Default Title"', output)))
+  expect_true(any(grepl('author: "Default Author"', output)))
+  
+  # Should not have date or description
+  expect_false(any(grepl("^date:", output)))
+  expect_false(any(grepl("^description:", output)))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})
+
+test_that("rtoqmd metadata overrides function parameters", {
+  temp_r <- tempfile(fileext = ".R")
+  temp_qmd <- tempfile(fileext = ".qmd")
+  
+  writeLines(c(
+    "# Title : Metadata Title",
+    "# Author : Metadata Author",
+    "x <- 1"
+  ), temp_r)
+  
+  rtoqmd(temp_r, temp_qmd, 
+         title = "Function Title",
+         author = "Function Author",
+         render = FALSE)
+  output <- readLines(temp_qmd)
+  
+  # Metadata should override function parameters
+  expect_true(any(grepl('title: "Metadata Title"', output)))
+  expect_true(any(grepl('author: "Metadata Author"', output)))
+  expect_false(any(grepl('title: "Function Title"', output)))
+  expect_false(any(grepl('author: "Function Author"', output)))
+  
+  unlink(temp_r)
+  unlink(temp_qmd)
+})

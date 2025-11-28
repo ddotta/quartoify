@@ -102,6 +102,15 @@ rtoqmd(example_file, "test_output.qmd")
 For the conversion to work properly, structure your R script using RStudio code sections:
 
 ```r
+# Title : Iris Data Analysis
+#
+# Author : Jane Doe
+#
+# Date : 2025-11-28
+#
+# Description : Explore differences between iris species
+#
+
 library(dplyr)
 
 ## Title 2 ####
@@ -131,6 +140,36 @@ iris %>%
 ```
 
 ### Commenting Rules
+
+#### 0. Document Metadata (Optional)
+
+You can define metadata directly in your R script using special comments at the beginning:
+
+- **Title**: `# Title : My title` or `# Titre : Mon titre`
+- **Author**: `# Author : My name` or `# Auteur : Mon nom`
+- **Date**: `# Date : YYYY-MM-DD`
+- **Description**: `# Description : Your description`
+
+**💡 RStudio Snippet:** Create a snippet for quick metadata insertion (Tools > Edit Code Snippets > R):
+
+```
+snippet header
+	# Title : ${1}
+	#
+	# Author : ${2}
+	#
+	# Date : ${3}
+	#
+	# Description : ${4}
+	#
+```
+
+Type `header` + `Tab` in your script to insert the metadata structure.
+
+**Behavior:**
+- Metadata found in script **overrides** function parameters
+- Metadata lines are **removed** from document body (only in YAML)
+- If no metadata in script, function parameters are used
 
 `quartify` recognizes three types of lines in your R script:
 

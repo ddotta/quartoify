@@ -11,10 +11,21 @@
 #' documentation purposes, and \code{embed-resources: true} to create self-contained
 #' HTML files. See \url{https://quarto.org/docs/output-formats/html-basics.html#self-contained}.
 #'
+#' @section Metadata Detection:
+#' The function automatically extracts metadata from special comment lines in your R script:
+#' \itemize{
+#'   \item \strong{Title}: Use \code{# Title : Your Title} or \code{# Titre : Votre Titre}
+#'   \item \strong{Author}: Use \code{# Author : Your Name} or \code{# Auteur : Votre Nom}
+#'   \item \strong{Date}: Use \code{# Date : YYYY-MM-DD}
+#'   \item \strong{Description}: Use \code{# Description : Your description} (also accepts \code{# Purpose} or \code{# Objectif})
+#' }
+#' If metadata is found in the script, it will override the corresponding function parameters.
+#' These metadata lines are removed from the document body and only appear in the YAML header.
+#'
 #' @param input_file Path to the input R script file
 #' @param output_file Path to the output Quarto markdown file (optional, defaults to same name with .qmd extension)
-#' @param title Title for the Quarto document (default: "My title")
-#' @param author Author name (default: "Your name")
+#' @param title Title for the Quarto document (default: "My title"). Can be overridden by \code{# Title :} or \code{# Titre :} in the script
+#' @param author Author name (default: "Your name"). Can be overridden by \code{# Author :} or \code{# Auteur :} in the script
 #' @param format Output format (default: "html")
 #' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
@@ -34,6 +45,22 @@
 #' 
 #' # Convert only, without rendering
 #' rtoqmd(example_file, "output.qmd", render = FALSE)
+#' 
+#' # Example with metadata in the R script:
+#' # Create a script with metadata
+#' script_with_metadata <- tempfile(fileext = ".R")
+#' writeLines(c(
+#'   "# Title : My Analysis",
+#'   "# Author : Jane Doe", 
+#'   "# Date : 2025-11-28",
+#'   "# Description : Analyze iris dataset",
+#'   "",
+#'   "library(dplyr)",
+#'   "iris %>% head()"
+#' ), script_with_metadata)
+#' 
+#' # Convert - metadata will override function parameters
+#' rtoqmd(script_with_metadata, "output_with_metadata.qmd")
 #' }
 rtoqmd <- function(input_file, output_file = NULL, 
                    title = "My title", 
@@ -58,13 +85,59 @@ rtoqmd <- function(input_file, output_file = NULL,
   # Read the R script
   lines <- readLines(input_file, warn = FALSE)
   
+  # Extract metadata from comments in the script
+  metadata <- list(
+    title = title,
+    author = author,
+    date = NULL,
+    description = NULL
+  )
+  
+  # Track which lines contain metadata (to skip them later)
+  metadata_lines <- integer()
+  
+  for (j in seq_along(lines)) {
+    line <- lines[j]
+    
+    # Check for Title / Titre
+    if (grepl("^#\\s*(Title|Titre)\\s*:\\s*(.+)$", line, ignore.case = TRUE)) {
+      extracted <- sub("^#\\s*(Title|Titre)\\s*:\\s*(.+)$", "\\2", line, ignore.case = TRUE)
+      metadata$title <- trimws(extracted)
+      metadata_lines <- c(metadata_lines, j)
+    }
+    # Check for Author / Auteur
+    else if (grepl("^#\\s*(Author|Auteur)\\s*:\\s*(.+)$", line, ignore.case = TRUE)) {
+      extracted <- sub("^#\\s*(Author|Auteur)\\s*:\\s*(.+)$", "\\2", line, ignore.case = TRUE)
+      metadata$author <- trimws(extracted)
+      metadata_lines <- c(metadata_lines, j)
+    }
+    # Check for Date
+    else if (grepl("^#\\s*Date\\s*:\\s*(.+)$", line, ignore.case = TRUE)) {
+      extracted <- sub("^#\\s*Date\\s*:\\s*(.+)$", "\\1", line, ignore.case = TRUE)
+      metadata$date <- trimws(extracted)
+      metadata_lines <- c(metadata_lines, j)
+    }
+    # Check for Description / Objectif / Purpose
+    else if (grepl("^#\\s*(Description|Objectif|Purpose)\\s*:\\s*(.+)$", line, ignore.case = TRUE)) {
+      extracted <- sub("^#\\s*(Description|Objectif|Purpose)\\s*:\\s*(.+)$", "\\2", line, ignore.case = TRUE)
+      metadata$description <- trimws(extracted)
+      metadata_lines <- c(metadata_lines, j)
+    }
+  }
+  
   # Initialize output
   output <- character()
   
   # Add YAML header
   output <- c(output, "---")
-  output <- c(output, paste0('title: "', title, '"'))
-  output <- c(output, paste0('author: "', author, '"'))
+  output <- c(output, paste0('title: "', metadata$title, '"'))
+  output <- c(output, paste0('author: "', metadata$author, '"'))
+  if (!is.null(metadata$date)) {
+    output <- c(output, paste0('date: "', metadata$date, '"'))
+  }
+  if (!is.null(metadata$description)) {
+    output <- c(output, paste0('description: "', metadata$description, '"'))
+  }
   output <- c(output, paste0('format:'))
   output <- c(output, paste0('  ', format, ':'))
   output <- c(output, "    embed-resources: true")
@@ -91,8 +164,12 @@ rtoqmd <- function(input_file, output_file = NULL,
   while (i <= length(lines)) {
     line <- lines[i]
     
+    # Skip metadata lines
+    if (i %in% metadata_lines) {
+      # Ignore metadata lines - do nothing
+      
     # Skip roxygen comments completely
-    if (grepl("^#'", line)) {
+    } else if (grepl("^#'", line)) {
       # Ignore roxygen comments - do nothing
       
     # Check if line is a RStudio code section

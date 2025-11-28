@@ -1,3 +1,12 @@
+# Titre : Iris analysis
+#
+# Auteur : Damien Dotta
+#
+# Date : November 28, 2025
+#
+# Description : Example file for package quartify
+
+
 library(dplyr)
 
 ## Title 2 ####
@@ -28,6 +37,7 @@ iris %>%
 ## Markdown tables in comments ####
 
 # You can include markdown tables in comments:
+
 # | Species    | Count |
 # |------------|-------|
 # | setosa     | 50    |

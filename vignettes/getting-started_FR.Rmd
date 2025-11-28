@@ -80,6 +80,65 @@ rtoqmd("script.R", "sortie.qmd")
 
 Pour une conversion optimale, vous devez suivre des règles de commentaires spécifiques dans votre script R. `quartify` reconnaît trois types de lignes :
 
+### 0. Métadonnées du document (Optionnel)
+
+Vous pouvez définir les métadonnées de votre document directement dans votre script R en utilisant des commentaires spéciaux au début du fichier. Ces métadonnées apparaîtront dans l'en-tête YAML du document Quarto généré.
+
+**Métadonnées reconnues :**
+
+- **Titre** : `# Title : Mon titre` ou `# Titre : Mon titre`
+- **Auteur** : `# Author : Mon nom` ou `# Auteur : Mon nom`  
+- **Date** : `# Date : 2025-11-28`
+- **Description** : `# Description : Description de votre script`
+
+::: {.alert .alert-success}
+**Astuce - Snippets RStudio :** Pour gagner du temps, vous pouvez créer un [snippet RStudio](https://docs.posit.co/ide/user/ide/guide/productivity/snippets.html) pour insérer automatiquement cet en-tête de métadonnées. Ajoutez ce snippet dans vos snippets R (Tools > Edit Code Snippets > R) :
+
+```
+snippet header
+	# Title : ${1}
+	#
+	# Auteur : ${2}
+	#
+	# Date : ${3}
+	#
+	# Description : ${4}
+	#
+```
+
+Une fois défini, tapez `header` suivi de `Tab` dans votre script R pour insérer automatiquement la structure de métadonnées.
+:::
+
+**Exemple complet avec métadonnées :**
+
+```r
+# Title : Analyse des données Iris
+#
+# Auteur : Jean Dupont
+#
+# Date : 2025-11-28
+#
+# Description : Explorer les différences entre espèces d'iris
+#
+
+library(dplyr)
+
+## Analyse descriptive ####
+
+# Calculer les statistiques par espèce
+
+iris |> 
+  group_by(Species) |>
+  summarize(mean_sepal = mean(Sepal.Length))
+```
+
+**Comportement :**
+
+- Si des métadonnées sont trouvées dans le script, elles **remplacent** les paramètres de la fonction `rtoqmd()`
+- Si aucune métadonnée n'est trouvée, les paramètres `title` et `author` de la fonction sont utilisés
+- Les lignes de métadonnées sont **automatiquement retirées** du corps du document (elles n'apparaissent que dans le YAML)
+- Les métadonnées `Date` et `Description` sont optionnelles
+
 ### 1. Sections de code (En-têtes)
 
 Utilisez la syntaxe des sections de code RStudio pour créer des en-têtes à différents niveaux. Ces sections DOIVENT suivre ce modèle exact :

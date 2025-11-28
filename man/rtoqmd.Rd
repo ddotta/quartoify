@@ -21,9 +21,9 @@ rtoqmd(
 
 \item{output_file}{Path to the output Quarto markdown file (optional, defaults to same name with .qmd extension)}
 
-\item{title}{Title for the Quarto document (default: "My title")}
+\item{title}{Title for the Quarto document (default: "My title"). Can be overridden by \code{# Title :} or \code{# Titre :} in the script}
 
-\item{author}{Author name (default: "Your name")}
+\item{author}{Author name (default: "Your name"). Can be overridden by \code{# Author :} or \code{# Auteur :} in the script}
 
 \item{format}{Output format (default: "html")}
 
@@ -50,6 +50,19 @@ Code blocks are wrapped in standard R code chunks. The YAML header includes
 documentation purposes, and \code{embed-resources: true} to create self-contained
 HTML files. See \url{https://quarto.org/docs/output-formats/html-basics.html#self-contained}.
 }
+\section{Metadata Detection}{
+
+The function automatically extracts metadata from special comment lines in your R script:
+\itemize{
+  \item \strong{Title}: Use \code{# Title : Your Title} or \code{# Titre : Votre Titre}
+  \item \strong{Author}: Use \code{# Author : Your Name} or \code{# Auteur : Votre Nom}
+  \item \strong{Date}: Use \code{# Date : YYYY-MM-DD}
+  \item \strong{Description}: Use \code{# Description : Your description} (also accepts \code{# Purpose} or \code{# Objectif})
+}
+If metadata is found in the script, it will override the corresponding function parameters.
+These metadata lines are removed from the document body and only appear in the YAML header.
+}
+
 \examples{
 \dontrun{
 # Use example file included in package
@@ -60,5 +73,21 @@ rtoqmd(example_file, "output.qmd")
 
 # Convert only, without rendering
 rtoqmd(example_file, "output.qmd", render = FALSE)
+
+# Example with metadata in the R script:
+# Create a script with metadata
+script_with_metadata <- tempfile(fileext = ".R")
+writeLines(c(
+  "# Title : My Analysis",
+  "# Author : Jane Doe", 
+  "# Date : 2025-11-28",
+  "# Description : Analyze iris dataset",
+  "",
+  "library(dplyr)",
+  "iris \%>\% head()"
+), script_with_metadata)
+
+# Convert - metadata will override function parameters
+rtoqmd(script_with_metadata, "output_with_metadata.qmd")
 }
 }
