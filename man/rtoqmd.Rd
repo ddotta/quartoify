@@ -12,7 +12,8 @@ rtoqmd(
   format = "html",
   render = TRUE,
   open_html = FALSE,
-  code_fold = FALSE
+  code_fold = FALSE,
+  number_sections = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ rtoqmd(
 \item{open_html}{Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)}
 
 \item{code_fold}{Logical, whether to fold code blocks in HTML output (default: FALSE)}
+
+\item{number_sections}{Logical, whether to number sections automatically in the output (default: TRUE)}
 }
 \value{
 Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.

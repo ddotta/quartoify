@@ -19,7 +19,7 @@
 #' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
-#' @param number_sections Logical, whether to number sections in the output (default: TRUE)
+#' @param number_sections Logical, whether to number sections automatically in the output (default: TRUE)
 #' @return Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 #' @importFrom utils browseURL
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_danger cli_alert_warning
