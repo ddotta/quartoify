@@ -139,7 +139,16 @@
 <h2 id="format-du-script-r-source">Format du script R source<a class="anchor" aria-label="anchor" href="#format-du-script-r-source"></a></h2>
 <p>Pour que la conversion fonctionne correctement, structurez votre script R en utilisant les sections de code RStudio :</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Titre : Analyse des données Iris</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Auteur : Jean Dupont</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Date : 2025-11-28</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Description : Explorer les différences entre les espèces d'iris</span></span>
+<span><span class="co">#</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Titre 2 ####</span></span>
 <span></span>
@@ -167,7 +176,35 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="règles-de-commentaires">Règles de commentaires<a class="anchor" aria-label="anchor" href="#r%C3%A8gles-de-commentaires"></a></h3>
+<div class="section level4">
+<h4 id="id_0-métadonnées-du-document-optionnel">0. Métadonnées du document (Optionnel)<a class="anchor" aria-label="anchor" href="#id_0-m%C3%A9tadonn%C3%A9es-du-document-optionnel"></a></h4>
+<p>Vous pouvez définir les métadonnées directement dans votre script R en utilisant des commentaires spéciaux au début :</p>
+<ul><li>
+<strong>Titre</strong> : <code># Title : Mon titre</code> ou <code># Titre : Mon titre</code>
+</li>
+<li>
+<strong>Auteur</strong> : <code># Author : Mon nom</code> ou <code># Auteur : Mon nom</code>
+</li>
+<li>
+<strong>Date</strong> : <code># Date : AAAA-MM-JJ</code>
+</li>
+<li>
+<strong>Description</strong> : <code># Description : Description de votre script</code>
+</li>
+</ul><p><strong>💡 Snippet RStudio :</strong> Créez un snippet pour insérer rapidement les métadonnées (Outils &gt; Modifier les snippets de code &gt; R) :</p>
+<pre><code>snippet header
+    # Titre : ${1}
+    #
+    # Auteur : ${2}
+    #
+    # Date : ${3}
+    #
+    # Description : ${4}
+    #</code></pre>
+<p>Tapez <code>header</code> + <code>Tab</code> dans votre script pour insérer la structure de métadonnées.</p>
+<p><strong>Comportement :</strong> - Les métadonnées trouvées dans le script <strong>remplacent</strong> les paramètres de la fonction - Les lignes de métadonnées sont <strong>retirées</strong> du corps du document (uniquement dans le YAML) - Si aucune métadonnée dans le script, les paramètres de la fonction sont utilisés</p>
 <p><code>quartify</code> reconnaît trois types de lignes dans votre script R :</p>
+</div>
 <div class="section level4">
 <h4 id="id_1-sections-de-code-en-têtes">1. Sections de code (En-têtes)<a class="anchor" aria-label="anchor" href="#id_1-sections-de-code-en-t%C3%AAtes"></a></h4>
 <p>Les sections de code RStudio deviennent des en-têtes markdown. <strong>Critique</strong> : les symboles de fin doivent contenir au moins 4 caractères :</p>
@@ -182,7 +219,7 @@
 <div class="section level4">
 <h4 id="id_2-commentaires-réguliers-texte">2. Commentaires réguliers (Texte)<a class="anchor" aria-label="anchor" href="#id_2-commentaires-r%C3%A9guliers-texte"></a></h4>
 <p>Les commentaires simples avec <code>#</code> <strong>en début de ligne</strong> deviennent du texte explicatif :</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ceci est un commentaire autonome</span></span>
 <span><span class="co"># Il devient du texte simple dans le document Quarto</span></span></code></pre></div>
 <p><strong>Astuce :</strong> Utilisez le <a href="https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment" class="external-link">raccourci Commenter/Décommenter</a> de RStudio (<code>Ctrl+Shift+C</code> sur Windows/Linux ou <code>Cmd+Shift+C</code> sur Mac) pour ajouter ou retirer rapidement des commentaires.</p>
@@ -190,13 +227,13 @@
 <div class="section level4">
 <h4 id="id_3-lignes-de-code">3. Lignes de code<a class="anchor" aria-label="anchor" href="#id_3-lignes-de-code"></a></h4>
 <p>Les lignes non commentées deviennent des chunks de code R exécutables :</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="id_4-commentaires-en-ligne-à-lintérieur-du-code">4. Commentaires en ligne (À l’intérieur du code)<a class="anchor" aria-label="anchor" href="#id_4-commentaires-en-ligne-%C3%A0-lint%C3%A9rieur-du-code"></a></h4>
 <p>Les commentaires <strong>à l’intérieur des blocs de code</strong> sont préservés dans le chunk de code R :</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="co"># Ce commentaire reste dans le bloc de code</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>

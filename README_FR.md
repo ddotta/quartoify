@@ -125,6 +125,15 @@ Pour que la conversion fonctionne correctement, structurez votre script
 R en utilisant les sections de code RStudio :
 
 ``` r
+# Titre : Analyse des données Iris
+#
+# Auteur : Jean Dupont
+#
+# Date : 2025-11-28
+#
+# Description : Explorer les différences entre les espèces d'iris
+#
+
 library(dplyr)
 
 ## Titre 2 ####
@@ -154,6 +163,38 @@ iris %>%
 ```
 
 ### Règles de commentaires
+
+#### 0. Métadonnées du document (Optionnel)
+
+Vous pouvez définir les métadonnées directement dans votre script R en
+utilisant des commentaires spéciaux au début :
+
+- **Titre** : `# Title : Mon titre` ou `# Titre : Mon titre`
+- **Auteur** : `# Author : Mon nom` ou `# Auteur : Mon nom`
+- **Date** : `# Date : AAAA-MM-JJ`
+- **Description** : `# Description : Description de votre script`
+
+**💡 Snippet RStudio :** Créez un snippet pour insérer rapidement les
+métadonnées (Outils \> Modifier les snippets de code \> R) :
+
+    snippet header
+        # Titre : ${1}
+        #
+        # Auteur : ${2}
+        #
+        # Date : ${3}
+        #
+        # Description : ${4}
+        #
+
+Tapez `header` + `Tab` dans votre script pour insérer la structure de
+métadonnées.
+
+**Comportement :** - Les métadonnées trouvées dans le script
+**remplacent** les paramètres de la fonction - Les lignes de métadonnées
+sont **retirées** du corps du document (uniquement dans le YAML) - Si
+aucune métadonnée dans le script, les paramètres de la fonction sont
+utilisés
 
 `quartify` reconnaît trois types de lignes dans votre script R :
 

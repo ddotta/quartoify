@@ -98,11 +98,11 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>Title for the Quarto document (default: "My title")</p></dd>
+<dd><p>Title for the Quarto document (default: "My title"). Can be overridden by <code># Title :</code> or <code># Titre :</code> in the script</p></dd>
 
 
 <dt id="arg-author">author<a class="anchor" aria-label="anchor" href="#arg-author"></a></dt>
-<dd><p>Author name (default: "Your name")</p></dd>
+<dd><p>Author name (default: "Your name"). Can be overridden by <code># Author :</code> or <code># Auteur :</code> in the script</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
@@ -129,6 +129,17 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.</p>
     </div>
+    <div class="section level2">
+    <h2 id="metadata-detection">Metadata Detection<a class="anchor" aria-label="anchor" href="#metadata-detection"></a></h2>
+
+
+<p>The function automatically extracts metadata from special comment lines in your R script:</p><ul><li><p><strong>Title</strong>: Use <code># Title : Your Title</code> or <code># Titre : Votre Titre</code></p></li>
+<li><p><strong>Author</strong>: Use <code># Author : Your Name</code> or <code># Auteur : Votre Nom</code></p></li>
+<li><p><strong>Date</strong>: Use <code># Date : YYYY-MM-DD</code></p></li>
+<li><p><strong>Description</strong>: Use <code># Description : Your description</code> (also accepts <code># Purpose</code> or <code># Objectif</code>)</p></li>
+</ul><p>If metadata is found in the script, it will override the corresponding function parameters.
+These metadata lines are removed from the document body and only appear in the YAML header.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -141,6 +152,22 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Convert only, without rendering</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd</span><span class="op">(</span><span class="va">example_file</span>, <span class="st">"output.qmd"</span>, render <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example with metadata in the R script:</span></span></span>
+<span class="r-in"><span><span class="co"># Create a script with metadata</span></span></span>
+<span class="r-in"><span><span class="va">script_with_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".R"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"# Title : My Analysis"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"# Author : Jane Doe"</span>, </span></span>
+<span class="r-in"><span>  <span class="st">"# Date : 2025-11-28"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"# Description : Analyze iris dataset"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">""</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"library(dplyr)"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"iris %&gt;% head()"</span></span></span>
+<span class="r-in"><span><span class="op">)</span>, <span class="va">script_with_metadata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Convert - metadata will override function parameters</span></span></span>
+<span class="r-in"><span><span class="fu">rtoqmd</span><span class="op">(</span><span class="va">script_with_metadata</span>, <span class="st">"output_with_metadata.qmd"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

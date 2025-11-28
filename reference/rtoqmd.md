@@ -39,11 +39,13 @@ rtoqmd(
 
 - title:
 
-  Title for the Quarto document (default: "My title")
+  Title for the Quarto document (default: "My title"). Can be overridden
+  by `# Title :` or `# Titre :` in the script
 
 - author:
 
-  Author name (default: "Your name")
+  Author name (default: "Your name"). Can be overridden by `# Author :`
+  or `# Auteur :` in the script
 
 - format:
 
@@ -73,6 +75,24 @@ rtoqmd(
 Invisibly returns NULL. Creates a .qmd file and optionally renders it to
 HTML.
 
+## Metadata Detection
+
+The function automatically extracts metadata from special comment lines
+in your R script:
+
+- **Title**: Use `# Title : Your Title` or `# Titre : Votre Titre`
+
+- **Author**: Use `# Author : Your Name` or `# Auteur : Votre Nom`
+
+- **Date**: Use `# Date : YYYY-MM-DD`
+
+- **Description**: Use `# Description : Your description` (also accepts
+  `# Purpose` or `# Objectif`)
+
+If metadata is found in the script, it will override the corresponding
+function parameters. These metadata lines are removed from the document
+body and only appear in the YAML header.
+
 ## Examples
 
 ``` r
@@ -85,5 +105,21 @@ rtoqmd(example_file, "output.qmd")
 
 # Convert only, without rendering
 rtoqmd(example_file, "output.qmd", render = FALSE)
+
+# Example with metadata in the R script:
+# Create a script with metadata
+script_with_metadata <- tempfile(fileext = ".R")
+writeLines(c(
+  "# Title : My Analysis",
+  "# Author : Jane Doe", 
+  "# Date : 2025-11-28",
+  "# Description : Analyze iris dataset",
+  "",
+  "library(dplyr)",
+  "iris %>% head()"
+), script_with_metadata)
+
+# Convert - metadata will override function parameters
+rtoqmd(script_with_metadata, "output_with_metadata.qmd")
 } # }
 ```

@@ -177,7 +177,16 @@
 </h2>
 <p>For the conversion to work properly, structure your R script using RStudio code sections:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Title : Iris Data Analysis</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Author : Jane Doe</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Date : 2025-11-28</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Description : Explore differences between iris species</span></span>
+<span><span class="co">#</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Title 2 ####</span></span>
 <span></span>
@@ -206,7 +215,38 @@
 <div class="section level3">
 <h3 id="commenting-rules">Commenting Rules<a class="anchor" aria-label="anchor" href="#commenting-rules"></a>
 </h3>
+<div class="section level4">
+<h4 id="id_0-document-metadata-optional">0. Document Metadata (Optional)<a class="anchor" aria-label="anchor" href="#id_0-document-metadata-optional"></a>
+</h4>
+<p>You can define metadata directly in your R script using special comments at the beginning:</p>
+<ul>
+<li>
+<strong>Title</strong>: <code># Title : My title</code> or <code># Titre : Mon titre</code>
+</li>
+<li>
+<strong>Author</strong>: <code># Author : My name</code> or <code># Auteur : Mon nom</code>
+</li>
+<li>
+<strong>Date</strong>: <code># Date : YYYY-MM-DD</code>
+</li>
+<li>
+<strong>Description</strong>: <code># Description : Your description</code>
+</li>
+</ul>
+<p><strong>💡 RStudio Snippet:</strong> Create a snippet for quick metadata insertion (Tools &gt; Edit Code Snippets &gt; R):</p>
+<pre><code>snippet header
+    # Title : ${1}
+    #
+    # Author : ${2}
+    #
+    # Date : ${3}
+    #
+    # Description : ${4}
+    #</code></pre>
+<p>Type <code>header</code> + <code>Tab</code> in your script to insert the metadata structure.</p>
+<p><strong>Behavior:</strong> - Metadata found in script <strong>overrides</strong> function parameters - Metadata lines are <strong>removed</strong> from document body (only in YAML) - If no metadata in script, function parameters are used</p>
 <p><code>quartify</code> recognizes three types of lines in your R script:</p>
+</div>
 <div class="section level4">
 <h4 id="id_1-code-sections-headers">1. Code Sections (Headers)<a class="anchor" aria-label="anchor" href="#id_1-code-sections-headers"></a>
 </h4>
@@ -225,7 +265,7 @@
 <h4 id="id_2-regular-comments-text">2. Regular Comments (Text)<a class="anchor" aria-label="anchor" href="#id_2-regular-comments-text"></a>
 </h4>
 <p>Single <code>#</code> comments <strong>at the start of a line</strong> become explanatory text:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This is a standalone comment</span></span>
 <span><span class="co"># It becomes plain text in the Quarto document</span></span></code></pre></div>
 <p><strong>Tip:</strong> Use RStudio’s <a href="https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment" class="external-link">Comment/Uncomment shortcut</a> (<code>Ctrl+Shift+C</code> on Windows/Linux or <code>Cmd+Shift+C</code> on Mac) to quickly add or remove comments.</p>
@@ -234,14 +274,14 @@
 <h4 id="id_3-code-lines">3. Code Lines<a class="anchor" aria-label="anchor" href="#id_3-code-lines"></a>
 </h4>
 <p>Uncommented lines become executable R code chunks:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="id_4-inline-comments-within-code">4. Inline Comments (Within Code)<a class="anchor" aria-label="anchor" href="#id_4-inline-comments-within-code"></a>
 </h4>
 <p>Comments <strong>within code blocks</strong> are preserved inside the R code chunk:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="co"># This comment stays in the code block</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
