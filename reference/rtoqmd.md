@@ -21,7 +21,8 @@ rtoqmd(
   format = "html",
   render = TRUE,
   open_html = FALSE,
-  code_fold = FALSE
+  code_fold = FALSE,
+  number_sections = TRUE
 )
 ```
 
@@ -61,6 +62,11 @@ rtoqmd(
 - code_fold:
 
   Logical, whether to fold code blocks in HTML output (default: FALSE)
+
+- number_sections:
+
+  Logical, whether to number sections automatically in the output
+  (default: TRUE)
 
 ## Value
 
