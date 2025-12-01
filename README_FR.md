@@ -187,6 +187,13 @@ Tapez `header` + `Tab` dans votre script pour insérer la structure de métadonn
 - Les lignes de métadonnées sont **retirées** du corps du document (uniquement dans le YAML)
 - Si aucune métadonnée dans le script, les paramètres de la fonction sont utilisés
 
+> **📝 Note :** Le champ `Description` peut s'étendre sur plusieurs lignes. Pour continuer la description, commencez la ligne suivante par `#` suivi d'au moins un espace. Les lignes de continuation sont automatiquement concaténées. Exemple :
+> ```r
+> # Description : Cette analyse explore les différences entre les espèces d'iris
+> # en utilisant diverses méthodes statistiques et techniques de visualisation
+> # pour identifier les patterns et corrélations.
+> ```
+
 `quartify` reconnaît trois types de lignes dans votre script R :
 
 #### 1. Sections de code (En-têtes)

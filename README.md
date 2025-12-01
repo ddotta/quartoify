@@ -188,6 +188,13 @@ Type `header` + `Tab` in your script to insert the metadata structure.
 - Metadata lines are **removed** from document body (only in YAML)
 - If no metadata in script, function parameters are used
 
+> **📝 Note:** The `Description` field can span multiple lines. To continue the description, start the next line with `#` followed by at least one space. Continuation lines are automatically concatenated. Example:
+> ```r
+> # Description : This analysis explores differences between iris species
+> # using various statistical methods and visualization techniques
+> # to identify patterns and correlations.
+> ```
+
 `quartify` recognizes three types of lines in your R script:
 
 #### 1. Code Sections (Headers)

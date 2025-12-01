@@ -139,6 +139,39 @@ iris |>
 - Les lignes de métadonnées sont **automatiquement retirées** du corps du document (elles n'apparaissent que dans le YAML)
 - Les métadonnées `Date` et `Description` sont optionnelles
 
+::: {.alert .alert-info}
+**Règles pour les descriptions multi-lignes :**
+
+Le champ `Description` peut s'étendre sur plusieurs lignes. Pour continuer la description sur une nouvelle ligne :
+
+- Commencez la ligne suivante par `#` suivi d'**au moins un espace** et du texte de continuation
+- Les lignes de continuation sont automatiquement concaténées avec un espace
+- Une ligne vide (ou tout autre type de commentaire) termine la description
+
+**Exemple :**
+
+```r
+# Title : Analyse des données Iris
+#
+# Author : Jean Dupont
+#
+# Date : 2025-11-28
+#
+# Description : Cette analyse explore les différences entre les espèces d'iris
+# en utilisant diverses méthodes statistiques et techniques de visualisation
+# pour identifier les patterns et corrélations.
+#
+
+library(dplyr)
+```
+
+Ceci produira dans le YAML :
+
+```yaml
+description: Cette analyse explore les différences entre les espèces d'iris en utilisant diverses méthodes statistiques et techniques de visualisation pour identifier les patterns et corrélations.
+```
+:::
+
 ### 1. Sections de code (En-têtes)
 
 Utilisez la syntaxe des sections de code RStudio pour créer des en-têtes à différents niveaux. Ces sections DOIVENT suivre ce modèle exact :

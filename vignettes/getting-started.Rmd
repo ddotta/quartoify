@@ -139,6 +139,39 @@ iris |>
 - Metadata lines are **automatically removed** from the document body (they only appear in the YAML)
 - `Date` and `Description` metadata are optional
 
+::: {.alert .alert-info}
+**Rules for multi-line descriptions:**
+
+The `Description` field can span multiple lines. To continue the description on a new line:
+
+- Start the next line with `#` followed by **at least one space** and the continuation text
+- Continuation lines are automatically concatenated with a space
+- An empty line (or any other type of comment) ends the description
+
+**Example:**
+
+```r
+# Title : Iris Data Analysis
+#
+# Author : Jane Doe
+#
+# Date : 2025-11-28
+#
+# Description : This analysis explores differences between iris species
+# using various statistical methods and visualization techniques
+# to identify patterns and correlations.
+#
+
+library(dplyr)
+```
+
+This will produce in the YAML:
+
+```yaml
+description: This analysis explores differences between iris species using various statistical methods and visualization techniques to identify patterns and correlations.
+```
+:::
+
 ### 1. Code Sections (Headers)
 
 Use RStudio code section syntax to create headers at different levels. These sections MUST follow this exact pattern:
