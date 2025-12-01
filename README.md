@@ -97,6 +97,23 @@ example_file <- system.file("examples", "example.R", package = "quartify")
 rtoqmd(example_file, "test_output.qmd")
 ```
 
+### Batch conversion
+
+Convert all R scripts in a directory (including subdirectories):
+
+```r
+# Convert all R scripts in a directory
+rtoqmd_dir("path/to/scripts")
+
+# Convert and render all scripts
+rtoqmd_dir("path/to/scripts", render = TRUE)
+
+# With custom settings
+rtoqmd_dir("path/to/scripts", 
+           author = "Data Team",
+           exclude_pattern = "test_.*\\.R$")
+```
+
 ## Source R script format
 
 For the conversion to work properly, structure your R script using RStudio code sections:

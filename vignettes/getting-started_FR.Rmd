@@ -456,12 +456,43 @@ quarto::quarto_render("analyse_iris.qmd")
 
 **Note :** Quarto doit être installé sur votre système. Téléchargez-le depuis [quarto.org](https://quarto.org/docs/get-started/).
 
+## Conversion de répertoires entiers
+
+Pour convertir tous les scripts R d'un répertoire (y compris les sous-répertoires), utilisez `rtoqmd_dir()` :
+
+```{r eval=FALSE}
+# Convertir tous les scripts R d'un répertoire
+rtoqmd_dir("chemin/vers/scripts")
+
+# Convertir et générer les fichiers HTML
+rtoqmd_dir("chemin/vers/scripts", render = TRUE)
+
+# Avec auteur personnalisé et préfixe de titre
+rtoqmd_dir("chemin/vers/scripts", 
+           title_prefix = "Analyse : ",
+           author = "Équipe Data")
+
+# Exclure certains fichiers (ex : fichiers de test)
+rtoqmd_dir("chemin/vers/scripts", 
+           exclude_pattern = "test_.*\\.R$")
+
+# Non récursif (seulement le répertoire courant)
+rtoqmd_dir("chemin/vers/scripts", recursive = FALSE)
+```
+
+Cette fonction :
+- Recherche récursivement tous les fichiers `.R` dans le répertoire
+- Convertit chaque fichier en `.qmd` dans le même emplacement
+- Affiche un résumé de la conversion avec le nombre de succès/échecs
+- Retourne un data frame avec les résultats pour chaque fichier
+
 ## Cas d'usage
 
 `quartify` est particulièrement utile pour :
 
 1. **Documentation** : Transformer des scripts de travail en documentation
 2. **Revue de code** : Présenter le code dans un format plus accessible
+3. **Conversion en masse** : Convertir automatiquement tous les scripts d'un projet
 
 ## Résumé des règles de commentaires
 
