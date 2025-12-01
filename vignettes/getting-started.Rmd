@@ -487,6 +487,147 @@ This function:
 - Displays a conversion summary with success/failure counts
 - Returns a data frame with results for each file
 
+## CI/CD Integration
+
+You can use `quartify` in your CI/CD pipelines to automatically generate documentation from your R scripts. This is useful for:
+
+- Version controlling only R scripts (not generated documentation)
+- Automatically generating `.qmd` and `.html` files in CI/CD
+- Providing documentation artifacts for each commit/merge request
+
+### GitHub Actions
+
+Create `.github/workflows/generate-docs.yml`:
+
+```yaml
+name: Generate Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.0'
+      
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      
+      - name: Install R dependencies
+        run: |
+          install.packages(c("remotes", "dplyr"))
+          remotes::install_github("ddotta/quartify")
+        shell: Rscript {0}
+      
+      - name: Convert R scripts to Quarto
+        run: |
+          library(quartify)
+          # Convert all R scripts in a directory
+          rtoqmd_dir("scripts/", render = TRUE, author = "Data Team")
+        shell: Rscript {0}
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            scripts/**/*.qmd
+            scripts/**/*.html
+```
+
+### GitLab CI
+
+Create `.gitlab-ci.yml`:
+
+```yaml
+generate-docs:
+  image: rocker/r-ver:4.3.0
+  
+  before_script:
+    # Install Quarto
+    - apt-get update
+    - apt-get install -y curl
+    - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+    - dpkg -i quarto-linux-amd64.deb
+    
+    # Install R packages
+    - R -e "install.packages(c('remotes', 'dplyr'))"
+    - R -e "remotes::install_github('ddotta/quartify')"
+  
+  script:
+    # Convert all R scripts to Quarto and render to HTML
+    - R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Data Team')"
+  
+  artifacts:
+    paths:
+      - scripts/**/*.qmd
+      - scripts/**/*.html
+    expire_in: 30 days
+  
+  only:
+    - main
+    - merge_requests
+```
+
+### Single File Conversion in CI/CD
+
+For converting a single R script:
+
+```yaml
+# GitHub Actions
+- name: Convert single script
+  run: |
+    library(quartify)
+    rtoqmd("analysis.R", "analysis.qmd", 
+           title = "My Analysis",
+           author = "Data Team",
+           render = TRUE)
+  shell: Rscript {0}
+
+# GitLab CI
+script:
+  - R -e "quartify::rtoqmd('analysis.R', 'analysis.qmd', title = 'My Analysis', author = 'Data Team', render = TRUE)"
+```
+
+### Best Practices for CI/CD
+
+1. **Add to .gitignore**: Exclude generated files from version control
+   ```
+   # .gitignore
+   *.qmd
+   *.html
+   *_files/
+   ```
+
+2. **Artifact retention**: Set appropriate expiration for artifacts
+   - Short-lived (7 days) for feature branches
+   - Long-lived (90+ days) for main branch
+
+3. **Conditional execution**: Only generate docs when R scripts change
+   ```yaml
+   # GitHub Actions
+   on:
+     push:
+       paths:
+         - 'scripts/**/*.R'
+   ```
+
+4. **Error handling**: Use `render = FALSE` to debug conversion issues
+   ```r
+   # First convert without rendering
+   rtoqmd_dir("scripts/", render = FALSE)
+   # Then render separately if needed
+   ```
+
 ## Use Cases
 
 `quartify` is particularly useful for:

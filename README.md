@@ -284,6 +284,40 @@ The generated .qmd document contains:
 
 📝 **For a complete example of the generated output**, see the [Getting Started vignette](https://ddotta.github.io/quartify/articles/getting-started.html#generated-output)
 
+## CI/CD Integration
+
+Use `quartify` in your CI/CD pipelines to automatically generate documentation:
+
+**GitHub Actions** (`.github/workflows/generate-docs.yml`):
+```yaml
+- name: Generate documentation
+  run: |
+    library(quartify)
+    rtoqmd_dir("scripts/", render = TRUE, author = "Data Team")
+  shell: Rscript {0}
+
+- uses: actions/upload-artifact@v4
+  with:
+    name: documentation
+    path: |
+      scripts/**/*.qmd
+      scripts/**/*.html
+```
+
+**GitLab CI** (`.gitlab-ci.yml`):
+```yaml
+generate-docs:
+  image: rocker/r-ver:4.5.1
+  script:
+    - R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Data Team')"
+  artifacts:
+    paths:
+      - scripts/**/*.qmd
+      - scripts/**/*.html
+```
+
+📘 **Full CI/CD guide** with complete examples: [CI/CD Integration](https://ddotta.github.io/quartify/articles/getting-started.html#cicd-integration)
+
 ## License
 
 MIT
