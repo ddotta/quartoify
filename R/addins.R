@@ -179,6 +179,40 @@ rtoqmd_addin <- function() {
               selected = "html",
               width = "100%"
             ),
+            shiny::selectInput(
+              "theme",
+              shiny::textOutput("label_theme"),
+              choices = c(
+                "Default" = "",
+                "Cerulean" = "cerulean",
+                "Cosmo" = "cosmo",
+                "Flatly" = "flatly",
+                "Journal" = "journal",
+                "Litera" = "litera",
+                "Lumen" = "lumen",
+                "Lux" = "lux",
+                "Materia" = "materia",
+                "Minty" = "minty",
+                "Morph" = "morph",
+                "Pulse" = "pulse",
+                "Quartz" = "quartz",
+                "Sandstone" = "sandstone",
+                "Simplex" = "simplex",
+                "Sketchy" = "sketchy",
+                "Slate" = "slate",
+                "Solar" = "solar",
+                "Spacelab" = "spacelab",
+                "Superhero" = "superhero",
+                "United" = "united",
+                "Vapor" = "vapor",
+                "Yeti" = "yeti",
+                "Zephyr" = "zephyr",
+                "Darkly" = "darkly",
+                "Cyborg" = "cyborg"
+              ),
+              selected = "",
+              width = "100%"
+            ),
             shiny::div(
               style = "width: 100%;",
               shiny::checkboxInput(
@@ -253,6 +287,7 @@ rtoqmd_addin <- function() {
         title = "Document title:",
         author = "Author name:",
         format = "Output format:",
+        theme = "HTML theme:",
         render = "Render after conversion",
         open_html = "Open output file after rendering",
         open_qmd = "Open .qmd file in editor after conversion",
@@ -265,6 +300,7 @@ rtoqmd_addin <- function() {
         title = "Titre du document :",
         author = "Nom de l'auteur :",
         format = "Format de sortie :",
+        theme = "Th\u00e8me HTML :",
         render = "G\u00e9n\u00e9rer apr\u00e8s conversion",
         open_html = "Ouvrir le fichier g\u00e9n\u00e9r\u00e9 apr\u00e8s rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'\u00e9diteur apr\u00e8s conversion",
@@ -279,6 +315,7 @@ rtoqmd_addin <- function() {
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
     output$label_format <- shiny::renderText({ translations[[lang()]]$format })
+    output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
     output$label_render <- shiny::renderText({ translations[[lang()]]$render })
     output$label_open_html <- shiny::renderText({ translations[[lang()]]$open_html })
     output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
@@ -296,6 +333,8 @@ rtoqmd_addin <- function() {
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
       format <- shiny::req(input$format)
+      theme <- input$theme
+      if (theme == "") theme <- NULL
       render <- input$render
       open_html <- input$open_html
       open_qmd <- input$open_qmd
@@ -310,6 +349,7 @@ rtoqmd_addin <- function() {
           title = title,
           author = author,
           format = format,
+          theme = theme,
           render = render,
           open_html = open_html && render,
           code_fold = code_fold,

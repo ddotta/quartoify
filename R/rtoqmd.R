@@ -60,6 +60,7 @@
 #' @param title Title for the Quarto document (default: "My title"). Can be overridden by \code{# Title :} or \code{# Titre :} in the script
 #' @param author Author name (default: "Your name"). Can be overridden by \code{# Author :} or \code{# Auteur :} in the script
 #' @param format Output format (default: "html")
+#' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html} for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")
 #' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
@@ -99,6 +100,7 @@ rtoqmd <- function(input_file, output_file = NULL,
                    title = "My title", 
                    author = "Your name",
                    format = "html",
+                   theme = NULL,
                    render = TRUE,
                    open_html = FALSE,
                    code_fold = FALSE,
@@ -189,6 +191,9 @@ rtoqmd <- function(input_file, output_file = NULL,
   }
   output <- c(output, paste0('format:'))
   output <- c(output, paste0('  ', format, ':'))
+  if (!is.null(theme) && format == "html") {
+    output <- c(output, paste0("    theme: ", theme))
+  }
   output <- c(output, "    embed-resources: true")
   output <- c(output, paste0("    code-fold: ", tolower(as.character(code_fold))))
   output <- c(output, paste0("    number-sections: ", tolower(as.character(number_sections))))

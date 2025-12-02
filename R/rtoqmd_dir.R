@@ -18,6 +18,7 @@
 #' @param title_prefix Optional prefix to add to all document titles (default: NULL)
 #' @param author Author name for all documents (default: "Your name")
 #' @param format Output format - "html" or "pdf" (default: "html")
+#' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html}
 #' @param render Logical, whether to render the .qmd files after creation (default: FALSE)
 #' @param open_html Logical, whether to open the HTML files in browser after rendering (default: FALSE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
@@ -52,6 +53,7 @@ rtoqmd_dir <- function(dir_path,
                        title_prefix = NULL,
                        author = "Your name",
                        format = "html",
+                       theme = NULL,
                        render = FALSE,
                        open_html = FALSE,
                        code_fold = FALSE,
@@ -140,6 +142,7 @@ rtoqmd_dir <- function(dir_path,
         title = title,
         author = author,
         format = format,
+        theme = theme,
         render = render,
         open_html = open_html,
         code_fold = code_fold,

@@ -29,6 +29,7 @@ Si vous avez un script R fonctionnel qui contient des commentaires, vous pourrie
 - **En-tête YAML personnalisable** : Possibilité de définir le titre, l'auteur et d'autres paramètres  
 - - **Table des matières** : Génération automatique d'une table des matières dans le document Quarto avec la profondeur appropriée
 - **Génération HTML automatique** : Génère optionnellement le fichier HTML à partir du .qmd et l'ouvre dans le navigateur (désactivé par défaut)
+- **Thèmes personnalisables** : Choisissez parmi 25+ thèmes Quarto pour personnaliser l'apparence de vos documents HTML
 
 ## Installation
 
@@ -52,6 +53,7 @@ La façon la plus simple d'utiliser `quartify` est via l'add-in RStudio avec son
    - Formulaire pour spécifier :
      - Le chemin du fichier de sortie
      - Le titre du document et le nom de l'auteur
+     - Le thème HTML (25+ thèmes disponibles)
      - Les options de génération 
 4. Cliquez sur **GO** pour convertir votre script (ou ↩ pour annuler)
 
@@ -79,6 +81,7 @@ rtoqmd("mon_script.R",
        title = "Mon analyse statistique",
        author = "Votre nom",
        format = "html",
+       theme = "cosmo",          # Th\u00e8me Quarto (optionnel)
        render = TRUE,            # G\u00e9n\u00e9rer le HTML 
        open_html = TRUE,         # Ouvrir le HTML dans le navigateur
        number_sections = TRUE)   # Num\u00e9roter les sections automatiquement
@@ -283,6 +286,26 @@ Les callouts se terminent lorsqu'on rencontre une ligne vide, du code, ou une au
 - Les lignes vides entre les blocs sont ignorées
 
 Ceci suit la [convention des sections de code RStudio](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html) qui fournit une indentation appropriée dans la navigation du plan du document RStudio.
+
+## Thèmes Quarto
+
+Personnalisez l'apparence de vos documents HTML avec les thèmes Quarto. Le package supporte tous les thèmes Bootswatch disponibles :
+
+**Thèmes clairs** : cosmo, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, vapor, yeti, zephyr
+
+**Thèmes sombres** : darkly, cyborg, slate, solar, superhero
+
+Exemple :
+
+```r
+# Utiliser le thème "flatly"
+rtoqmd("mon_script.R", theme = "flatly")
+
+# Utiliser le thème sombre "darkly"
+rtoqmd("mon_script.R", theme = "darkly")
+```
+
+Pour plus d'informations sur les thèmes, consultez la [documentation Quarto](https://quarto.org/docs/output-formats/html-themes.html).
 
 ## Sortie et documentation
 
