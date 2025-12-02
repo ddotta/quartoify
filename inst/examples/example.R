@@ -37,7 +37,7 @@ iris %>%
 ## Markdown tables in comments ####
 
 # You can include markdown tables in comments:
-#
+
 # | Species    | Count |
 # |------------|-------|
 # | setosa     | 50    |
