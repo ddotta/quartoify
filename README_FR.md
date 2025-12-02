@@ -49,15 +49,16 @@ La façon la plus simple d'utiliser `quartify` est via l'add-in RStudio avec son
 1. Ouvrez votre script R dans RStudio
 2. Allez dans le menu **Addins** → **Convert R Script to Quarto**
 3. Une fenêtre de dialogue apparaîtra avec :
-   - Boutons de sélection de langue **EN/FR** en haut à droite
+   - Boutons de sélection de langue **EN/FR** (détection automatique de la langue de votre session R)
    - Formulaire pour spécifier :
-     - Le chemin du fichier de sortie
+     - Fichier d'entrée (avec explorateur de fichiers)
+     - Le chemin du fichier de sortie (avec explorateur de fichiers)
      - Le titre du document et le nom de l'auteur
      - Le thème HTML (25+ thèmes disponibles)
      - Les options de génération 
 4. Cliquez sur **GO** pour convertir votre script (ou ↩ pour annuler)
 
-L'interface s'adapte à votre choix de langue, affichant tous les libellés en anglais ou en français.
+L'interface détecte automatiquement les préférences de langue de votre session R et affiche tous les libellés en anglais ou en français en conséquence. Vous pouvez changer la langue à tout moment avec les boutons EN/FR.
 Le format de sortie est toujours HTML.
 
 ### Exemple basique

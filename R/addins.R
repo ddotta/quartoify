@@ -287,8 +287,23 @@ rtoqmd_addin <- function() {
     # Stop app when session ends (browser closes)
     session$onSessionEnded(shiny::stopApp)
     
-    # Reactive language
-    lang <- shiny::reactiveVal("en")
+    # Detect user's R session language
+    detect_lang <- function() {
+      sys_lang <- Sys.getenv("LANG")
+      if (sys_lang == "") {
+        # Try alternative method
+        sys_lang <- Sys.getlocale("LC_CTYPE")
+      }
+      # Check if language starts with "fr" or "FR"
+      if (grepl("^fr", sys_lang, ignore.case = TRUE)) {
+        return("fr")
+      } else {
+        return("en")
+      }
+    }
+    
+    # Reactive language - initialize with detected language
+    lang <- shiny::reactiveVal(detect_lang())
     
     # Language switchers
     shiny::observeEvent(input$lang_en, {
