@@ -144,6 +144,39 @@ iris |>
   (they only appear in the YAML)
 - `Date` and `Description` metadata are optional
 
+**Rules for multi-line descriptions:**
+
+The `Description` field can span multiple lines. To continue the
+description on a new line:
+
+- Start the next line with `#` followed by **at least one space** and
+  the continuation text
+- Continuation lines are automatically concatenated with a space
+- An empty line (or any other type of comment) ends the description
+
+**Example:**
+
+``` r
+# Title : Iris Data Analysis
+#
+# Author : Jane Doe
+#
+# Date : 2025-11-28
+#
+# Description : This analysis explores differences between iris species
+# using various statistical methods and visualization techniques
+# to identify patterns and correlations.
+#
+
+library(dplyr)
+```
+
+This will produce in the YAML:
+
+``` yaml
+description: This analysis explores differences between iris species using various statistical methods and visualization techniques to identify patterns and correlations.
+```
+
 ### 1. Code Sections (Headers)
 
 Use RStudio code section syntax to create headers at different levels.
@@ -186,13 +219,54 @@ Single `#` comments become explanatory text in the Quarto document:
 
 **Rules:**
 
-- Start with a single `#` followed by a space
+- Start with a single `#` **followed by a space** (no space before the
+  `#`)
 - Multiple consecutive comment lines are grouped together (with no empty
   lines between them)
 - Empty comment lines separate comment blocks
 - **Markdown Tables**: You can include Markdown tables in comments.
   Consecutive comment lines will be preserved together, allowing proper
   table rendering
+
+**⚠️ Important for text conversion:**
+
+For a comment to be correctly converted to Quarto text, the line must
+start with `#` **without any leading space**. If you have indentation
+spaces before the `#`, the comment will be ignored and remain in the
+code chunk.
+
+**Correct example:**
+
+``` r
+# This will be converted to text
+result <- mean(x)
+```
+
+**Incorrect example (comment stays in code) :**
+
+``` r
+if (condition) {
+  # This will remain an R comment in the chunk
+  result <- mean(x)
+}
+```
+
+You can use this rule to **split a long code chunk into multiple
+parts**. By inserting a comment **at the start of a line** (no space
+before `#`) between two code blocks, this comment will be converted to
+text and naturally create two separate chunks:
+
+``` r
+data <- read.csv("file.csv")
+data_clean <- na.omit(data)
+
+# This comment splits the chunk into two parts
+
+result <- mean(data_clean$value)
+plot(result)
+```
+
+This will create two separate chunks instead of one large chunk.
 
 **Important for Markdown Tables:** Table lines must be **isolated from
 other comments** with an empty line before and after the table. This
@@ -323,7 +397,8 @@ rtoqmd(
 - `output_file`: Path for the output Quarto document (optional)
 - `title`: Title for the document (default: “My title”)
 - `author`: Author name (default: “Your name”)
-- `format`: Output format - “html” or “pdf” (default: “html”)
+- `format`: Output format - always “html” (parameter kept for backward
+  compatibility)
 - `render`: Whether to render the .qmd to output file (default: TRUE)
 - `open_html`: Whether to open the output file after rendering (default:
   FALSE)
@@ -485,23 +560,288 @@ quarto::quarto_render("iris_analysis.qmd")
 **Note:** Quarto must be installed on your system. Download it from
 [quarto.org](https://quarto.org/docs/get-started/).
 
+## Batch Converting Directories
+
+To convert all R scripts in a directory (including subdirectories), use
+[`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md):
+
+``` r
+# Convert all R scripts in a directory
+rtoqmd_dir("path/to/scripts")
+
+# Convert and render to HTML
+rtoqmd_dir("path/to/scripts", render = TRUE)
+
+# With custom author and title prefix
+rtoqmd_dir("path/to/scripts", 
+           title_prefix = "Analysis: ",
+           author = "Data Team")
+
+# Exclude certain files (e.g., test files)
+rtoqmd_dir("path/to/scripts", 
+           exclude_pattern = "test_.*\\.R$")
+
+# Non-recursive (current directory only)
+rtoqmd_dir("path/to/scripts", recursive = FALSE)
+```
+
+This function: - Recursively searches for all `.R` files in the
+directory - Converts each file to `.qmd` in the same location - Displays
+a conversion summary with success/failure counts - Returns a data frame
+with results for each file
+
+## CI/CD Integration
+
+You can use `quartify` in your CI/CD pipelines to automatically generate
+documentation from your R scripts. This is useful for:
+
+- Version controlling only R scripts (not generated documentation)
+- Automatically generating `.qmd` and `.html` files in CI/CD
+- Providing documentation artifacts for each commit/merge request
+
+### GitHub Actions
+
+Create `.github/workflows/generate-docs.yml`:
+
+``` yaml
+name: Generate Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.0'
+      
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      
+      - name: Install R dependencies
+        run: |
+          install.packages(c("remotes", "dplyr"))
+          remotes::install_github("ddotta/quartify")
+        shell: Rscript {0}
+      
+      - name: Convert R scripts to Quarto
+        run: |
+          library(quartify)
+          # Convert all R scripts in a directory
+          rtoqmd_dir("scripts/", render = TRUE, author = "Data Team")
+        shell: Rscript {0}
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            scripts/**/*.qmd
+            scripts/**/*.html
+```
+
+### GitLab CI
+
+Create `.gitlab-ci.yml`:
+
+``` yaml
+generate-docs:
+  image: rocker/r-ver:4.3.0
+  
+  before_script:
+    # Install Quarto
+    - apt-get update
+    - apt-get install -y curl
+    - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+    - dpkg -i quarto-linux-amd64.deb
+    
+    # Install R packages
+    - R -e "install.packages(c('remotes', 'dplyr'))"
+    - R -e "remotes::install_github('ddotta/quartify')"
+  
+  script:
+    # Convert all R scripts to Quarto and render to HTML
+    - R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Data Team')"
+  
+  artifacts:
+    paths:
+      - scripts/**/*.qmd
+      - scripts/**/*.html
+    expire_in: 30 days
+  
+  only:
+    - main
+    - merge_requests
+```
+
+### Single File Conversion in CI/CD
+
+For converting a single R script:
+
+``` yaml
+# GitHub Actions
+- name: Convert single script
+  run: |
+    library(quartify)
+    rtoqmd("analysis.R", "analysis.qmd", 
+           title = "My Analysis",
+           author = "Data Team",
+           render = TRUE)
+  shell: Rscript {0}
+
+# GitLab CI
+script:
+  - R -e "quartify::rtoqmd('analysis.R', 'analysis.qmd', title = 'My Analysis', author = 'Data Team', render = TRUE)"
+```
+
+### Best Practices for CI/CD
+
+1.  **Add to .gitignore**: Exclude generated files from version control
+
+        # .gitignore
+        *.qmd
+        *.html
+        *_files/
+
+2.  **Artifact retention**: Set appropriate expiration for artifacts
+
+    - Short-lived (7 days) for feature branches
+    - Long-lived (90+ days) for main branch
+
+3.  **Conditional execution**: Only generate docs when R scripts change
+
+    ``` yaml
+    # GitHub Actions
+    on:
+      push:
+        paths:
+          - 'scripts/**/*.R'
+    ```
+
+4.  **Error handling**: Use `render = FALSE` to debug conversion issues
+
+    ``` r
+    # First convert without rendering
+    rtoqmd_dir("scripts/", render = FALSE)
+    # Then render separately if needed
+    ```
+
 ## Use Cases
 
 `quartify` is particularly useful for:
 
 1.  **Documentation**: Transform working scripts into documentation
 2.  **Code review**: Present code in a more accessible format
+3.  **Batch conversion**: Automatically convert all scripts in a project
+
+## Callouts
+
+Callouts are special blocks that highlight important information in your
+Quarto documents. `quartify` supports automatic conversion of callout
+comments.
+
+### Syntax
+
+In your R script, use this syntax:
+
+``` r
+# callout-tip - Tip with Title
+# This is the content of the note.
+# It can span multiple lines.
+
+# Code or empty line ends the callout
+x <- 1
+```
+
+This converts to:
+
+``` markdown
+::: {.callout-tip title="Tip with Title"}
+This is the content of the note.
+It can span multiple lines.
+:::
+```
+
+### Callout Types
+
+Five callout types are supported:
+
+- `# callout-note` - Blue information box
+- `# callout-tip` - Green tip box
+- `# callout-warning` - Orange warning box
+- `# callout-caution` - Red caution box
+- `# callout-important` - Red important box
+
+### With or Without Title
+
+**With title:**
+
+``` r
+# callout-tip - Useful Tip
+# Use callouts to highlight key information.
+```
+
+**Without title:**
+
+``` r
+# callout-tip
+# Use callouts to highlight key information.
+```
+
+### Examples
+
+``` r
+# callout-note - Data Requirements
+# The input data must contain columns: Species, Sepal.Length, Petal.Length
+
+# callout-warning
+# This operation may take several minutes with large datasets
+
+# callout-tip - Performance Optimization
+# Use data.table for datasets larger than 1GB
+
+library(dplyr)
+iris %>% head()
+```
+
+### Rules
+
+- Callout starts with `# callout-TYPE` (optionally followed by
+  `- Title`)
+- All subsequent comment lines are part of the callout content
+- Callout ends when encountering:
+  - An empty line
+  - A code line
+  - Another section or callout
+- Title is optional (omit the `- Title` part)
+
+**Tip:** Create RStudio snippets for callouts to speed up your workflow:
+
+    snippet callout
+        # callout-${1:note} - ${2:Title}
+        # ${0}
+
+Type `callout` followed by `Tab` to insert the template.
 
 ## Comment Rules Summary
 
-| Type                   | Syntax            | Result                | Example                   |
-|------------------------|-------------------|-----------------------|---------------------------|
-| **Level 2 Header**     | `## Title ####`   | Markdown `## Title`   | `## Data Analysis ####`   |
-| **Level 3 Header**     | `### Title ====`  | Markdown `### Title`  | `### Preprocessing ====`  |
-| **Level 4 Header**     | `#### Title ----` | Markdown `#### Title` | `#### Remove NA ----`     |
-| **Standalone Comment** | `# Text`          | Plain text paragraph  | `# This filters the data` |
-| **Code**               | No `#` prefix     | R code chunk          | `iris %>% filter(...)`    |
-| **Inline Comment**     | `# Text` in code  | Stays in code chunk   | `iris %>% # comment`      |
+| Type                   | Syntax                   | Result                | Example                      |
+|------------------------|--------------------------|-----------------------|------------------------------|
+| **Level 2 Header**     | `## Title ####`          | Markdown `## Title`   | `## Data Analysis ####`      |
+| **Level 3 Header**     | `### Title ====`         | Markdown `### Title`  | `### Preprocessing ====`     |
+| **Level 4 Header**     | `#### Title ----`        | Markdown `#### Title` | `#### Remove NA ----`        |
+| **Standalone Comment** | `# Text`                 | Plain text paragraph  | `# This filters the data`    |
+| **Callout**            | `# callout-TYPE - Title` | Quarto callout block  | `# callout-note - Important` |
+| **Code**               | No `#` prefix            | R code chunk          | `iris %>% filter(...)`       |
+| **Inline Comment**     | `# Text` in code         | Stays in code chunk   | `iris %>% # comment`         |
 
 **Critical rules to avoid errors:**
 

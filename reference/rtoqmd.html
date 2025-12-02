@@ -33,7 +33,7 @@ HTML files. See https://quarto.org/docs/output-formats/html-basics.html#self-con
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fas fa-home fa-lg"></span></a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fas fa-home fa-lg"></span></a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -78,6 +78,7 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
 <span>  title <span class="op">=</span> <span class="st">"My title"</span>,</span>
 <span>  author <span class="op">=</span> <span class="st">"Your name"</span>,</span>
 <span>  format <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  render <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  open_html <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  code_fold <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -106,7 +107,11 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>Output format (default: "html")</p></dd>
+<dd><p>Output format - always "html" (parameter kept for backward compatibility)</p></dd>
+
+
+<dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>
+<dd><p>Quarto theme for HTML output (default: NULL uses Quarto's default). See <a href="https://quarto.org/docs/output-formats/html-themes.html" class="external-link">https://quarto.org/docs/output-formats/html-themes.html</a> for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")</p></dd>
 
 
 <dt id="arg-render">render<a class="anchor" aria-label="anchor" href="#arg-render"></a></dt>
@@ -139,6 +144,33 @@ HTML files. See <a href="https://quarto.org/docs/output-formats/html-basics.html
 <li><p><strong>Description</strong>: Use <code># Description : Your description</code> (also accepts <code># Purpose</code> or <code># Objectif</code>)</p></li>
 </ul><p>If metadata is found in the script, it will override the corresponding function parameters.
 These metadata lines are removed from the document body and only appear in the YAML header.</p>
+<p>The Description field supports multi-line content. Continuation lines should start with <code>#</code>
+followed by spaces and the text. The description ends at an empty line or a line without <code>#</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="callouts">Callouts<a class="anchor" aria-label="anchor" href="#callouts"></a></h2>
+
+
+<p>The function converts special comment patterns into Quarto callouts.
+Callouts are special blocks that highlight important information.
+Supported callout types: <code>note</code>, <code>tip</code>, <code>warning</code>, <code>caution</code>, <code>important</code>.</p>
+<p>Syntax:</p><ul><li><p><strong>With title</strong>: <code># callout-tip - Your Title</code></p></li>
+<li><p><strong>Without title</strong>: <code># callout-tip</code></p></li>
+</ul><p>All subsequent comment lines become the callout content until an empty line or code is encountered.</p>
+<p>Example in R script:</p><div class="sourceCode"><pre><code><span></span>
+<span><span class="co"># callout-note - Important Note</span></span>
+<span><span class="co"># This is the content of the note.</span></span>
+<span><span class="co"># It can span multiple lines.</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
+
+<p>Becomes in Quarto:</p><div class="sourceCode"><pre><code>
+::: {.callout-note title="Important Note"}
+This is the content of the note.
+It can span multiple lines.
+:::
+</code></pre></div>
+
     </div>
 
     <div class="section level2">

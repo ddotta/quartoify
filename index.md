@@ -43,6 +43,8 @@ particularly useful for:
   the Quarto document with proper depth
 - **Automatic HTML rendering**: Optionally renders the .qmd file to HTML
   and opens it in your browser (disabled by default)
+- **Customizable themes**: Choose from 25+ Quarto themes to customize
+  the appearance of your HTML documents
 
 ## Installation
 
@@ -63,15 +65,20 @@ interactive Shiny interface:
 1.  Open your R script in RStudio
 2.  Go to **Addins** menu → **Convert R Script to Quarto**
 3.  A dialog window will appear with:
-    - **EN/FR** language selector buttons at the top right
+    - **EN/FR** language selector buttons (automatically detects your R
+      session language)
     - Form fields to specify:
-      - Output file path
+      - Input file (with file browser)
+      - Output file path (with file browser)
       - Document title and author name
+      - HTML theme (25+ themes available)
       - Rendering options
 4.  Click **GO** to convert your script (or ↩︎ to cancel)
 
-The interface adapts to your language choice, displaying all labels in
-English or French. The output format is always HTML.
+The interface automatically detects your R session language preferences
+and displays all labels in English or French accordingly. You can change
+the language at any time using the EN/FR buttons. The output format is
+always HTML.
 
 ### Basic example
 
@@ -94,6 +101,7 @@ rtoqmd("my_script.R",
        title = "My statistical analysis",
        author = "Your name",
        format = "html",
+       theme = "cosmo",       # Quarto theme (optional)
        render = TRUE,         # Render to HTML 
        open_html = TRUE,      # Open HTML in browser
        number_sections = TRUE) # Number sections automatically
@@ -109,6 +117,23 @@ example_file <- system.file("examples", "example.R", package = "quartify")
 
 # Convert the example file
 rtoqmd(example_file, "test_output.qmd")
+```
+
+### Batch conversion
+
+Convert all R scripts in a directory (including subdirectories):
+
+``` r
+# Convert all R scripts in a directory
+rtoqmd_dir("path/to/scripts")
+
+# Convert and render all scripts
+rtoqmd_dir("path/to/scripts", render = TRUE)
+
+# With custom settings
+rtoqmd_dir("path/to/scripts", 
+           author = "Data Team",
+           exclude_pattern = "test_.*\\.R$")
 ```
 
 ## Source R script format
@@ -185,6 +210,17 @@ Type `header` + `Tab` in your script to insert the metadata structure.
 parameters - Metadata lines are **removed** from document body (only in
 YAML) - If no metadata in script, function parameters are used
 
+> **📝 Note:** The `Description` field can span multiple lines. To
+> continue the description, start the next line with `#` followed by at
+> least one space. Continuation lines are automatically concatenated.
+> Example:
+>
+> ``` r
+> # Description : This analysis explores differences between iris species
+> # using various statistical methods and visualization techniques
+> # to identify patterns and correlations.
+> ```
+
 `quartify` recognizes three types of lines in your R script:
 
 #### 1. Code Sections (Headers)
@@ -204,12 +240,22 @@ symbols (e.g., `## Title ====` or `### Title ----` will work).
 
 #### 2. Regular Comments (Text)
 
-Single `#` comments **at the start of a line** become explanatory text:
+Single `#` comments **at the start of a line (no leading space)** become
+explanatory text:
 
 ``` r
 # This is a standalone comment
 # It becomes plain text in the Quarto document
 ```
+
+> **⚠️ Important:** For a comment to be converted to text, the line must
+> start with `#` **without any leading space**. Indented comments (with
+> spaces before `#`) remain in the code.
+
+> **💡 Tip:** To **split a long chunk into multiple parts**, insert a
+> **comment at the start of a line** (no space before `#`) between two
+> code blocks. This comment will be converted to text and naturally
+> create two separate chunks.
 
 **Tip:** Use RStudio’s [Comment/Uncomment
 shortcut](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment)
@@ -234,6 +280,40 @@ iris %>%
   select(Species)
 ```
 
+#### 5. Callouts
+
+Callouts are special blocks that highlight important information. Five
+types are supported: `note`, `tip`, `warning`, `caution`, `important`.
+
+**Syntax in R script:**
+
+``` r
+# callout-note - Important Note
+# This is the content of the callout.
+# It can span multiple lines.
+
+# Empty line or code ends the callout
+x <- 1
+```
+
+**Converts to Quarto:**
+
+``` markdown
+::: {.callout-note title="Important Note"}
+This is the content of the callout.
+It can span multiple lines.
+:::
+```
+
+**Without title:**
+
+``` r
+# callout-tip
+# This is a tip without a title.
+```
+
+Callouts end when encountering an empty line, code, or another section.
+
 **Important rules:**
 
 - Always include a space after `#` for comments
@@ -241,15 +321,40 @@ iris %>%
 - **Standalone comments with `#` at line start** → become text outside
   code blocks
 - **Inline comments within code** → stay inside code blocks
+- **Callouts** → `# callout-TYPE` or `# callout-TYPE - Title`
 - Consecutive code lines are grouped in the same block
 - Empty lines between blocks are ignored
 
 This follows the [RStudio code sections
 convention](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
-which provides proper indentation in RStudio’s document outline
+which provides proper indentation in the RStudio document outline
 navigation.
 
-## Output and Documentation
+## Quarto Themes
+
+Customize the appearance of your HTML documents with Quarto themes. The
+package supports all available Bootswatch themes:
+
+**Light themes**: cosmo, flatly, journal, litera, lumen, lux, materia,
+minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab,
+united, vapor, yeti, zephyr
+
+**Dark themes**: darkly, cyborg, slate, solar, superhero
+
+Example:
+
+``` r
+# Use the "flatly" theme
+rtoqmd("my_script.R", theme = "flatly")
+
+# Use the dark "darkly" theme
+rtoqmd("my_script.R", theme = "darkly")
+```
+
+For more information about themes, see the [Quarto
+documentation](https://quarto.org/docs/output-formats/html-themes.html).
+
+## Output and documentation
 
 The generated .qmd document contains:  
 - A complete YAML header with table of contents configuration  
@@ -260,6 +365,44 @@ The generated .qmd document contains:
 📝 **For a complete example of the generated output**, see the [Getting
 Started
 vignette](https://ddotta.github.io/quartify/articles/getting-started.html#generated-output)
+
+## CI/CD Integration
+
+Use `quartify` in your CI/CD pipelines to automatically generate
+documentation:
+
+**GitHub Actions** (`.github/workflows/generate-docs.yml`):
+
+``` yaml
+- name: Generate documentation
+  run: |
+    library(quartify)
+    rtoqmd_dir("scripts/", render = TRUE, author = "Data Team")
+  shell: Rscript {0}
+
+- uses: actions/upload-artifact@v4
+  with:
+    name: documentation
+    path: |
+      scripts/**/*.qmd
+      scripts/**/*.html
+```
+
+**GitLab CI** (`.gitlab-ci.yml`):
+
+``` yaml
+generate-docs:
+  image: rocker/r-ver:4.5.1
+  script:
+    - R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Data Team')"
+  artifacts:
+    paths:
+      - scripts/**/*.qmd
+      - scripts/**/*.html
+```
+
+📘 **Full CI/CD guide** with complete examples: [CI/CD
+Integration](https://ddotta.github.io/quartify/articles/getting-started.html#cicd-integration)
 
 ## License
 
