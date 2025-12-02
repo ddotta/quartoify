@@ -6,6 +6,7 @@
 #' @importFrom shiny runGadget stopApp observeEvent reactive req textInput checkboxInput actionButton renderText reactiveVal tags
 #' @importFrom miniUI miniPage gadgetTitleBar miniContentPanel miniTitleBarButton miniTitleBarCancelButton
 #' @importFrom base64enc base64encode
+#' @importFrom shinyFiles shinyFileChoose shinyFileSave parseFilePaths parseSavePath getVolumes
 #' @export
 rtoqmd_addin <- function() {
   # Get the active document context
@@ -121,7 +122,22 @@ rtoqmd_addin <- function() {
     miniUI::gadgetTitleBar(
       "Convert R Script to Quarto",
       left = miniUI::miniTitleBarCancelButton("cancel", "\u21a9"),
-      right = miniUI::miniTitleBarButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GO \u25b6</span>"), primary = TRUE)
+      right = shiny::div(
+        style = "display: flex; align-items: center; gap: 10px;",
+        shiny::actionButton(
+          "lang_en",
+          english_flag_html,
+          style = "padding: 5px 10px; font-size: 12px;",
+          class = "btn-sm"
+        ),
+        shiny::actionButton(
+          "lang_fr",
+          french_flag_html,
+          style = "padding: 5px 10px; font-size: 12px;",
+          class = "btn-sm"
+        ),
+        miniUI::miniTitleBarButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GO \u25b6</span>"), primary = TRUE)
+      )
     ),
     shiny::div(id = "loader", class = "loader", shiny::div(class = "spinner")),
     miniUI::miniContentPanel(
@@ -130,125 +146,133 @@ rtoqmd_addin <- function() {
         shiny::fillRow(
           shiny::div(
             style = "padding: 20px; overflow-y: auto;",
-            # Language selector
-            shiny::div(
-              style = "text-align: right; margin-bottom: 10px;",
-              shiny::actionButton(
-                "lang_en",
-                english_flag_html,
-                style = "margin-right: 5px; padding: 5px 10px; font-size: 12px;",
-                class = "btn-sm"
-              ),
-              shiny::actionButton(
-                "lang_fr",
-                french_flag_html,
-                style = "padding: 5px 10px; font-size: 12px;",
-                class = "btn-sm"
-              )
-            ),
             # Logo centered
             shiny::div(
               style = "text-align: center; margin-bottom: 20px;",
               logo_html
             ),
-            shiny::h4(shiny::textOutput("label_input_file")),
-            shiny::p(basename(input_path), style = "font-family: monospace; color: #666;"),
-            shiny::hr(),
-            shiny::textInput(
-              "output_file",
-              shiny::textOutput("label_output_file"),
-              value = output_path,
-              width = "100%"
-            ),
-            shiny::textInput(
-              "title",
-              shiny::textOutput("label_title"),
-              value = "My Analysis",
-              width = "100%"
-            ),
-            shiny::textInput(
-              "author",
-              shiny::textOutput("label_author"),
-              value = ifelse(Sys.getenv("USER") != "", Sys.getenv("USER"), "Your name"),
-              width = "100%"
-            ),
-            shiny::selectInput(
-              "theme",
-              shiny::textOutput("label_theme"),
-              choices = c(
-                "Default" = "",
-                "Cerulean" = "cerulean",
-                "Cosmo" = "cosmo",
-                "Flatly" = "flatly",
-                "Journal" = "journal",
-                "Litera" = "litera",
-                "Lumen" = "lumen",
-                "Lux" = "lux",
-                "Materia" = "materia",
-                "Minty" = "minty",
-                "Morph" = "morph",
-                "Pulse" = "pulse",
-                "Quartz" = "quartz",
-                "Sandstone" = "sandstone",
-                "Simplex" = "simplex",
-                "Sketchy" = "sketchy",
-                "Slate" = "slate",
-                "Solar" = "solar",
-                "Spacelab" = "spacelab",
-                "Superhero" = "superhero",
-                "United" = "united",
-                "Vapor" = "vapor",
-                "Yeti" = "yeti",
-                "Zephyr" = "zephyr",
-                "Darkly" = "darkly",
-                "Cyborg" = "cyborg"
+            # Input and Output file selectors on same row
+            shiny::fluidRow(
+              # Input file
+              shiny::column(6,
+                shiny::div(
+                  style = "margin-bottom: 15px;",
+                  shiny::strong(shiny::textOutput("label_input_file")),
+                  shiny::br(),
+                  shiny::div(
+                    style = "display: flex; align-items: center; margin-top: 5px;",
+                    shiny::div(
+                      style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                      shiny::textOutput("input_file_display", inline = TRUE)
+                    ),
+                    shiny::div(
+                      style = "margin-left: 10px;",
+                      shinyFiles::shinyFilesButton("input_file_btn", "Browse", "Select R script", multiple = FALSE, class = "btn-primary", style = "padding: 6px 12px;")
+                    )
+                  )
+                )
               ),
-              selected = "",
-              width = "100%"
-            ),
-            shiny::div(
-              style = "width: 100%;",
-              shiny::checkboxInput(
-                "render",
-                shiny::textOutput("label_render"),
-                value = TRUE,
-                width = "100%"
+              # Output file
+              shiny::column(6,
+                shiny::div(
+                  style = "margin-bottom: 15px;",
+                  shiny::strong(shiny::textOutput("label_output_file")),
+                  shiny::br(),
+                  shiny::div(
+                    style = "display: flex; align-items: center; margin-top: 5px;",
+                    shiny::div(
+                      style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                      shiny::textOutput("output_file_display", inline = TRUE)
+                    ),
+                    shiny::div(
+                      style = "margin-left: 10px;",
+                      shinyFiles::shinySaveButton("output_file_btn", "Browse", "Save .qmd file", filetype = list(qmd = "qmd"), class = "btn-primary", style = "padding: 6px 12px;")
+                    )
+                  )
+                )
               )
             ),
-            shiny::div(
-              style = "width: 100%;",
-              shiny::checkboxInput(
-                "open_qmd",
-                shiny::textOutput("label_open_qmd"),
-                value = TRUE,
+            shiny::hr(),
+            # Title, Author, Theme on same row
+            shiny::fluidRow(
+              shiny::column(4, shiny::textInput(
+                "title",
+                shiny::textOutput("label_title"),
+                value = "My Analysis",
                 width = "100%"
-              )
+              )),
+              shiny::column(4, shiny::textInput(
+                "author",
+                shiny::textOutput("label_author"),
+                value = ifelse(Sys.getenv("USER") != "", Sys.getenv("USER"), "Your name"),
+                width = "100%"
+              )),
+              shiny::column(4, shiny::selectInput(
+                "theme",
+                shiny::textOutput("label_theme"),
+                choices = c(
+                  "Default" = "",
+                  "Cerulean" = "cerulean",
+                  "Cosmo" = "cosmo",
+                  "Flatly" = "flatly",
+                  "Journal" = "journal",
+                  "Litera" = "litera",
+                  "Lumen" = "lumen",
+                  "Lux" = "lux",
+                  "Materia" = "materia",
+                  "Minty" = "minty",
+                  "Morph" = "morph",
+                  "Pulse" = "pulse",
+                  "Quartz" = "quartz",
+                  "Sandstone" = "sandstone",
+                  "Simplex" = "simplex",
+                  "Sketchy" = "sketchy",
+                  "Slate" = "slate",
+                  "Solar" = "solar",
+                  "Spacelab" = "spacelab",
+                  "Superhero" = "superhero",
+                  "United" = "united",
+                  "Vapor" = "vapor",
+                  "Yeti" = "yeti",
+                  "Zephyr" = "zephyr",
+                  "Darkly" = "darkly",
+                  "Cyborg" = "cyborg"
+                ),
+                selected = "",
+                width = "100%"
+              ))
             ),
-            shiny::div(
-              style = "width: 100%;",
-              shiny::checkboxInput(
-                "number_sections",
-                shiny::textOutput("label_number_sections"),
-                value = TRUE,
-                width = "100%"
-              )
-            ),
-            shiny::div(
-              style = "width: 100%;",
-              shiny::checkboxInput(
-                "code_fold",
-                shiny::textOutput("label_code_fold"),
-                value = FALSE,
-                width = "100%"
-              )
-            ),
-            shiny::div(
-              style = "width: 100%;",
-              shiny::checkboxInput(
-                "open_html",
-                shiny::textOutput("label_open_html"),
-                value = FALSE,
-                width = "100%"
+            shiny::hr(),
+            # Checkboxes in 2 columns
+            shiny::fluidRow(
+              shiny::column(6,
+                shiny::checkboxInput(
+                  "render",
+                  shiny::textOutput("label_render"),
+                  value = TRUE
+                ),
+                shiny::checkboxInput(
+                  "open_qmd",
+                  shiny::textOutput("label_open_qmd"),
+                  value = TRUE
+                ),
+                shiny::checkboxInput(
+                  "number_sections",
+                  shiny::textOutput("label_number_sections"),
+                  value = TRUE
+                )
+              ),
+              shiny::column(6,
+                shiny::checkboxInput(
+                  "code_fold",
+                  shiny::textOutput("label_code_fold"),
+                  value = FALSE
+                ),
+                shiny::checkboxInput(
+                  "open_html",
+                  shiny::textOutput("label_open_html"),
+                  value = FALSE
+                )
               )
             )
           )
@@ -275,6 +299,43 @@ rtoqmd_addin <- function() {
       lang("fr")
     })
     
+    # Reactive values for file paths
+    input_file_path <- shiny::reactiveVal(input_path)
+    output_file_path <- shiny::reactiveVal(output_path)
+    
+    # File chooser for input file
+    volumes <- shinyFiles::getVolumes()()
+    shinyFiles::shinyFileChoose(input, "input_file_btn", roots = volumes, session = session, filetypes = c("", "R"))
+    
+    shiny::observeEvent(input$input_file_btn, {
+      file_selected <- shinyFiles::parseFilePaths(volumes, input$input_file_btn)
+      if (nrow(file_selected) > 0) {
+        new_path <- as.character(file_selected$datapath)
+        input_file_path(new_path)
+        # Update output path suggestion
+        output_file_path(sub("\\.R$", ".qmd", new_path, ignore.case = TRUE))
+      }
+    })
+    
+    # File saver for output file
+    shinyFiles::shinyFileSave(input, "output_file_btn", roots = volumes, session = session, filetypes = c(qmd = "qmd"))
+    
+    shiny::observeEvent(input$output_file_btn, {
+      file_selected <- shinyFiles::parseSavePath(volumes, input$output_file_btn)
+      if (nrow(file_selected) > 0) {
+        output_file_path(as.character(file_selected$datapath))
+      }
+    })
+    
+    # Display file paths
+    output$input_file_display <- shiny::renderText({
+      basename(input_file_path())
+    })
+    
+    output$output_file_display <- shiny::renderText({
+      basename(output_file_path())
+    })
+    
     # Translations
     translations <- list(
       en = list(
@@ -283,11 +344,11 @@ rtoqmd_addin <- function() {
         title = "Document title:",
         author = "Author name:",
         theme = "HTML theme:",
-        render = "Render after conversion",
-        open_html = "Open output file after rendering",
+        render = "Render Html after conversion",
+        open_html = "Open Html output file after rendering",
         open_qmd = "Open .qmd file in editor after conversion",
         code_fold = "Fold code blocks by default",
-        number_sections = "Number sections automatically"
+        number_sections = "Number sections automatically (not needed if sections already numbered)"
       ),
       fr = list(
         input_file = "Fichier d'entr\u00e9e :",
@@ -295,11 +356,11 @@ rtoqmd_addin <- function() {
         title = "Titre du document :",
         author = "Nom de l'auteur :",
         theme = "Th\u00e8me HTML :",
-        render = "G\u00e9n\u00e9rer apr\u00e8s conversion",
-        open_html = "Ouvrir le fichier g\u00e9n\u00e9r\u00e9 apr\u00e8s rendu",
+        render = "G\u00e9n\u00e9rer Html apr\u00e8s conversion",
+        open_html = "Ouvrir le fichier Html apr\u00e8s rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'\u00e9diteur apr\u00e8s conversion",
         code_fold = "Replier les blocs de code par d\u00e9faut",
-        number_sections = "Num\u00e9roter les sections automatiquement"
+        number_sections = "Num\u00e9roter les sections automatiquement (pas utile si vos sections sont d\u00e9j\u00e0 num\u00e9rot\u00e9es)"
       )
     )
     
@@ -322,7 +383,8 @@ rtoqmd_addin <- function() {
       session$sendCustomMessage('toggleLoader', TRUE)
       
       # Get values
-      output_file <- shiny::req(input$output_file)
+      input_file_final <- shiny::req(input_file_path())
+      output_file_final <- shiny::req(output_file_path())
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
       theme <- input$theme
@@ -336,8 +398,8 @@ rtoqmd_addin <- function() {
       # Convert the file
       tryCatch({
         rtoqmd(
-          input_file = input_path,
-          output_file = output_file,
+          input_file = input_file_final,
+          output_file = output_file_final,
           title = title,
           author = author,
           format = "html",
@@ -349,8 +411,8 @@ rtoqmd_addin <- function() {
         )
         
         # Open QMD file if requested
-        if (open_qmd && file.exists(output_file)) {
-          rstudioapi::navigateToFile(output_file)
+        if (open_qmd && file.exists(output_file_final)) {
+          rstudioapi::navigateToFile(output_file_final)
         }
         
         # Hide loader

@@ -17,7 +17,8 @@ Imports:
     cli,
     shiny,
     miniUI,
-    base64enc
+    base64enc,
+    shinyFiles
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
