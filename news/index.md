@@ -1,5 +1,69 @@
 # Changelog
 
+## quartify 0.0.2
+
+### New Features
+
+- **Improved RStudio Add-in Interface**:
+  - File browsers for input and output file selection using shinyFiles
+  - Language buttons (EN/FR) moved to title bar next to GO button
+  - Input and output file selectors on the same row for better UX
+  - Title, Author, and Theme widgets organized on the same line
+  - Checkboxes organized in 2 columns for better layout
+  - Automatic language detection based on R session locale preferences
+  - Session cleanup: app properly stops when browser window is closed
+- **Theme Support**:
+  - Added HTML theme selection (25+ Quarto Bootswatch themes available)
+  - Theme parameter in
+    [`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md)
+    and
+    [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)
+    functions
+  - Theme selection in RStudio add-in interface
+- **Language Support**:
+  - Added `lang` parameter to
+    [`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md)
+    function
+  - Table of contents title adapts to language: “Sommaire” (FR) or
+    “Table of contents” (EN)
+  - Add-in automatically detects user’s R session language
+- **Enhanced Section Title Handling**:
+  - Flexible regex pattern accepts any RStudio section symbol (#, =, -)
+  - Trailing symbols properly removed from section titles in output
+
+### Improvements
+
+- Updated interface labels:
+  - “Render Html after conversion” (previously “Render after
+    conversion”)
+  - “Open Html output file after rendering” (previously “Open output
+    file after rendering”)
+  - “Number sections automatically (not needed if sections already
+    numbered)” with helpful note
+- Removed unsupported format option:
+  - Format parameter now always uses “html” (PDF removed from add-in
+    interface)
+  - Updated all documentation to reflect HTML-only support
+
+### Bug Fixes
+
+- Fixed pkgdown configuration:
+  - Added `aria-label` to home icon for accessibility
+  - Added `rtoqmd_dir` to reference index
+
+### Documentation
+
+- Updated README (EN/FR) with:
+  - Automatic language detection feature
+  - File browser information
+  - Theme selection examples
+  - Complete list of available themes
+- Enhanced vignettes with:
+  - Multi-line Description field syntax
+  - Comment conversion rules
+  - Chunk splitting technique documentation
+  - Theme usage examples
+
 ## quartify 0.0.1
 
 ### Initial Release

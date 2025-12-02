@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">quartify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,73 @@
       <small>Source: <a href="https://github.com/ddotta/quartify/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.2" id="quartify-002">quartify 0.0.2<a class="anchor" aria-label="anchor" href="#quartify-002"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-0-2">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-0-2"></a></h3>
+<ul><li>
+<strong>Improved RStudio Add-in Interface</strong>:
+<ul><li>File browsers for input and output file selection using shinyFiles</li>
+<li>Language buttons (EN/FR) moved to title bar next to GO button</li>
+<li>Input and output file selectors on the same row for better UX</li>
+<li>Title, Author, and Theme widgets organized on the same line</li>
+<li>Checkboxes organized in 2 columns for better layout</li>
+<li>Automatic language detection based on R session locale preferences</li>
+<li>Session cleanup: app properly stops when browser window is closed</li>
+</ul></li>
+<li>
+<strong>Theme Support</strong>:
+<ul><li>Added HTML theme selection (25+ Quarto Bootswatch themes available)</li>
+<li>Theme parameter in <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> and <code><a href="../reference/rtoqmd_dir.html">rtoqmd_dir()</a></code> functions</li>
+<li>Theme selection in RStudio add-in interface</li>
+</ul></li>
+<li>
+<strong>Language Support</strong>:
+<ul><li>Added <code>lang</code> parameter to <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> function</li>
+<li>Table of contents title adapts to language: “Sommaire” (FR) or “Table of contents” (EN)</li>
+<li>Add-in automatically detects user’s R session language</li>
+</ul></li>
+<li>
+<strong>Enhanced Section Title Handling</strong>:
+<ul><li>Flexible regex pattern accepts any RStudio section symbol (#, =, -)</li>
+<li>Trailing symbols properly removed from section titles in output</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-0-0-2">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-0-2"></a></h3>
+<ul><li>Updated interface labels:
+<ul><li>“Render Html after conversion” (previously “Render after conversion”)</li>
+<li>“Open Html output file after rendering” (previously “Open output file after rendering”)</li>
+<li>“Number sections automatically (not needed if sections already numbered)” with helpful note</li>
+</ul></li>
+<li>Removed unsupported format option:
+<ul><li>Format parameter now always uses “html” (PDF removed from add-in interface)</li>
+<li>Updated all documentation to reflect HTML-only support</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-2"></a></h3>
+<ul><li>Fixed pkgdown configuration:
+<ul><li>Added <code>aria-label</code> to home icon for accessibility</li>
+<li>Added <code>rtoqmd_dir</code> to reference index</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-0-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-0-2"></a></h3>
+<ul><li>Updated README (EN/FR) with:
+<ul><li>Automatic language detection feature</li>
+<li>File browser information</li>
+<li>Theme selection examples</li>
+<li>Complete list of available themes</li>
+</ul></li>
+<li>Enhanced vignettes with:
+<ul><li>Multi-line Description field syntax</li>
+<li>Comment conversion rules</li>
+<li>Chunk splitting technique documentation</li>
+<li>Theme usage examples</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="quartify-001">quartify 0.0.1<a class="anchor" aria-label="anchor" href="#quartify-001"></a></h2>
 <div class="section level3">
