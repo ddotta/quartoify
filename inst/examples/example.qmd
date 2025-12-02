@@ -5,12 +5,11 @@ date: "November 28, 2025"
 description: "Example file for package quartify"
 format:
   html:
-    theme: darkly
     embed-resources: true
     code-fold: false
     number-sections: true
 toc: true
-toc-title: Sommaire
+toc-title: Table of contents
 toc-depth: 4
 toc-location: left
 execute: 

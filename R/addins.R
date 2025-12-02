@@ -407,7 +407,8 @@ rtoqmd_addin <- function() {
           render = render,
           open_html = open_html && render,
           code_fold = code_fold,
-          number_sections = number_sections
+          number_sections = number_sections,
+          lang = lang()
         )
         
         # Open QMD file if requested

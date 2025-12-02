@@ -65,6 +65,7 @@
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
 #' @param number_sections Logical, whether to number sections automatically in the output (default: TRUE)
+#' @param lang Language for interface elements like table of contents title - "en" or "fr" (default: "en")
 #' @return Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 #' @importFrom utils browseURL
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_danger cli_alert_warning
@@ -104,7 +105,8 @@ rtoqmd <- function(input_file, output_file = NULL,
                    render = TRUE,
                    open_html = FALSE,
                    code_fold = FALSE,
-                   number_sections = TRUE) {
+                   number_sections = TRUE,
+                   lang = "en") {
   
   # Check if input file exists
   if (!file.exists(input_file)) {
@@ -198,7 +200,8 @@ rtoqmd <- function(input_file, output_file = NULL,
   output <- c(output, paste0("    code-fold: ", tolower(as.character(code_fold))))
   output <- c(output, paste0("    number-sections: ", tolower(as.character(number_sections))))
   output <- c(output, "toc: true")
-  output <- c(output, "toc-title: Sommaire")
+  toc_title <- if (lang == "fr") "Sommaire" else "Table of contents"
+  output <- c(output, paste0("toc-title: ", toc_title))
   output <- c(output, "toc-depth: 4")
   output <- c(output, "toc-location: left")
   output <- c(output, "execute: ")
