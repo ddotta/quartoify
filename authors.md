@@ -2,7 +2,8 @@
 
 ## Authors
 
-- **[Damien Dotta](https://github.com/ddotta)**. Maintainer.
+- **[Damien Dotta](https://github.com/ddotta)**. Author, maintainer,
+  copyright holder.
 
 ## Citation
 
