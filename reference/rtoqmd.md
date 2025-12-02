@@ -19,7 +19,6 @@ rtoqmd(
   title = "My title",
   author = "Your name",
   format = "html",
-  theme = NULL,
   render = TRUE,
   open_html = FALSE,
   code_fold = FALSE,
@@ -50,15 +49,7 @@ rtoqmd(
 
 - format:
 
-  Output format - always "html" (parameter kept for backward
-  compatibility)
-
-- theme:
-
-  Quarto theme for HTML output (default: NULL uses Quarto's default).
-  See <https://quarto.org/docs/output-formats/html-themes.html> for
-  available themes (e.g., "cosmo", "flatly", "darkly", "solar",
-  "united")
+  Output format (default: "html")
 
 - render:
 
@@ -101,41 +92,6 @@ in your R script:
 If metadata is found in the script, it will override the corresponding
 function parameters. These metadata lines are removed from the document
 body and only appear in the YAML header.
-
-The Description field supports multi-line content. Continuation lines
-should start with `#` followed by spaces and the text. The description
-ends at an empty line or a line without `#`.
-
-## Callouts
-
-The function converts special comment patterns into Quarto callouts.
-Callouts are special blocks that highlight important information.
-Supported callout types: `note`, `tip`, `warning`, `caution`,
-`important`.
-
-Syntax:
-
-- **With title**: `# callout-tip - Your Title`
-
-- **Without title**: `# callout-tip`
-
-All subsequent comment lines become the callout content until an empty
-line or code is encountered.
-
-Example in R script:
-
-    # callout-note - Important Note
-    # This is the content of the note.
-    # It can span multiple lines.
-
-    x <- 1
-
-Becomes in Quarto:
-
-    ::: {.callout-note title="Important Note"}
-    This is the content of the note.
-    It can span multiple lines.
-    :::
 
 ## Examples
 
