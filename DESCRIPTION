@@ -1,7 +1,7 @@
 Package: quartify
 Type: Package
 Title: Convert R Scripts to Quarto Markdown Documents
-Version: 0.1.0
+Version: 0.0.2
 Author: Damien Dotta
 Maintainer: Damien Dotta <damien.dotta@live.fr>
 Description: Automatically converts R scripts into Quarto markdown documents (.qmd).
