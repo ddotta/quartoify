@@ -21,6 +21,7 @@ rtoqmd(
   format = "html",
   theme = NULL,
   render = TRUE,
+  output_html_file = NULL,
   open_html = FALSE,
   code_fold = FALSE,
   number_sections = TRUE,
@@ -65,6 +66,11 @@ rtoqmd(
 
   Logical, whether to render the .qmd file to HTML after creation
   (default: TRUE)
+
+- output_html_file:
+
+  Path to the output HTML file (optional, defaults to same name as .qmd
+  file with .html extension)
 
 - open_html:
 

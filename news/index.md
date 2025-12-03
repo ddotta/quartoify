@@ -1,5 +1,22 @@
 # Changelog
 
+## quartify 0.0.4
+
+### New Features
+
+- **Custom HTML Output Path**:
+  - Added `output_html_file` parameter to
+    [`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md)
+    to specify custom HTML output location
+  - Added `output_html_dir` parameter to
+    [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)
+    to specify directory for batch HTML outputs
+  - Added HTML file selector in RStudio add-in interface (optional
+    field)
+  - HTML files can now be saved in different location than .qmd files
+  - Useful for organizing outputs in separate directories (e.g.,
+    `docs/`, `html_output/`)
+
 ## quartify 0.0.3
 
 ### CRAN Preparation

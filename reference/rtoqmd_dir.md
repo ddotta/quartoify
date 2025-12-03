@@ -15,6 +15,7 @@ rtoqmd_dir(
   format = "html",
   theme = NULL,
   render = FALSE,
+  output_html_dir = NULL,
   open_html = FALSE,
   code_fold = FALSE,
   number_sections = TRUE,
@@ -52,6 +53,11 @@ rtoqmd_dir(
 
   Logical, whether to render the .qmd files after creation (default:
   FALSE)
+
+- output_html_dir:
+
+  Directory path for HTML output files (optional, defaults to same
+  directory as .qmd files)
 
 - open_html:
 
