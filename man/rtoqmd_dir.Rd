@@ -11,6 +11,7 @@ rtoqmd_dir(
   format = "html",
   theme = NULL,
   render = FALSE,
+  output_html_dir = NULL,
   open_html = FALSE,
   code_fold = FALSE,
   number_sections = TRUE,
@@ -31,6 +32,8 @@ rtoqmd_dir(
 \item{theme}{Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html}}
 
 \item{render}{Logical, whether to render the .qmd files after creation (default: FALSE)}
+
+\item{output_html_dir}{Directory path for HTML output files (optional, defaults to same directory as .qmd files)}
 
 \item{open_html}{Logical, whether to open the HTML files in browser after rendering (default: FALSE)}
 

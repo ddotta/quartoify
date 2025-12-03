@@ -20,6 +20,7 @@
 #' @param format Output format - always "html" (parameter kept for backward compatibility)
 #' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html}
 #' @param render Logical, whether to render the .qmd files after creation (default: FALSE)
+#' @param output_html_dir Directory path for HTML output files (optional, defaults to same directory as .qmd files)
 #' @param open_html Logical, whether to open the HTML files in browser after rendering (default: FALSE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
 #' @param number_sections Logical, whether to number sections automatically (default: TRUE)
@@ -55,6 +56,7 @@ rtoqmd_dir <- function(dir_path,
                        format = "html",
                        theme = NULL,
                        render = FALSE,
+                       output_html_dir = NULL,
                        open_html = FALSE,
                        code_fold = FALSE,
                        number_sections = TRUE,
@@ -107,6 +109,20 @@ rtoqmd_dir <- function(dir_path,
   cli::cli_alert_success("Found {length(r_files)} R script{?s} to convert")
   cli::cli_h2("Converting files...")
   
+  # Create HTML output directory if specified and doesn't exist
+  if (!is.null(output_html_dir) && !dir.exists(output_html_dir)) {
+    dir.create(output_html_dir, recursive = TRUE, showWarnings = FALSE)
+    if (!dir.exists(output_html_dir)) {
+      cli::cli_alert_danger("Failed to create HTML output directory: {.file {output_html_dir}}")
+      return(invisible(data.frame(
+        file = character(),
+        status = character(),
+        output = character(),
+        stringsAsFactors = FALSE
+      )))
+    }
+  }
+  
   # Initialize results tracking
   results <- data.frame(
     file = character(length(r_files)),
@@ -134,6 +150,14 @@ rtoqmd_dir <- function(dir_path,
     results$file[i] <- r_file
     results$output[i] <- qmd_file
     
+    # Calculate HTML output path if directory specified
+    html_file <- if (!is.null(output_html_dir)) {
+      html_filename <- sub("\\.qmd$", ".html", basename(qmd_file))
+      file.path(output_html_dir, html_filename)
+    } else {
+      NULL
+    }
+    
     # Convert the file
     tryCatch({
       rtoqmd(
@@ -144,6 +168,7 @@ rtoqmd_dir <- function(dir_path,
         format = format,
         theme = theme,
         render = render,
+        output_html_file = html_file,
         open_html = open_html,
         code_fold = code_fold,
         number_sections = number_sections

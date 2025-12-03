@@ -62,6 +62,7 @@
 #' @param format Output format - always "html" (parameter kept for backward compatibility)
 #' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html} for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")
 #' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
+#' @param output_html_file Path to the output HTML file (optional, defaults to same name as .qmd file with .html extension)
 #' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
 #' @param number_sections Logical, whether to number sections automatically in the output (default: TRUE)
@@ -103,6 +104,7 @@ rtoqmd <- function(input_file, output_file = NULL,
                    format = "html",
                    theme = NULL,
                    render = TRUE,
+                   output_html_file = NULL,
                    open_html = FALSE,
                    code_fold = FALSE,
                    number_sections = TRUE,
@@ -467,12 +469,102 @@ rtoqmd <- function(input_file, output_file = NULL,
       return(invisible(NULL))
     }
     
-    # Render the document
-    html_file <- sub("\\.qmd$", ".html", output_file)
+    # Determine HTML output file path and prepare render arguments
+    if (is.null(output_html_file)) {
+      html_file <- sub("\\.qmd$", ".html", output_file)
+      render_args <- c("render", shQuote(output_file))
+    } else {
+      html_file <- output_html_file
+      # Get absolute paths
+      qmd_dir <- dirname(normalizePath(output_file, winslash = "/", mustWork = FALSE))
+      output_dir_abs <- normalizePath(dirname(html_file), winslash = "/", mustWork = FALSE)
+      output_name <- basename(html_file)
+      
+      # Create output directory if it doesn't exist
+      if (!dir.exists(output_dir_abs)) {
+        dir.create(output_dir_abs, recursive = TRUE, showWarnings = FALSE)
+        if (!dir.exists(output_dir_abs)) {
+          cli::cli_alert_danger("Failed to create output directory: {.file {output_dir_abs}}")
+          return(invisible(NULL))
+        }
+      }
+      
+      # Quarto's --output-dir works best with relative paths from the .qmd location
+      # Calculate relative path manually
+      qmd_parts <- strsplit(qmd_dir, "/")[[1]]
+      out_parts <- strsplit(output_dir_abs, "/")[[1]]
+      
+      # Find common prefix
+      common_len <- 0
+      for (i in seq_along(qmd_parts)) {
+        if (i <= length(out_parts) && qmd_parts[i] == out_parts[i]) {
+          common_len <- i
+        } else {
+          break
+        }
+      }
+      
+      # Build relative path
+      if (common_len == length(qmd_parts)) {
+        # Output dir is inside or same as qmd dir
+        output_dir_rel <- paste(out_parts[(common_len + 1):length(out_parts)], collapse = "/")
+        if (output_dir_rel == "") output_dir_rel <- "."
+      } else {
+        # Need to go up directories
+        ups <- length(qmd_parts) - common_len
+        downs <- out_parts[(common_len + 1):length(out_parts)]
+        output_dir_rel <- paste(c(rep("..", ups), downs), collapse = "/")
+      }
+      
+      # Update html_file to use absolute path for checking later
+      html_file <- file.path(output_dir_abs, output_name)
+      
+      render_args <- c("render", shQuote(output_file), 
+                      "--output-dir", shQuote(output_dir_rel),
+                      "-o", output_name)
+    }
     
     tryCatch({
-      system2("quarto", args = c("render", shQuote(output_file)), 
-              stdout = TRUE, stderr = TRUE)
+      # Quarto needs to run from the directory where the .qmd file is located
+      old_wd <- getwd()
+      qmd_directory <- dirname(normalizePath(output_file, winslash = "/", mustWork = FALSE))
+      setwd(qmd_directory)
+      
+      # Ensure we restore the working directory even if there's an error
+      on.exit(setwd(old_wd), add = TRUE)
+      
+      result <- system2("quarto", args = render_args, 
+                       stdout = TRUE, stderr = TRUE)
+      
+      # Debug: show what Quarto returned
+      status_code <- attr(result, "status")
+      if (is.null(status_code)) status_code <- 0
+      
+      # Check if render was successful
+      if (status_code != 0) {
+        cli::cli_alert_danger("Failed to render Quarto document (exit status: {status_code})")
+        cli::cli_alert_info("Command: quarto {paste(render_args, collapse = ' ')}")
+        if (length(result) > 0) {
+          cli::cli_alert_info("Output:")
+          cat(paste(result, collapse = "\n"), "\n")
+        }
+        return(invisible(NULL))
+      }
+      
+      # Wait a bit for file system to sync (especially on Windows)
+      Sys.sleep(0.5)
+      
+      # Check if file exists at expected location
+      if (!file.exists(html_file)) {
+        cli::cli_alert_danger("HTML file was not created: {.file {html_file}}")
+        cli::cli_alert_info("Command: quarto {paste(render_args, collapse = ' ')}")
+        # Check if file was created elsewhere
+        alt_location <- sub("\\.qmd$", ".html", output_file)
+        if (file.exists(alt_location)) {
+          cli::cli_alert_info("HTML file found at default location instead: {.file {alt_location}}")
+        }
+        return(invisible(NULL))
+      }
       
       cli::cli_alert_success("HTML file created: {.file {html_file}}")
       

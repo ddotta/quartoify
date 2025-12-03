@@ -12,6 +12,7 @@ rtoqmd(
   format = "html",
   theme = NULL,
   render = TRUE,
+  output_html_file = NULL,
   open_html = FALSE,
   code_fold = FALSE,
   number_sections = TRUE,
@@ -32,6 +33,8 @@ rtoqmd(
 \item{theme}{Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html} for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")}
 
 \item{render}{Logical, whether to render the .qmd file to HTML after creation (default: TRUE)}
+
+\item{output_html_file}{Path to the output HTML file (optional, defaults to same name as .qmd file with .html extension)}
 
 \item{open_html}{Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)}
 

@@ -7,3 +7,5 @@ inst/doc
 *.html
 /*.qmd
 output_files/libs/
+
+/.quarto/

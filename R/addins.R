@@ -192,6 +192,31 @@ rtoqmd_addin <- function() {
                 )
               )
             ),
+            # HTML Output file (optional)
+            shiny::fluidRow(
+              shiny::column(12,
+                shiny::div(
+                  style = "margin-bottom: 15px; margin-top: 10px;",
+                  shiny::strong(shiny::textOutput("label_html_file")),
+                  shiny::span(
+                    style = "margin-left: 5px; font-size: 0.9em; color: #666;",
+                    shiny::textOutput("label_html_file_optional", inline = TRUE)
+                  ),
+                  shiny::br(),
+                  shiny::div(
+                    style = "display: flex; align-items: center; margin-top: 5px;",
+                    shiny::div(
+                      style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                      shiny::textOutput("html_file_display", inline = TRUE)
+                    ),
+                    shiny::div(
+                      style = "margin-left: 10px;",
+                      shinyFiles::shinySaveButton("html_file_btn", "Browse", "Save HTML file", filetype = list(html = "html"), class = "btn-primary", style = "padding: 6px 12px;")
+                    )
+                  )
+                )
+              )
+            ),
             shiny::hr(),
             # Title, Author, Theme on same row
             shiny::fluidRow(
@@ -317,6 +342,7 @@ rtoqmd_addin <- function() {
     # Reactive values for file paths
     input_file_path <- shiny::reactiveVal(input_path)
     output_file_path <- shiny::reactiveVal(output_path)
+    html_file_path <- shiny::reactiveVal(NULL)
     
     # File chooser for input file
     volumes <- shinyFiles::getVolumes()()
@@ -342,6 +368,16 @@ rtoqmd_addin <- function() {
       }
     })
     
+    # File saver for HTML file (optional)
+    shinyFiles::shinyFileSave(input, "html_file_btn", roots = volumes, session = session, filetypes = c(html = "html"))
+    
+    shiny::observeEvent(input$html_file_btn, {
+      file_selected <- shinyFiles::parseSavePath(volumes, input$html_file_btn)
+      if (nrow(file_selected) > 0) {
+        html_file_path(as.character(file_selected$datapath))
+      }
+    })
+    
     # Display file paths
     output$input_file_display <- shiny::renderText({
       basename(input_file_path())
@@ -351,11 +387,22 @@ rtoqmd_addin <- function() {
       basename(output_file_path())
     })
     
+    output$html_file_display <- shiny::renderText({
+      path <- html_file_path()
+      if (is.null(path)) {
+        if (lang() == "fr") "(emplacement par d\u00e9faut)" else "(default location)"
+      } else {
+        basename(path)
+      }
+    })
+    
     # Translations
     translations <- list(
       en = list(
         input_file = "Input file:",
         output_file = "Output file path:",
+        html_file = "HTML output file path:",
+        html_file_optional = "(optional - leave blank for default location)",
         title = "Document title:",
         author = "Author name:",
         theme = "HTML theme:",
@@ -368,6 +415,8 @@ rtoqmd_addin <- function() {
       fr = list(
         input_file = "Fichier d'entr\u00e9e :",
         output_file = "Chemin du fichier de sortie :",
+        html_file = "Chemin du fichier HTML :",
+        html_file_optional = "(optionnel - laisser vide pour l'emplacement par d\u00e9faut)",
         title = "Titre du document :",
         author = "Nom de l'auteur :",
         theme = "Th\u00e8me HTML :",
@@ -382,6 +431,8 @@ rtoqmd_addin <- function() {
     # Dynamic labels
     output$label_input_file <- shiny::renderText({ translations[[lang()]]$input_file })
     output$label_output_file <- shiny::renderText({ translations[[lang()]]$output_file })
+    output$label_html_file <- shiny::renderText({ translations[[lang()]]$html_file })
+    output$label_html_file_optional <- shiny::renderText({ translations[[lang()]]$html_file_optional })
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
     output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
@@ -400,6 +451,7 @@ rtoqmd_addin <- function() {
       # Get values
       input_file_final <- shiny::req(input_file_path())
       output_file_final <- shiny::req(output_file_path())
+      html_file_final <- html_file_path()
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
       theme <- input$theme
@@ -420,6 +472,7 @@ rtoqmd_addin <- function() {
           format = "html",
           theme = theme,
           render = render,
+          output_html_file = html_file_final,
           open_html = open_html && render,
           code_fold = code_fold,
           number_sections = number_sections,
