@@ -48,7 +48,12 @@ rtoqmd(
 Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 }
 \description{
-This function converts an R script to Quarto markdown format.
+This function converts an R script to Quarto markdown format (.qmd), enabling you to leverage
+all modern Quarto features. Unlike \code{knitr::spin()} which generates R Markdown (.Rmd),
+\code{rtoqmd()} creates Quarto documents with access to advanced publishing capabilities,
+modern themes, native callouts, Mermaid diagrams, and the full Quarto ecosystem.
+}
+\details{
 It recognizes RStudio code sections with different levels:
 - ## Title #### creates a level 2 header
 - ### Title ==== creates a level 3 header

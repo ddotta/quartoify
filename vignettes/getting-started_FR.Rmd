@@ -22,6 +22,33 @@ knitr::opts_chunk$set(
 
 `quartify` est un package R qui convertit automatiquement des scripts R en documents Quarto markdown (.qmd). Le package reconnaît les sections de code RStudio pour créer des documents correctement structurés avec navigation. Cette vignette vous guidera à travers l'utilisation basique et les fonctionnalités du package.
 
+### Comparaison avec knitr::spin()
+
+Si vous connaissez [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/), vous vous demandez peut-être en quoi `quartify` diffère :
+
+| Fonctionnalité | knitr::spin() | quartify |
+|----------------|---------------|----------|
+| **Format de sortie** | R Markdown (.Rmd) | Quarto (.qmd) |
+| **Syntaxe texte** | `#'` pour markdown | `#` (commentaires R naturels) |
+| **Options de chunk** | Préfixe `#+` | Sections de code RStudio |
+| **Fonctionnalités modernes** | Limité à R Markdown | Toutes les capacités Quarto |
+| **Encadrés** | HTML/CSS manuel | Callouts Quarto natifs |
+| **Diagrammes** | Outils externes | Support Mermaid natif |
+| **Thèmes** | Thèmes R Markdown limités | 25+ thèmes Quarto modernes |
+| **Publication** | HTML/PDF basique | Système de publication Quarto avancé |
+
+**Pourquoi choisir quartify ?**
+
+1. **Écosystème Quarto Moderne** : Bénéficiez des fonctionnalités de nouvelle génération de Quarto (callouts, tabsets, références croisées, Observable JS, etc.)
+2. **Scripts R Plus Propres** : Utilisez des commentaires R naturels sans syntaxe spéciale `#'` ou `#+` - vos scripts restent lisibles comme du code R autonome
+3. **Sorties Avancées** : Générez des sites web, des livres, des présentations et des articles scientifiques avec le même flux de travail
+4. **Meilleurs Thèmes** : Accès à des thèmes HTML modernes et responsives avec un style cohérent
+5. **Pérennité** : Quarto est activement développé par Posit comme successeur de R Markdown
+
+::: {.alert .alert-info}
+**Note** : Bien que `knitr::spin()` soit excellent pour des conversions simples vers R Markdown, `quartify` est conçu pour les équipes qui souhaitent exploiter les capacités de publication modernes de Quarto tout en maintenant des scripts R propres et maintenables.
+:::
+
 ## Installation
 
 Vous pouvez installer la version de développement de quartify depuis GitHub :

@@ -1,6 +1,10 @@
 #' Convert R Script to Quarto Markdown
 #'
-#' This function converts an R script to Quarto markdown format.
+#' This function converts an R script to Quarto markdown format (.qmd), enabling you to leverage
+#' all modern Quarto features. Unlike \code{knitr::spin()} which generates R Markdown (.Rmd),
+#' \code{rtoqmd()} creates Quarto documents with access to advanced publishing capabilities,
+#' modern themes, native callouts, Mermaid diagrams, and the full Quarto ecosystem.
+#' 
 #' It recognizes RStudio code sections with different levels:
 #' - ## Title #### creates a level 2 header
 #' - ### Title ==== creates a level 3 header
