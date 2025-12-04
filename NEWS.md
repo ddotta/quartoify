@@ -1,3 +1,22 @@
+# quartify 0.0.5
+
+## New Features
+
+* **Source Line Numbers**:
+  - Added `show_source_lines` parameter to `rtoqmd()` to display original line numbers from source R script
+  - When enabled, adds a comment at the beginning of each code chunk indicating the line range
+  - Format: `# Lines X-Y` (English) or `# Lignes X-Y` (French)
+  - Helps maintain traceability between documentation and source code
+  - Added checkbox in RStudio add-in interface with EN/FR translations
+  - Example output:
+    ```r
+    # Lines 19-20
+    iris |> 
+      count(Species)
+    ```
+  - Completely automatic - no modification of R scripts required
+  - Default is FALSE to preserve existing behavior
+
 # quartify 0.0.4
 
 ## New Features

@@ -84,6 +84,7 @@
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
 #' @param number_sections Logical, whether to number sections automatically in the output (default: TRUE)
 #' @param lang Language for interface elements like table of contents title - "en" or "fr" (default: "en")
+#' @param show_source_lines Logical, whether to add comments indicating original line numbers from the source R script at the beginning of each code chunk (default: FALSE). This helps maintain traceability between the documentation and the source code.
 #' @returns Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 #' @importFrom utils browseURL
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_danger cli_alert_warning
@@ -125,7 +126,8 @@ rtoqmd <- function(input_file, output_file = NULL,
                    open_html = FALSE,
                    code_fold = FALSE,
                    number_sections = TRUE,
-                   lang = "en") {
+                   lang = "en",
+                   show_source_lines = FALSE) {
   
   # Check if input file exists
   if (!file.exists(input_file)) {
@@ -246,6 +248,28 @@ rtoqmd <- function(input_file, output_file = NULL,
   tab_title <- ""
   tabs <- list()
   
+  # Track line numbers for code chunks
+  code_chunk_start <- NULL
+  code_chunk_lines <- integer()
+  
+  # Helper function to create code chunk with optional line numbers
+  flush_code_block <- function(code, chunk_lines, add_line_info) {
+    if (length(code) == 0) return(character())
+    
+    result <- "```{r}"
+    if (add_line_info && length(chunk_lines) > 0) {
+      line_label <- if (lang == "fr") "Lignes" else "Lines"
+      line_range <- if (min(chunk_lines) == max(chunk_lines)) {
+        paste0("# ", line_label, " ", min(chunk_lines))
+      } else {
+        paste0("# ", line_label, " ", min(chunk_lines), "-", max(chunk_lines))
+      }
+      result <- c(result, line_range)
+    }
+    result <- c(result, code, "```", "")
+    return(result)
+  }
+  
   while (i <= length(lines)) {
     line <- lines[i]
     
@@ -266,8 +290,11 @@ rtoqmd <- function(input_file, output_file = NULL,
         if (in_tab) {
           # Flush code into last tab
           if (length(code_block) > 0) {
-            tab_content <- c(tab_content, "", "```{r}", code_block, "```", "")
+            tab_code_chunk <- flush_code_block(code_block, code_chunk_lines, show_source_lines)
+            tab_content <- c(tab_content, "", tab_code_chunk)
             code_block <- character()
+            code_chunk_start <- NULL
+            code_chunk_lines <- integer()
           }
           if (length(tab_content) > 0) {
             tabs[[length(tabs) + 1]] <- list(title = tab_title, content = tab_content)
@@ -296,11 +323,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -319,11 +345,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       # Level 3: ### Title ==== or ### Title ---- or ### Title ####
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -342,11 +367,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       # Level 4: #### Title ---- or #### Title ==== or #### Title ####
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -365,11 +389,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       # Mermaid chunk start: #| mermaid
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -413,11 +436,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       # Tabset start: # tabset
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -439,8 +461,11 @@ rtoqmd <- function(input_file, output_file = NULL,
       if (in_tab) {
         # Flush any accumulated code into tab_content
         if (length(code_block) > 0) {
-          tab_content <- c(tab_content, "", "```{r}", code_block, "```", "")
+          tab_code_chunk <- flush_code_block(code_block, code_chunk_lines, show_source_lines)
+          tab_content <- c(tab_content, "", tab_code_chunk)
           code_block <- character()
+          code_chunk_start <- NULL
+          code_chunk_lines <- integer()
         }
         
         if (length(tab_content) > 0) {
@@ -458,11 +483,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       # Callout start: # callout-tip - Title
       # Flush any accumulated code
       if (length(code_block) > 0) {
-        output <- c(output, "```{r}")
-        output <- c(output, code_block)
-        output <- c(output, "```")
-        output <- c(output, "")
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       # Flush any accumulated comments
@@ -506,11 +530,10 @@ rtoqmd <- function(input_file, output_file = NULL,
       } else {
         # Flush any accumulated code
         if (length(code_block) > 0) {
-          output <- c(output, "```{r}")
-          output <- c(output, code_block)
-          output <- c(output, "```")
-          output <- c(output, "")
+          output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
           code_block <- character()
+          code_chunk_start <- NULL
+          code_chunk_lines <- integer()
         }
         
         # Convert to plain text and accumulate in comment block
@@ -578,6 +601,8 @@ rtoqmd <- function(input_file, output_file = NULL,
       if (in_tab) {
         # If we're in a tab, accumulate code in code_block first
         # We'll flush it when we hit next tab or end of tabset
+        if (length(code_block) == 0) code_chunk_start <- i
+        code_chunk_lines <- c(code_chunk_lines, i)
         code_block <- c(code_block, line)
       } else if (in_tabset && !in_tab) {
         # Code before any tab starts = end tabset
@@ -609,6 +634,8 @@ rtoqmd <- function(input_file, output_file = NULL,
           comment_block <- character()
         }
         # Accumulate code
+        if (length(code_block) == 0) code_chunk_start <- i
+        code_chunk_lines <- c(code_chunk_lines, i)
         code_block <- c(code_block, line)
       } else {
         # Normal code - not in tabset or callout
@@ -619,6 +646,8 @@ rtoqmd <- function(input_file, output_file = NULL,
           comment_block <- character()
         }
         # Accumulate code
+        if (length(code_block) == 0) code_chunk_start <- i
+        code_chunk_lines <- c(code_chunk_lines, i)
         code_block <- c(code_block, line)
       }
     }
@@ -644,8 +673,11 @@ rtoqmd <- function(input_file, output_file = NULL,
     if (in_tab) {
       # Flush any accumulated code into last tab
       if (length(code_block) > 0) {
-        tab_content <- c(tab_content, "", "```{r}", code_block, "```", "")
+        tab_code_chunk <- flush_code_block(code_block, code_chunk_lines, show_source_lines)
+        tab_content <- c(tab_content, "", tab_code_chunk)
         code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
       }
       
       if (length(tab_content) > 0) {
@@ -675,9 +707,7 @@ rtoqmd <- function(input_file, output_file = NULL,
   
   # Flush any remaining code
   if (length(code_block) > 0) {
-    output <- c(output, "```{r}")
-    output <- c(output, code_block)
-    output <- c(output, "```")
+    output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
   }
   
   # Write output file

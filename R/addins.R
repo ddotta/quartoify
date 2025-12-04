@@ -297,6 +297,11 @@ rtoqmd_addin <- function() {
                   "open_html",
                   shiny::textOutput("label_open_html"),
                   value = FALSE
+                ),
+                shiny::checkboxInput(
+                  "show_source_lines",
+                  shiny::textOutput("label_show_source_lines"),
+                  value = FALSE
                 )
               )
             )
@@ -410,7 +415,8 @@ rtoqmd_addin <- function() {
         open_html = "Open Html output file after rendering",
         open_qmd = "Open .qmd file in editor after conversion",
         code_fold = "Fold code blocks by default",
-        number_sections = "Number sections automatically (not needed if sections already numbered)"
+        number_sections = "Number sections automatically (not needed if sections already numbered)",
+        show_source_lines = "Show original line numbers in code chunks"
       ),
       fr = list(
         input_file = "Fichier d'entr\u00e9e :",
@@ -424,7 +430,8 @@ rtoqmd_addin <- function() {
         open_html = "Ouvrir le fichier Html apr\u00e8s rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'\u00e9diteur apr\u00e8s conversion",
         code_fold = "Replier les blocs de code par d\u00e9faut",
-        number_sections = "Num\u00e9roter les sections automatiquement (pas utile si vos sections sont d\u00e9j\u00e0 num\u00e9rot\u00e9es)"
+        number_sections = "Num\u00e9roter les sections automatiquement (pas utile si vos sections sont d\u00e9j\u00e0 num\u00e9rot\u00e9es)",
+        show_source_lines = "Afficher les num\u00e9ros de ligne originaux dans les chunks"
       )
     )
     
@@ -441,6 +448,7 @@ rtoqmd_addin <- function() {
     output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
     output$label_code_fold <- shiny::renderText({ translations[[lang()]]$code_fold })
     output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
+    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
     
     # When done button is pressed
     shiny::observeEvent(input$done, {
@@ -461,6 +469,7 @@ rtoqmd_addin <- function() {
       open_qmd <- input$open_qmd
       code_fold <- input$code_fold
       number_sections <- input$number_sections
+      show_source_lines <- input$show_source_lines
       
       # Convert the file
       tryCatch({
@@ -476,7 +485,8 @@ rtoqmd_addin <- function() {
           open_html = open_html && render,
           code_fold = code_fold,
           number_sections = number_sections,
-          lang = lang()
+          lang = lang(),
+          show_source_lines = show_source_lines
         )
         
         # Open QMD file if requested
