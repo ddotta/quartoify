@@ -1,14 +1,11 @@
 # Convert R Script to Quarto Markdown
 
-This function converts an R script to Quarto markdown format. It
-recognizes RStudio code sections with different levels: - \## Title
-\#### creates a level 2 header - \### Title ==== creates a level 3
-header - \#### Title —- creates a level 4 header Regular comments are
-converted to plain text. Code blocks are wrapped in standard R code
-chunks. The YAML header includes `execute: eval: false` and
-`execute: echo: true` options for static documentation purposes, and
-`embed-resources: true` to create self-contained HTML files. See
-<https://quarto.org/docs/output-formats/html-basics.html#self-contained>.
+This function converts an R script to Quarto markdown format (.qmd),
+enabling you to leverage all modern Quarto features. Unlike
+[`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) which
+generates R Markdown (.Rmd), `rtoqmd()` creates Quarto documents with
+access to advanced publishing capabilities, modern themes, native
+callouts, Mermaid diagrams, and the full Quarto ecosystem.
 
 ## Usage
 
@@ -95,6 +92,17 @@ rtoqmd(
 
 Invisibly returns NULL. Creates a .qmd file and optionally renders it to
 HTML.
+
+## Details
+
+It recognizes RStudio code sections with different levels: - \## Title
+\#### creates a level 2 header - \### Title ==== creates a level 3
+header - \#### Title —- creates a level 4 header Regular comments are
+converted to plain text. Code blocks are wrapped in standard R code
+chunks. The YAML header includes `execute: eval: false` and
+`execute: echo: true` options for static documentation purposes, and
+`embed-resources: true` to create self-contained HTML files. See
+<https://quarto.org/docs/output-formats/html-basics.html#self-contained>.
 
 ## Metadata Detection
 

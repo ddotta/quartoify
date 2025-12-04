@@ -12,6 +12,35 @@ de code RStudio pour créer des documents correctement structurés avec
 navigation. Cette vignette vous guidera à travers l’utilisation basique
 et les fonctionnalités du package.
 
+### Comparaison avec knitr::spin()
+
+Si vous connaissez
+[`knitr::spin()`](https://yihui.org/knitr/demo/stitch/), vous vous
+demandez peut-être en quoi `quartify` diffère :
+
+| Fonctionnalité               | knitr::spin()             | quartify                      |
+|------------------------------|---------------------------|-------------------------------|
+| **Format de sortie**         | R Markdown (.Rmd)         | Quarto (.qmd)                 |
+| **Syntaxe texte**            | `#'` pour markdown        | `#` (commentaires R naturels) |
+| **Options de chunk**         | Préfixe `#+`              | Sections de code RStudio      |
+| **Fonctionnalités modernes** | Limité à R Markdown       | Toutes les capacités Quarto   |
+| **Encadrés**                 | HTML/CSS manuel           | Callouts Quarto natifs        |
+| **Diagrammes**               | Outils externes           | Support Mermaid natif         |
+| **Thèmes**                   | Thèmes R Markdown limités | 25+ thèmes Quarto modernes    |
+
+**Pourquoi choisir quartify ?**
+
+1.  **Écosystème Quarto Moderne** : Bénéficiez des fonctionnalités de
+    nouvelle génération de Quarto (callouts, tabsets, références
+    croisées, Observable JS, etc.)
+2.  **Scripts R Plus Propres** : Utilisez des commentaires R naturels
+    sans syntaxe spéciale `#'` ou `#+` - vos scripts restent lisibles
+    comme du code R autonome
+3.  **Meilleurs Thèmes** : Accès à des thèmes HTML modernes et
+    responsives avec un style cohérent
+4.  **Pérennité** : Quarto est activement développé par Posit comme
+    successeur de R Markdown
+
 ## Installation
 
 Vous pouvez installer la version de développement de quartify depuis

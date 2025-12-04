@@ -61,7 +61,7 @@
       <h1>Getting Started with quartify</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.4/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -79,14 +79,89 @@ scripts into Quarto markdown documents (.qmd). The package recognizes
 RStudio code sections to create properly structured documents with
 navigation. This vignette will guide you through the basic usage and
 features of the package.</p>
-</div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<div class="section level3">
+<h3 id="comparison-with-knitrspin">Comparison with knitr::spin()<a class="anchor" aria-label="anchor" href="#comparison-with-knitrspin"></a>
+</h3>
+<p>If you’re familiar with <a href="https://yihui.org/knitr/demo/stitch/" class="external-link"><code>knitr::spin()</code></a>,
+you might wonder how <code>quartify</code> differs:</p>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="44%">
+<col width="29%">
+</colgroup>
+<thead><tr class="header">
+<th>Feature</th>
+<th>knitr::spin()</th>
+<th>quartify</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Output Format</strong></td>
+<td>R Markdown (.Rmd)</td>
+<td>Quarto (.qmd)</td>
+</tr>
+<tr class="even">
+<td><strong>Text Syntax</strong></td>
+<td>
+<code>#'</code> for markdown</td>
+<td>
+<code>#</code> (natural R comments)</td>
+</tr>
+<tr class="odd">
+<td><strong>Chunk Options</strong></td>
+<td>
+<code>#+</code> prefix</td>
+<td>RStudio code sections</td>
+</tr>
+<tr class="even">
+<td><strong>Modern Features</strong></td>
+<td>Limited to R Markdown</td>
+<td>Full Quarto capabilities</td>
+</tr>
+<tr class="odd">
+<td><strong>Callouts</strong></td>
+<td>Manual HTML/CSS</td>
+<td>Native Quarto callouts</td>
+</tr>
+<tr class="even">
+<td><strong>Diagrams</strong></td>
+<td>External tools</td>
+<td>Native Mermaid support</td>
+</tr>
+<tr class="odd">
+<td><strong>Themes</strong></td>
+<td>Limited R Markdown themes</td>
+<td>25+ modern Quarto themes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why choose quartify?</strong></p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Modern Quarto Ecosystem</strong>: Benefit from Quarto’s
+next-generation features (callouts, tabsets, cross-references,
+Observable JS, etc.)</li>
+<li>
+<strong>Cleaner R Scripts</strong>: Use natural R commenting without
+special <code>#'</code> or <code>#+</code> syntax - your scripts remain
+readable as standalone R code</li>
+<li>
+<strong>Advanced Outputs</strong>: Generate websites, books,
+presentations, and scientific articles with the same workflow</li>
+<li>
+<strong>Better Theming</strong>: Access to modern, responsive HTML
+themes with consistent styling</li>
+<li>
+<strong>Future-Proof</strong>: Quarto is actively developed by Posit
+as the successor to R Markdown</li>
+</ol>
+<p>S## Installation</p>
 <p>You can install the development version of quartify from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ddotta/quartify"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="basic-usage">Basic Usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>

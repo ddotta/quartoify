@@ -14,6 +14,31 @@ sections](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html).
 It recognizes the standard RStudio code section syntax (`####`, `====`,
 `----`) to create properly indented navigation structures.
 
+### Why quartify instead of knitr::spin()?
+
+While [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/) converts R
+scripts to R Markdown (.Rmd), `quartify` converts them to **Quarto**
+(.qmd), giving you access to all modern Quarto features:
+
+- ✅ **Modern Publishing System**: Leverage Quarto’s advanced features
+  (callouts, tabsets, cross-references, etc.)
+- ✅ **Better Theming**: Access to 25+ modern HTML themes with
+  consistent styling
+- ✅ **Enhanced Interactivity**: Native support for Observable JS,
+  Shiny, and interactive widgets
+- ✅ **Scientific Publishing**: Built-in support for citations,
+  bibliographies, and academic formatting
+- ✅ **Mermaid Diagrams**: Create flowcharts and diagrams directly in
+  your documentation
+- ✅ **Future-Proof**: Quarto is the next-generation successor to R
+  Markdown, actively developed by Posit
+
+**Key Difference**:
+[`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) uses `#'` for
+markdown text and `#+` for chunk options, while `quartify` uses natural
+R commenting (`#` for text, RStudio sections for headers) making your R
+scripts more readable and maintainable even before conversion.
+
 ### Use Cases
 
 If you have a working R script that contains comments, you may want to

@@ -35,7 +35,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>📦 quartify </h1>
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.4/README_FR.md" class="external-link"><code>README_FR.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/README_FR.md" class="external-link"><code>README_FR.md</code></a></small>
     </div>
 
 
@@ -47,6 +47,17 @@
 <h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a></h2>
 <p><code>quartify</code> est un package R qui convertit automatiquement des scripts R en documents Quarto markdown (.qmd).</p>
 <p>Le package facilite la transformation de vos analyses R en documents Quarto reproductibles et bien structurés, en préservant la structure logique de votre code grâce aux <a href="(https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)" class="external-link">sections de code RStudio</a>. Il reconnaît la syntaxe standard des sections de code RStudio (<code>####</code>, <code>====</code>, <code>----</code>) pour créer des structures de navigation correctement indentées.</p>
+<div class="section level3">
+<h3 id="pourquoi-quartify-plutôt-que-knitrspin-">Pourquoi quartify plutôt que knitr::spin() ?<a class="anchor" aria-label="anchor" href="#pourquoi-quartify-plut%C3%B4t-que-knitrspin-"></a></h3>
+<p>Alors que <a href="https://yihui.org/knitr/demo/stitch/" class="external-link"><code>knitr::spin()</code></a> convertit les scripts R en R Markdown (.Rmd), <code>quartify</code> les convertit en <strong>Quarto</strong> (.qmd), vous donnant accès à toutes les fonctionnalités modernes de Quarto :</p>
+<ul><li>✅ <strong>Système de Publication Moderne</strong> : Exploitez les fonctionnalités avancées de Quarto (callouts, tabsets, références croisées, etc.)</li>
+<li>✅ <strong>Meilleurs Thèmes</strong> : Accès à plus de 25 thèmes HTML modernes avec un style cohérent</li>
+<li>✅ <strong>Interactivité Améliorée</strong> : Support natif pour Observable JS, Shiny, et widgets interactifs</li>
+<li>✅ <strong>Publication Scientifique</strong> : Support intégré pour citations, bibliographies, et formatage académique</li>
+<li>✅ <strong>Diagrammes Mermaid</strong> : Créez des organigrammes et diagrammes directement dans votre documentation</li>
+<li>✅ <strong>Pérennité</strong> : Quarto est le successeur de nouvelle génération de R Markdown, activement développé par Posit</li>
+</ul><p><strong>Différence Clé</strong> : <code><a href="https://rdrr.io/pkg/knitr/man/spin.html" class="external-link">knitr::spin()</a></code> utilise <code>#'</code> pour le texte markdown et <code>#+</code> pour les options de chunk, tandis que <code>quartify</code> utilise des commentaires R naturels (<code>#</code> pour le texte, sections RStudio pour les titres) rendant vos scripts R plus lisibles et maintenables même avant conversion.</p>
+</div>
 <div class="section level3">
 <h3 id="cas-dusage">Cas d’usage<a class="anchor" aria-label="anchor" href="#cas-dusage"></a></h3>
 <p>Si vous avez un script R fonctionnel qui contient des commentaires, vous pourriez vouloir générer un document Quarto à partir de ce script qui vous permettra de produire automatiquement une documentation HTML affichable. Ceci est particulièrement utile pour :</p>

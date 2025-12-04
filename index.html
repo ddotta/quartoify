@@ -66,6 +66,20 @@
 <p><code>quartify</code> is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).</p>
 <p>The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">RStudio code sections</a>. It recognizes the standard RStudio code section syntax (<code>####</code>, <code>====</code>, <code>----</code>) to create properly indented navigation structures.</p>
 <div class="section level3">
+<h3 id="why-quartify-instead-of-knitrspin">Why quartify instead of knitr::spin()?<a class="anchor" aria-label="anchor" href="#why-quartify-instead-of-knitrspin"></a>
+</h3>
+<p>While <a href="https://yihui.org/knitr/demo/stitch/" class="external-link"><code>knitr::spin()</code></a> converts R scripts to R Markdown (.Rmd), <code>quartify</code> converts them to <strong>Quarto</strong> (.qmd), giving you access to all modern Quarto features:</p>
+<ul>
+<li>✅ <strong>Modern Publishing System</strong>: Leverage Quarto’s advanced features (callouts, tabsets, cross-references, etc.)</li>
+<li>✅ <strong>Better Theming</strong>: Access to 25+ modern HTML themes with consistent styling</li>
+<li>✅ <strong>Enhanced Interactivity</strong>: Native support for Observable JS, Shiny, and interactive widgets</li>
+<li>✅ <strong>Scientific Publishing</strong>: Built-in support for citations, bibliographies, and academic formatting</li>
+<li>✅ <strong>Mermaid Diagrams</strong>: Create flowcharts and diagrams directly in your documentation</li>
+<li>✅ <strong>Future-Proof</strong>: Quarto is the next-generation successor to R Markdown, actively developed by Posit</li>
+</ul>
+<p><strong>Key Difference</strong>: <code><a href="https://rdrr.io/pkg/knitr/man/spin.html" class="external-link">knitr::spin()</a></code> uses <code>#'</code> for markdown text and <code>#+</code> for chunk options, while <code>quartify</code> uses natural R commenting (<code>#</code> for text, RStudio sections for headers) making your R scripts more readable and maintainable even before conversion.</p>
+</div>
+<div class="section level3">
 <h3 id="use-cases">Use Cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
 </h3>
 <p>If you have a working R script that contains comments, you may want to generate a Quarto document from this script that will allow you to automatically produce displayable HTML documentation. This is particularly useful for:</p>
