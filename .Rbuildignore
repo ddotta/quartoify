@@ -8,6 +8,9 @@
 ^\.github$
 ^LICENSE\.md$
 ^dev$
+^Dockerfile$
+^\.dockerignore$
+^deployment_files$
 ^output\.qmd$
 ^README_FR\.md$
 ^.*\.qmd$

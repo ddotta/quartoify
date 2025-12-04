@@ -1,0 +1,47 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# RStudio
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Documentation
+docs/
+inst/doc/
+vignettes/*.html
+vignettes/*.pdf
+man/figures/
+
+# Tests
+tests/
+
+# Build artifacts
+*.tar.gz
+*.zip
+*.Rcheck/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deployment
+deployment_files/
+.dockerignore
+Dockerfile
+.github/
+
+# Output
+output.html
+output.qmd
+output_files/

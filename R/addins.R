@@ -672,8 +672,8 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         class = "lang-buttons",
         shiny::actionButton("lang_en", english_flag_html, class = "btn-sm"),
         shiny::actionButton("lang_fr", french_flag_html, class = "btn-sm"),
-        shiny::actionButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GO ▶</span>"), class = "btn-primary"),
-        shiny::actionButton("quit_app", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>✕</span>"), class = "btn-danger btn-sm", style = "margin-left: 10px;")
+        shiny::actionButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GO \u25B6</span>"), class = "btn-primary"),
+        shiny::actionButton("quit_app", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>\u2715</span>"), class = "btn-danger btn-sm", style = "margin-left: 10px;")
       )
     ),
     
@@ -850,7 +850,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     output$input_file_display <- shiny::renderText({
       path <- input_file_path()
       if (is.null(path)) {
-        if (lang() == "fr") "(sélectionner un fichier)" else "(select a file)"
+        if (lang() == "fr") "(s\u00E9lectionner un fichier)" else "(select a file)"
       } else {
         basename(path)
       }
@@ -859,7 +859,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     output$output_file_display <- shiny::renderText({
       path <- output_file_path()
       if (is.null(path)) {
-        if (lang() == "fr") "(sélectionner un fichier)" else "(select a file)"
+        if (lang() == "fr") "(s\u00E9lectionner un fichier)" else "(select a file)"
       } else {
         basename(path)
       }
@@ -868,7 +868,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     output$html_file_display <- shiny::renderText({
       path <- html_file_path()
       if (is.null(path)) {
-        if (lang() == "fr") "(emplacement par défaut)" else "(default location)"
+        if (lang() == "fr") "(emplacement par d\u00E9faut)" else "(default location)"
       } else {
         basename(path)
       }
@@ -891,19 +891,19 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         show_source_lines = "Show original line numbers in code chunks"
       ),
       fr = list(
-        input_file = "Fichier d'entrée :",
+        input_file = "Fichier d'entr\u00E9e :",
         output_file = "Chemin du fichier de sortie :",
         html_file = "Chemin du fichier HTML :",
-        html_file_optional = "(optionnel - laisser vide pour l'emplacement par défaut)",
+        html_file_optional = "(optionnel - laisser vide pour l'emplacement par d\u00E9faut)",
         title = "Titre du document :",
         author = "Nom de l'auteur :",
-        theme = "Thème HTML :",
-        render = "Générer Html après conversion",
-        open_html = "Ouvrir le fichier Html après rendu",
-        open_qmd = "Ouvrir le fichier .qmd dans l'éditeur après conversion",
-        code_fold = "Replier les blocs de code par défaut",
-        number_sections = "Numéroter les sections automatiquement (pas utile si vos sections sont déjà numérotées)",
-        show_source_lines = "Afficher les numéros de ligne originaux dans les chunks"
+        theme = "Th\u00E8me HTML :",
+        render = "G\u00E9n\u00E9rer Html apr\u00E8s conversion",
+        open_html = "Ouvrir le fichier Html apr\u00E8s rendu",
+        open_qmd = "Ouvrir le fichier .qmd dans l'\u00E9diteur apr\u00E8s conversion",
+        code_fold = "Replier les blocs de code par d\u00E9faut",
+        number_sections = "Num\u00E9roter les sections automatiquement (pas utile si vos sections sont d\u00E9j\u00E0 num\u00E9rot\u00E9es)",
+        show_source_lines = "Afficher les num\u00E9ros de ligne originaux dans les chunks"
       )
     )
     
@@ -928,7 +928,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       
       if (is.null(input_file_final) || is.null(output_file_final)) {
         shiny::showNotification(
-          if (lang() == "fr") "Veuillez sélectionner les fichiers d'entrée et de sortie" else "Please select input and output files",
+          if (lang() == "fr") "Veuillez s\u00E9lectionner les fichiers d'entr\u00E9e et de sortie" else "Please select input and output files",
           type = "error",
           duration = 5
         )
@@ -973,13 +973,13 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         session$sendCustomMessage('toggleLoader', FALSE)
         
         success_msg <- if (lang() == "fr") {
-          "✔ Conversion terminée avec succès !"
+          "\u2714 Conversion termin\u00E9e avec succ\u00E8s !"
         } else {
-          "✔ Conversion completed successfully!"
+          "\u2714 Conversion completed successfully!"
         }
         
         shiny::showModal(shiny::modalDialog(
-          title = if (lang() == "fr") "Conversion terminée" else "Conversion completed",
+          title = if (lang() == "fr") "Conversion termin\u00E9e" else "Conversion completed",
           success_msg,
           easyClose = TRUE,
           footer = shiny::actionButton("close_modal", if (lang() == "fr") "Fermer" else "Close")
