@@ -962,18 +962,136 @@ rtoqmd(mermaid_file, render = TRUE, open_html = TRUE)
 - [Quarto Mermaid
   Guide](https://quarto.org/docs/authoring/diagrams.html)
 
+## Tabsets
+
+Tabsets allow you to organize related content in interactive tabs,
+perfect for displaying alternative views, different analyses, or grouped
+visualizations. This feature uses the same intuitive syntax as callouts.
+
+### Basic Syntax
+
+To create a tabset:
+
+1.  **Start tabset container**: Use `# tabset` on its own line
+2.  **Define each tab**: Use `# tab - Tab Title` on its own line
+3.  **Add content**: Add comments and code for each tab
+4.  **Automatic closing**: Tabset closes at the next section header
+
+**Syntax in R script:**
+
+``` r
+# tabset
+# tab - Summary Statistics
+# Here are the basic summary statistics for the iris dataset:
+summary(iris)
+
+# tab - Data Structure
+# Let's examine the structure of the data:
+str(iris)
+
+# tab - First Rows
+# Here are the first few rows:
+head(iris)
+```
+
+**Resulting Quarto:**
+
+``` markdown
+::: {.panel-tabset}
+
+## Summary Statistics
+
+Here are the basic summary statistics for the iris dataset:
+
+
+``` r
+summary(iris)
+#>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+#>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+#>  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+#>  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+#>  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+#>  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+#>  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+#>        Species  
+#>  setosa    :50  
+#>  versicolor:50  
+#>  virginica :50  
+#>                 
+#>                 
+#> 
+```
+
+## Data Structure
+
+Let’s examine the structure of the data:
+
+``` r
+str(iris)
+#> 'data.frame':    150 obs. of  5 variables:
+#>  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+#>  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+#>  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+#>  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+#>  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+```
+
+## First Rows
+
+Here are the first few rows:
+
+``` r
+head(iris)
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#> 1          5.1         3.5          1.4         0.2  setosa
+#> 2          4.9         3.0          1.4         0.2  setosa
+#> 3          4.7         3.2          1.3         0.2  setosa
+#> 4          4.6         3.1          1.5         0.2  setosa
+#> 5          5.0         3.6          1.4         0.2  setosa
+#> 6          5.4         3.9          1.7         0.4  setosa
+```
+
+:::
+
+    ### Rules
+
+    - `# tabset` must be on its own line (with optional leading/trailing whitespace)
+    - Each tab starts with `# tab - Title` where `Title` is the tab label
+    - Tab content includes all comments and code until the next tab or tabset end
+    - Tabsets automatically close at RStudio section headers (`##`, `###`, `####`)
+    - You can have multiple tabsets in the same document
+    - Empty lines within tabs are preserved
+
+    ### Complete Example
+
+    See the complete example file with multiple tabsets:
+
+    ```r
+    # Locate the tabset example file
+    tabset_file <- system.file("examples", "example_tabset.R", package = "quartify")
+
+    # Convert and render
+    rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
+
+**More Tabset Resources:**
+
+- [Quarto Tabset
+  Documentation](https://quarto.org/docs/interactive/layout.html#tabset-panel)
+- Combine tabsets with callouts for rich, organized documentation
+
 ## Comment Rules Summary
 
-| Type                   | Syntax                   | Result                | Example                      |
-|------------------------|--------------------------|-----------------------|------------------------------|
-| **Level 2 Header**     | `## Title ####`          | Markdown `## Title`   | `## Data Analysis ####`      |
-| **Level 3 Header**     | `### Title ====`         | Markdown `### Title`  | `### Preprocessing ====`     |
-| **Level 4 Header**     | `#### Title ----`        | Markdown `#### Title` | `#### Remove NA ----`        |
-| **Standalone Comment** | `# Text`                 | Plain text paragraph  | `# This filters the data`    |
-| **Callout**            | `# callout-TYPE - Title` | Quarto callout block  | `# callout-note - Important` |
-| **Mermaid Diagram**    | `#| mermaid`             | Mermaid diagram chunk | `#| mermaid` + content       |
-| **Code**               | No `#` prefix            | R code chunk          | `iris %>% filter(...)`       |
-| **Inline Comment**     | `# Text` in code         | Stays in code chunk   | `iris %>% # comment`         |
+| Type                   | Syntax                      | Result                | Example                      |
+|------------------------|-----------------------------|-----------------------|------------------------------|
+| **Level 2 Header**     | `## Title ####`             | Markdown `## Title`   | `## Data Analysis ####`      |
+| **Level 3 Header**     | `### Title ====`            | Markdown `### Title`  | `### Preprocessing ====`     |
+| **Level 4 Header**     | `#### Title ----`           | Markdown `#### Title` | `#### Remove NA ----`        |
+| **Standalone Comment** | `# Text`                    | Plain text paragraph  | `# This filters the data`    |
+| **Callout**            | `# callout-TYPE - Title`    | Quarto callout block  | `# callout-note - Important` |
+| **Mermaid Diagram**    | `#| mermaid`                | Mermaid diagram chunk | `#| mermaid` + content       |
+| **Tabset**             | `# tabset`, `# tab - Title` | Tabbed panel          | `# tabset` + tabs            |
+| **Code**               | No `#` prefix               | R code chunk          | `iris %>% filter(...)`       |
+| **Inline Comment**     | `# Text` in code            | Stays in code chunk   | `iris %>% # comment`         |
 
 **Critical rules to avoid errors:**
 

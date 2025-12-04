@@ -1129,6 +1129,128 @@ Quarto Mermaid</a></li>
 </div>
 </div>
 <div class="section level2">
+<h2 id="tabsets-onglets">Tabsets (Onglets)<a class="anchor" aria-label="anchor" href="#tabsets-onglets"></a>
+</h2>
+<p>Les tabsets vous permettent d’organiser du contenu connexe dans des
+onglets interactifs, parfait pour afficher des vues alternatives,
+différentes analyses ou des visualisations groupées. Cette
+fonctionnalité utilise la même syntaxe intuitive que les callouts.</p>
+<div class="section level3">
+<h3 id="syntaxe-de-base">Syntaxe de base<a class="anchor" aria-label="anchor" href="#syntaxe-de-base"></a>
+</h3>
+<p>Pour créer un tabset :</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Démarrer le conteneur tabset</strong> : Utilisez
+<code># tabset</code> sur une ligne seule</li>
+<li>
+<strong>Définir chaque onglet</strong> : Utilisez
+<code># tab - Titre de l'onglet</code> sur une ligne seule</li>
+<li>
+<strong>Ajouter du contenu</strong> : Ajoutez des commentaires et du
+code pour chaque onglet</li>
+<li>
+<strong>Fermeture automatique</strong> : Le tabset se ferme au
+prochain en-tête de section</li>
+</ol>
+<p><strong>Syntaxe dans le script R :</strong></p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># tabset</span></span>
+<span><span class="co"># tab - Statistiques résumées</span></span>
+<span><span class="co"># Voici les statistiques résumées pour le jeu de données iris :</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tab - Structure des données</span></span>
+<span><span class="co"># Examinons la structure des données :</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tab - Premières lignes</span></span>
+<span><span class="co"># Voici les premières lignes :</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Quarto résultant :</strong></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a><span class="fu">## Statistiques résumées</span></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a>Voici les statistiques résumées pour le jeu de données iris :</span>
+<span id="cb46-6"><a href="#cb46-6" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" tabindex="-1"></a></span>
+<span id="cb46-8"><a href="#cb46-8" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb46-9"><a href="#cb46-9" tabindex="-1"></a><span class="fu">summary</span>(iris)</span>
+<span id="cb46-10"><a href="#cb46-10" tabindex="-1"></a><span class="co">#&gt;   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   </span></span>
+<span id="cb46-11"><a href="#cb46-11" tabindex="-1"></a><span class="co">#&gt;  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  </span></span>
+<span id="cb46-12"><a href="#cb46-12" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  </span></span>
+<span id="cb46-13"><a href="#cb46-13" tabindex="-1"></a><span class="co">#&gt;  Median :5.800   Median :3.000   Median :4.350   Median :1.300  </span></span>
+<span id="cb46-14"><a href="#cb46-14" tabindex="-1"></a><span class="co">#&gt;  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  </span></span>
+<span id="cb46-15"><a href="#cb46-15" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  </span></span>
+<span id="cb46-16"><a href="#cb46-16" tabindex="-1"></a><span class="co">#&gt;  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  </span></span>
+<span id="cb46-17"><a href="#cb46-17" tabindex="-1"></a><span class="co">#&gt;        Species  </span></span>
+<span id="cb46-18"><a href="#cb46-18" tabindex="-1"></a><span class="co">#&gt;  setosa    :50  </span></span>
+<span id="cb46-19"><a href="#cb46-19" tabindex="-1"></a><span class="co">#&gt;  versicolor:50  </span></span>
+<span id="cb46-20"><a href="#cb46-20" tabindex="-1"></a><span class="co">#&gt;  virginica :50  </span></span>
+<span id="cb46-21"><a href="#cb46-21" tabindex="-1"></a><span class="co">#&gt;                 </span></span>
+<span id="cb46-22"><a href="#cb46-22" tabindex="-1"></a><span class="co">#&gt;                 </span></span>
+<span id="cb46-23"><a href="#cb46-23" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="structure-des-données">Structure des données<a class="anchor" aria-label="anchor" href="#structure-des-donn%C3%A9es"></a>
+</h2>
+<p>Examinons la structure des données :</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    150 obs. of  5 variables:</span></span>
+<span><span class="co">#&gt;  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...</span></span>
+<span><span class="co">#&gt;  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...</span></span>
+<span><span class="co">#&gt;  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...</span></span>
+<span><span class="co">#&gt;  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...</span></span>
+<span><span class="co">#&gt;  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="premières-lignes">Premières lignes<a class="anchor" aria-label="anchor" href="#premi%C3%A8res-lignes"></a>
+</h2>
+<p>Voici les premières lignes :</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></span>
+<span><span class="co">#&gt; 1          5.1         3.5          1.4         0.2  setosa</span></span>
+<span><span class="co">#&gt; 2          4.9         3.0          1.4         0.2  setosa</span></span>
+<span><span class="co">#&gt; 3          4.7         3.2          1.3         0.2  setosa</span></span>
+<span><span class="co">#&gt; 4          4.6         3.1          1.5         0.2  setosa</span></span>
+<span><span class="co">#&gt; 5          5.0         3.6          1.4         0.2  setosa</span></span>
+<span><span class="co">#&gt; 6          5.4         3.9          1.7         0.4  setosa</span></span></code></pre></div>
+<p>:::</p>
+<pre><code>
+### Règles
+
+- `# tabset` doit être sur une ligne seule (avec des espaces optionnels au début/fin)
+- Chaque onglet commence par `# tab - Titre` où `Titre` est le label de l'onglet
+- Le contenu de l'onglet inclut tous les commentaires et code jusqu'au prochain onglet ou fin du tabset
+- Les tabsets se ferment automatiquement aux en-têtes de section RStudio (`##`, `###`, `####`)
+- Vous pouvez avoir plusieurs tabsets dans le même document
+- Les lignes vides dans les onglets sont préservées
+
+### Exemple complet
+
+Voir le fichier exemple complet avec plusieurs tabsets :
+
+```r
+# Localiser le fichier exemple tabset
+tabset_file &lt;- system.file("examples", "example_tabset.R", package = "quartify")
+
+# Convertir et rendre
+rtoqmd(tabset_file, render = TRUE, open_html = TRUE)</code></pre>
+<div class="alert alert-info">
+<p><strong>Plus de ressources sur les tabsets :</strong></p>
+<ul>
+<li><a href="https://quarto.org/docs/interactive/layout.html#tabset-panel" class="external-link">Documentation
+Quarto Tabset</a></li>
+<li>Combinez les tabsets avec les callouts pour une documentation riche
+et organisée</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
 <h2 id="résumé-des-règles-de-commentaires">Résumé des règles de commentaires<a class="anchor" aria-label="anchor" href="#r%C3%A9sum%C3%A9-des-r%C3%A8gles-de-commentaires"></a>
 </h2>
 <table class="table">
@@ -1186,13 +1308,22 @@ Quarto Mermaid</a></li>
 <code>#| mermaid</code> + contenu</td>
 </tr>
 <tr class="odd">
+<td><strong>Tabset</strong></td>
+<td>
+<code># tabset</code>, <code># tab - Titre</code>
+</td>
+<td>Panneau à onglets</td>
+<td>
+<code># tabset</code> + onglets</td>
+</tr>
+<tr class="even">
 <td><strong>Code</strong></td>
 <td>Sans préfixe <code>#</code>
 </td>
 <td>Chunk de code R</td>
 <td><code>iris %&gt;% filter(...)</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Commentaire en ligne</strong></td>
 <td>
 <code># Texte</code> dans code</td>

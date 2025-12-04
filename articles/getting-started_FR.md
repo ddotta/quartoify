@@ -993,18 +993,142 @@ rtoqmd(mermaid_file, render = TRUE, open_html = TRUE)
 - [Guide Quarto
   Mermaid](https://quarto.org/docs/authoring/diagrams.html)
 
+## Tabsets (Onglets)
+
+Les tabsets vous permettent d’organiser du contenu connexe dans des
+onglets interactifs, parfait pour afficher des vues alternatives,
+différentes analyses ou des visualisations groupées. Cette
+fonctionnalité utilise la même syntaxe intuitive que les callouts.
+
+### Syntaxe de base
+
+Pour créer un tabset :
+
+1.  **Démarrer le conteneur tabset** : Utilisez `# tabset` sur une ligne
+    seule
+2.  **Définir chaque onglet** : Utilisez `# tab - Titre de l'onglet` sur
+    une ligne seule
+3.  **Ajouter du contenu** : Ajoutez des commentaires et du code pour
+    chaque onglet
+4.  **Fermeture automatique** : Le tabset se ferme au prochain en-tête
+    de section
+
+**Syntaxe dans le script R :**
+
+``` r
+# tabset
+# tab - Statistiques résumées
+# Voici les statistiques résumées pour le jeu de données iris :
+summary(iris)
+
+# tab - Structure des données
+# Examinons la structure des données :
+str(iris)
+
+# tab - Premières lignes
+# Voici les premières lignes :
+head(iris)
+```
+
+**Quarto résultant :**
+
+``` markdown
+::: {.panel-tabset}
+
+## Statistiques résumées
+
+Voici les statistiques résumées pour le jeu de données iris :
+
+
+``` r
+summary(iris)
+#>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+#>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+#>  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+#>  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+#>  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+#>  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+#>  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+#>        Species  
+#>  setosa    :50  
+#>  versicolor:50  
+#>  virginica :50  
+#>                 
+#>                 
+#> 
+```
+
+## Structure des données
+
+Examinons la structure des données :
+
+``` r
+str(iris)
+#> 'data.frame':    150 obs. of  5 variables:
+#>  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+#>  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+#>  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+#>  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+#>  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+```
+
+## Premières lignes
+
+Voici les premières lignes :
+
+``` r
+head(iris)
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#> 1          5.1         3.5          1.4         0.2  setosa
+#> 2          4.9         3.0          1.4         0.2  setosa
+#> 3          4.7         3.2          1.3         0.2  setosa
+#> 4          4.6         3.1          1.5         0.2  setosa
+#> 5          5.0         3.6          1.4         0.2  setosa
+#> 6          5.4         3.9          1.7         0.4  setosa
+```
+
+:::
+
+    ### Règles
+
+    - `# tabset` doit être sur une ligne seule (avec des espaces optionnels au début/fin)
+    - Chaque onglet commence par `# tab - Titre` où `Titre` est le label de l'onglet
+    - Le contenu de l'onglet inclut tous les commentaires et code jusqu'au prochain onglet ou fin du tabset
+    - Les tabsets se ferment automatiquement aux en-têtes de section RStudio (`##`, `###`, `####`)
+    - Vous pouvez avoir plusieurs tabsets dans le même document
+    - Les lignes vides dans les onglets sont préservées
+
+    ### Exemple complet
+
+    Voir le fichier exemple complet avec plusieurs tabsets :
+
+    ```r
+    # Localiser le fichier exemple tabset
+    tabset_file <- system.file("examples", "example_tabset.R", package = "quartify")
+
+    # Convertir et rendre
+    rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
+
+**Plus de ressources sur les tabsets :**
+
+- [Documentation Quarto
+  Tabset](https://quarto.org/docs/interactive/layout.html#tabset-panel)
+- Combinez les tabsets avec les callouts pour une documentation riche et
+  organisée
+
 ## Résumé des règles de commentaires
 
-| Type                     | Syntaxe                  | Résultat                | Exemple                      |
-|--------------------------|--------------------------|-------------------------|------------------------------|
-| **En-tête niveau 2**     | `## Titre ####`          | Markdown `## Titre`     | `## Analyse de données ####` |
-| **En-tête niveau 3**     | `### Titre ====`         | Markdown `### Titre`    | `### Prétraitement ====`     |
-| **En-tête niveau 4**     | `#### Titre ----`        | Markdown `#### Titre`   | `#### Supprimer NA ----`     |
-| **Commentaire**          | `# Texte`                | Paragraphe de texte     | `# Ceci filtre les données`  |
-| **Callout**              | `# callout-TYPE - Titre` | Bloc callout Quarto     | `# callout-note - Important` |
-| **Diagramme Mermaid**    | `#| mermaid`             | Chunk diagramme Mermaid | `#| mermaid` + contenu       |
-| **Code**                 | Sans préfixe `#`         | Chunk de code R         | `iris %>% filter(...)`       |
-| **Commentaire en ligne** | `# Texte` dans code      | Reste dans chunk        | `iris %>% # commentaire`     |
+| Type                     | Syntaxe                     | Résultat                | Exemple                      |
+|--------------------------|-----------------------------|-------------------------|------------------------------|
+| **En-tête niveau 2**     | `## Titre ####`             | Markdown `## Titre`     | `## Analyse de données ####` |
+| **En-tête niveau 3**     | `### Titre ====`            | Markdown `### Titre`    | `### Prétraitement ====`     |
+| **En-tête niveau 4**     | `#### Titre ----`           | Markdown `#### Titre`   | `#### Supprimer NA ----`     |
+| **Commentaire**          | `# Texte`                   | Paragraphe de texte     | `# Ceci filtre les données`  |
+| **Callout**              | `# callout-TYPE - Titre`    | Bloc callout Quarto     | `# callout-note - Important` |
+| **Diagramme Mermaid**    | `#| mermaid`                | Chunk diagramme Mermaid | `#| mermaid` + contenu       |
+| **Tabset**               | `# tabset`, `# tab - Titre` | Panneau à onglets       | `# tabset` + onglets         |
+| **Code**                 | Sans préfixe `#`            | Chunk de code R         | `iris %>% filter(...)`       |
+| **Commentaire en ligne** | `# Texte` dans code         | Reste dans chunk        | `iris %>% # commentaire`     |
 
 **Règles critiques pour éviter les erreurs :**
 

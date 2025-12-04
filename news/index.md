@@ -39,6 +39,38 @@
     ```
 
   - Converted to proper Quarto Mermaid chunks in .qmd output
+- **Tabset Support**:
+  - Added support for tabsets to organize related content in interactive
+    tabs
+
+  - Use `# tabset` to start a tabset container, then `# tab - Title` for
+    each tab
+
+  - Perfect for displaying alternative views, different analyses, or
+    grouped visualizations
+
+  - Tabsets automatically close at RStudio section headers
+
+  - Example syntax:
+
+    ``` r
+    # tabset
+    # tab - Summary Statistics
+    # Here are the basic summary statistics:
+    summary(iris)
+
+    # tab - Data Structure
+    # Let's examine the structure:
+    str(iris)
+
+    # tab - First Rows
+    # Here are the first few rows:
+    head(iris)
+    ```
+
+  - Converted to Quarto `{.panel-tabset}` format in .qmd output
+
+  - See `inst/examples/example_tabset.R` for complete examples
 
 ### Bug Fixes
 

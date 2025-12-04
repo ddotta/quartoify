@@ -167,6 +167,15 @@ content should not start with hash symbols. The chunk ends at a blank
 line or comment. Supported types: flowchart, sequence, class, state,
 etc. See example file in inst/examples/example_mermaid.R.
 
+## Tabsets
+
+Create tabbed content panels for interactive navigation between related
+content. Use hash tabset to start a tabset container, then define
+individual tabs with hash tab - Title. Each tab can contain text, code,
+and other content. The tabset closes automatically when a new section
+starts. Example: hash tabset, hash tab - Plot A, code or text content,
+hash tab - Plot B, more content.
+
 ## Examples
 
 ``` r

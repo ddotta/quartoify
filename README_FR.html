@@ -303,34 +303,101 @@
 <code class="sourceCode R"><span><span class="co"># callout-tip</span></span>
 <span><span class="co"># Ceci est un conseil sans titre.</span></span></code></pre></div>
 <p>Les callouts se terminent lorsqu’on rencontre une ligne vide, du code, ou une autre section.</p>
-<p><strong>Règles importantes :</strong></p>
-<ul><li>Toujours inclure un espace après <code>#</code> pour les commentaires</li>
-<li>Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin</li>
-<li>
-<strong>Les commentaires avec un <code>#</code> en début de ligne</strong> → deviennent du texte en dehors des blocs de code</li>
-<li>
-<strong>Les commentaires dans le code</strong> → restent à l’intérieur des blocs de code</li>
-<li>
-<strong>Callouts</strong> → <code># callout-TYPE</code> ou <code># callout-TYPE - Titre</code>
-</li>
-<li>Les lignes de code consécutives sont regroupées dans le même bloc</li>
-<li>Les lignes vides entre les blocs sont ignorées</li>
-</ul><p>Ceci suit la <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">convention des sections de code RStudio</a> qui fournit une indentation appropriée dans la navigation du plan du document RStudio.</p>
+</div>
+<div class="section level4">
+<h4 id="id_6-diagrammes-mermaid">6. Diagrammes Mermaid<a class="anchor" aria-label="anchor" href="#id_6-diagrammes-mermaid"></a></h4>
+<p>Créez des organigrammes, des diagrammes de séquence et d’autres visualisations avec la syntaxe Mermaid, rendus directement dans la sortie HTML.</p>
+<p><strong>Syntaxe dans le script R :</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">#| mermaid</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>flowchart LR</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  A[Démarrer] <span class="sc">-</span><span class="ot">-&gt;</span> B{Décision}</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Oui<span class="sc">|</span> C[Résultat <span class="dv">1</span>]</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Non<span class="sc">|</span> D[Résultat <span class="dv">2</span>]</span></code></pre></div>
+<p><strong>Se convertit en Quarto :</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="in">%%| eval: true</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="in">flowchart LR</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="in">  A[Démarrer] --&gt; B{Décision}</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="in">  B --&gt;|Oui| C[Résultat 1]</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="in">  B --&gt;|Non| D[Résultat 2]</span></span></code></pre></div>
+<pre><code>
+Pour plus d'informations : [Documentation Mermaid](https://mermaid.js.org/)
+
+#### 7. Tabsets (Onglets)
+
+Organisez du contenu connexe dans des onglets interactifs pour afficher des vues alternatives ou des analyses groupées.
+
+**Syntaxe dans le script R :**
+
+```r
+# tabset
+# tab - Statistiques résumées
+# Voici les statistiques pour iris :
+summary(iris)
+
+# tab - Structure
+# Structure des données :
+str(iris)
+
+# tab - Premières lignes
+# Premières observations :
+head(iris)</code></pre>
+<p><strong>Se convertit en Quarto :</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">## Statistiques résumées</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>Voici les statistiques pour iris :</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="in">summary(iris)</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="thèmes-quarto">Thèmes Quarto<a class="anchor" aria-label="anchor" href="#th%C3%A8mes-quarto"></a></h2>
-<p>Personnalisez l’apparence de vos documents HTML avec les thèmes Quarto. Le package supporte tous les thèmes Bootswatch disponibles :</p>
-<p><strong>Thèmes clairs</strong> : cosmo, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, vapor, yeti, zephyr</p>
-<p><strong>Thèmes sombres</strong> : darkly, cyborg, slate, solar, superhero</p>
-<p>Exemple :</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Utiliser le thème "flatly"</span></span>
-<span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, theme <span class="op">=</span> <span class="st">"flatly"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Utiliser le thème sombre "darkly"</span></span>
-<span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, theme <span class="op">=</span> <span class="st">"darkly"</span><span class="op">)</span></span></code></pre></div>
+<h2 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a></h2>
+<p>Structure des données :</p>
+<p><code>{r} str(iris)</code></p>
+</div>
+<div class="section level2">
+<h2 id="premières-lignes">Premières lignes<a class="anchor" aria-label="anchor" href="#premi%C3%A8res-lignes"></a></h2>
+<p>Premières observations :</p>
+<p><code>{r} head(iris)</code></p>
+<p>:::</p>
+<pre><code>
+Pour plus d'informations : [Quarto Tabsets](https://quarto.org/docs/interactive/layout.html#tabset-panel)
+
+**Règles importantes :**
+
+- Toujours inclure un espace après `#` pour les commentaires
+- Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin
+- **Les commentaires avec un `#` en début de ligne** → deviennent du texte en dehors des blocs de code
+- **Les commentaires dans le code** → restent à l'intérieur des blocs de code
+- **Callouts** → `# callout-TYPE` ou `# callout-TYPE - Titre`
+- **Mermaid** → `#| mermaid` suivi du contenu du diagramme
+- **Tabsets** → `# tabset` puis `# tab - Titre` pour chaque onglet
+- Les lignes de code consécutives sont regroupées dans le même bloc
+- Les lignes vides entre les blocs sont ignorées
+
+Ceci suit la [convention des sections de code RStudio](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html) qui fournit une indentation appropriée dans la navigation du plan du document RStudio.
+
+## Thèmes Quarto
+
+Personnalisez l'apparence de vos documents HTML avec les thèmes Quarto. Le package supporte tous les thèmes Bootswatch disponibles :
+
+**Thèmes clairs** : cosmo, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, vapor, yeti, zephyr
+
+**Thèmes sombres** : darkly, cyborg, slate, solar, superhero
+
+Exemple :
+
+```r
+# Utiliser le thème "flatly"
+rtoqmd("mon_script.R", theme = "flatly")
+
+# Utiliser le thème sombre "darkly"
+rtoqmd("mon_script.R", theme = "darkly")</code></pre>
 <p>Pour plus d’informations sur les thèmes, consultez la <a href="https://quarto.org/docs/output-formats/html-themes.html" class="external-link">documentation Quarto</a>.</p>
 </div>
 <div class="section level2">
@@ -346,27 +413,27 @@
 <h2 id="intégration-cicd">Intégration CI/CD<a class="anchor" aria-label="anchor" href="#int%C3%A9gration-cicd"></a></h2>
 <p>Utilisez <code>quartify</code> dans vos pipelines CI/CD pour générer automatiquement la documentation :</p>
 <p><strong>GitHub Actions</strong> (<code>.github/workflows/generate-docs.yml</code>) :</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Générer la documentation</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">  run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>    library(quartify)</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    rtoqmd_dir("scripts/", render = TRUE, author = "Équipe Data")</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="at">  </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> documentation</span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="fu">    path</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>      scripts/**/*.qmd</span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>      scripts/**/*.html</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Générer la documentation</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">  run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    library(quartify)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    rtoqmd_dir("scripts/", render = TRUE, author = "Équipe Data")</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="at">  </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> documentation</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="fu">    path</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>      scripts/**/*.qmd</span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>      scripts/**/*.html</span></code></pre></div>
 <p><strong>GitLab CI</strong> (<code>.gitlab-ci.yml</code>) :</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">generate-docs</span><span class="kw">:</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> rocker/r-ver:4.5.1</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Équipe Data')"</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.qmd</span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.html</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">generate-docs</span><span class="kw">:</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> rocker/r-ver:4.5.1</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Équipe Data')"</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.qmd</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.html</span></span></code></pre></div>
 <p>📘 <strong>Guide complet CI/CD</strong> avec exemples détaillés : <a href="https://ddotta.github.io/quartify/articles/getting-started_FR.html#int%C3%A9gration-cicd">Intégration CI/CD</a></p>
 </div>
 <div class="section level2">

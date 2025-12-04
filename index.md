@@ -377,6 +377,43 @@ prefix - Chunk ends at first blank line or comment
 See complete example in
 [`inst/examples/example_mermaid.R`](https://github.com/ddotta/quartify/blob/main/inst/examples/example_mermaid.R)
 
+#### 7. Tabsets
+
+Organize related content in interactive tabs for better presentation and
+navigation.
+
+**Syntax in R script:**
+
+``` r
+# tabset
+
+# tab - Summary
+# Display summary statistics
+
+summary(data)
+
+# tab - Structure
+# Show data structure
+
+str(data)
+
+# tab - Preview
+# First rows of data
+
+head(data)
+```
+
+**Converts to Quarto tabset** with interactive tabs in HTML output.
+
+**Rules:** - Start with `# tabset` comment to begin the tabset
+container - Define each tab with `# tab - Tab Title` - Add content
+(comments and code) after each tab declaration - Tabset closes
+automatically at next section or end of file - Tabs can contain text,
+code chunks, and any other content
+
+See complete example in
+[`inst/examples/example_tabset.R`](https://github.com/ddotta/quartify/blob/main/inst/examples/example_tabset.R)
+
 **Important rules:**
 
 - Always include a space after `#` for comments
@@ -387,6 +424,7 @@ See complete example in
 - **Callouts** → `# callout-TYPE` or `# callout-TYPE - Title`
 - **Mermaid diagrams** → `#| mermaid` followed by options and diagram
   content
+- **Tabsets** → `# tabset` then `# tab - Title` for each tab
 - Consecutive code lines are grouped in the same block
 - Empty lines between blocks are ignored
 

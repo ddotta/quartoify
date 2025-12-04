@@ -66,6 +66,31 @@
 </li>
 <li><p>Converted to proper Quarto Mermaid chunks in .qmd output</p></li>
 </ul></li>
+<li>
+<strong>Tabset Support</strong>:
+<ul><li><p>Added support for tabsets to organize related content in interactive tabs</p></li>
+<li><p>Use <code># tabset</code> to start a tabset container, then <code># tab - Title</code> for each tab</p></li>
+<li><p>Perfect for displaying alternative views, different analyses, or grouped visualizations</p></li>
+<li><p>Tabsets automatically close at RStudio section headers</p></li>
+<li>
+<p>Example syntax:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># tabset</span></span>
+<span><span class="co"># tab - Summary Statistics</span></span>
+<span><span class="co"># Here are the basic summary statistics:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tab - Data Structure</span></span>
+<span><span class="co"># Let's examine the structure:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tab - First Rows</span></span>
+<span><span class="co"># Here are the first few rows:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li><p>Converted to Quarto <code>{.panel-tabset}</code> format in .qmd output</p></li>
+<li><p>See <code>inst/examples/example_tabset.R</code> for complete examples</p></li>
+</ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-0-4">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-4"></a></h3>

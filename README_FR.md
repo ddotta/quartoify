@@ -357,43 +357,115 @@ Il peut s'étendre sur plusieurs lignes.
 Les callouts se terminent lorsqu’on rencontre une ligne vide, du code,
 ou une autre section.
 
-**Règles importantes :**
+#### 6. Diagrammes Mermaid
 
-- Toujours inclure un espace après `#` pour les commentaires
-- Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin
-- **Les commentaires avec un `#` en début de ligne** → deviennent du
-  texte en dehors des blocs de code
-- **Les commentaires dans le code** → restent à l’intérieur des blocs de
-  code
-- **Callouts** → `# callout-TYPE` ou `# callout-TYPE - Titre`
-- Les lignes de code consécutives sont regroupées dans le même bloc
-- Les lignes vides entre les blocs sont ignorées
+Créez des organigrammes, des diagrammes de séquence et d’autres
+visualisations avec la syntaxe Mermaid, rendus directement dans la
+sortie HTML.
 
-Ceci suit la [convention des sections de code
-RStudio](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html)
-qui fournit une indentation appropriée dans la navigation du plan du
-document RStudio.
-
-## Thèmes Quarto
-
-Personnalisez l’apparence de vos documents HTML avec les thèmes Quarto.
-Le package supporte tous les thèmes Bootswatch disponibles :
-
-**Thèmes clairs** : cosmo, flatly, journal, litera, lumen, lux, materia,
-minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab,
-united, vapor, yeti, zephyr
-
-**Thèmes sombres** : darkly, cyborg, slate, solar, superhero
-
-Exemple :
+**Syntaxe dans le script R :**
 
 ``` r
-# Utiliser le thème "flatly"
-rtoqmd("mon_script.R", theme = "flatly")
-
-# Utiliser le thème sombre "darkly"
-rtoqmd("mon_script.R", theme = "darkly")
+#| mermaid
+#| eval: true
+flowchart LR
+  A[Démarrer] --> B{Décision}
+  B -->|Oui| C[Résultat 1]
+  B -->|Non| D[Résultat 2]
 ```
+
+**Se convertit en Quarto :**
+
+``` markdown
+```{mermaid}
+%%| eval: true
+flowchart LR
+  A[Démarrer] --> B{Décision}
+  B -->|Oui| C[Résultat 1]
+  B -->|Non| D[Résultat 2]
+```
+
+    Pour plus d'informations : [Documentation Mermaid](https://mermaid.js.org/)
+
+    #### 7. Tabsets (Onglets)
+
+    Organisez du contenu connexe dans des onglets interactifs pour afficher des vues alternatives ou des analyses groupées.
+
+    **Syntaxe dans le script R :**
+
+    ```r
+    # tabset
+    # tab - Statistiques résumées
+    # Voici les statistiques pour iris :
+    summary(iris)
+
+    # tab - Structure
+    # Structure des données :
+    str(iris)
+
+    # tab - Premières lignes
+    # Premières observations :
+    head(iris)
+
+**Se convertit en Quarto :**
+
+``` markdown
+::: {.panel-tabset}
+
+## Statistiques résumées
+
+Voici les statistiques pour iris :
+
+```{r}
+summary(iris)
+```
+
+## Structure
+
+Structure des données :
+
+`{r} str(iris)`
+
+## Premières lignes
+
+Premières observations :
+
+`{r} head(iris)`
+
+:::
+
+    Pour plus d'informations : [Quarto Tabsets](https://quarto.org/docs/interactive/layout.html#tabset-panel)
+
+    **Règles importantes :**
+
+    - Toujours inclure un espace après `#` pour les commentaires
+    - Les en-têtes de section DOIVENT avoir au moins 4 symboles de fin
+    - **Les commentaires avec un `#` en début de ligne** → deviennent du texte en dehors des blocs de code
+    - **Les commentaires dans le code** → restent à l'intérieur des blocs de code
+    - **Callouts** → `# callout-TYPE` ou `# callout-TYPE - Titre`
+    - **Mermaid** → `#| mermaid` suivi du contenu du diagramme
+    - **Tabsets** → `# tabset` puis `# tab - Titre` pour chaque onglet
+    - Les lignes de code consécutives sont regroupées dans le même bloc
+    - Les lignes vides entre les blocs sont ignorées
+
+    Ceci suit la [convention des sections de code RStudio](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html) qui fournit une indentation appropriée dans la navigation du plan du document RStudio.
+
+    ## Thèmes Quarto
+
+    Personnalisez l'apparence de vos documents HTML avec les thèmes Quarto. Le package supporte tous les thèmes Bootswatch disponibles :
+
+    **Thèmes clairs** : cosmo, flatly, journal, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, vapor, yeti, zephyr
+
+    **Thèmes sombres** : darkly, cyborg, slate, solar, superhero
+
+    Exemple :
+
+    ```r
+    # Utiliser le thème "flatly"
+    rtoqmd("mon_script.R", theme = "flatly")
+
+    # Utiliser le thème sombre "darkly"
+    rtoqmd("mon_script.R", theme = "darkly")
 
 Pour plus d’informations sur les thèmes, consultez la [documentation
 Quarto](https://quarto.org/docs/output-formats/html-themes.html).
