@@ -84,23 +84,34 @@ devtools::install_github("ddotta/quartify")
 
 ## Usage
 
-### RStudio Add-in
+### Interactive Shiny Interface
 
-The easiest way to use `quartify` is through the RStudio add-in with its
-interactive Shiny interface:
+`quartify` provides an interactive Shiny interface that works in any R
+environment:
+
+#### Option 1: Standalone App (works in Positron, VS Code, terminal, etc.)
+
+``` r
+library(quartify)
+quartify_app()  # Opens in your default web browser
+```
+
+This launches a browser-based interface where you can: - Select input R
+script using a file browser - Choose output file location - Customize
+document title, author, and theme - Toggle rendering and display
+options - Switch between English/French interface
+
+**Perfect for users of Positron, VS Code, or any IDE that supports R!**
+
+#### Option 2: RStudio Add-in
+
+If you use RStudio, you can also access the same interface through:
 
 1.  Open your R script in RStudio
 2.  Go to **Addins** menu → **Convert R Script to Quarto**
-3.  A dialog window will appear with:
-    - **EN/FR** language selector buttons (automatically detects your R
-      session language)
-    - Form fields to specify:
-      - Input file (with file browser)
-      - Output file path (with file browser)
-      - Document title and author name
-      - HTML theme (25+ themes available)
-      - Rendering options
-4.  Click **GO** to convert your script (or ↩︎ to cancel)
+3.  A dialog window will appear with the same options as the standalone
+    app
+4.  Click **GO** to convert your script
 
 The interface automatically detects your R session language preferences
 and displays all labels in English or French accordingly. You can change

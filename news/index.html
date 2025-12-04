@@ -59,6 +59,22 @@
 <li><p>Completely automatic - no modification of R scripts required</p></li>
 <li><p>Default is TRUE - enabled by default for better traceability</p></li>
 </ul></li>
+<li>
+<strong>Standalone Shiny App</strong> (<code><a href="../reference/quartify_app.html">quartify_app()</a></code>):
+<ul><li>New exported function <code><a href="../reference/quartify_app.html">quartify_app()</a></code> for launching the conversion interface in any R environment</li>
+<li>Works in <strong>Positron</strong>, <strong>VS Code</strong>, <strong>RStudio</strong>, terminal, or any IDE that supports R</li>
+<li>Opens in default web browser with full-featured interface</li>
+<li>Same functionality as RStudio add-in but IDE-agnostic</li>
+<li>Perfect for users who don’t use RStudio but want the graphical interface</li>
+<li>Usage: <code><a href="https://ddotta.github.io/quartify/">library(quartify); quartify_app()</a></code>
+</li>
+<li>Optional parameters:
+<ul><li>
+<code>launch.browser = TRUE</code> (default) to open in browser</li>
+<li>
+<code>port = NULL</code> (default) for automatic port selection</li>
+</ul></li>
+</ul></li>
 </ul></div>
 </div>
     <div class="section level2">
