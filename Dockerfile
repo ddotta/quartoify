@@ -23,10 +23,14 @@ COPY . /quartify
 RUN Rscript -e 'remotes::install_deps("/quartify")'
 RUN Rscript -e 'install.packages("/quartify", repos = NULL, type="source")'
 
-# Expose port where shiny app will broadcast
-ARG SHINY_PORT=3838
-EXPOSE $SHINY_PORT
-RUN echo "local({options(shiny.port = ${SHINY_PORT}, shiny.host = '0.0.0.0')})" >> /usr/local/lib/R/etc/Rprofile.site
+# Create app directory for Shiny Server
+RUN mkdir -p /srv/shiny-server/quartify
 
-# Endpoint
-CMD ["sh", "-c", "sleep 10 && Rscript -e 'quartify::quartify_app()'"]
+# Create app.R for Shiny Server
+RUN echo 'library(quartify)\nquartify_app()' > /srv/shiny-server/quartify/app.R
+
+# Expose port where shiny app will broadcast
+EXPOSE 3838
+
+# Use Shiny Server (already configured in rocker/shiny)
+CMD ["/usr/bin/shiny-server"]
