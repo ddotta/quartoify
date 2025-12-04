@@ -23,14 +23,9 @@ COPY . /quartify
 RUN Rscript -e 'remotes::install_deps("/quartify")'
 RUN Rscript -e 'install.packages("/quartify", repos = NULL, type="source")'
 
-# Create app directory for Shiny Server
-RUN mkdir -p /srv/shiny-server/quartify
-
-# Create app.R for Shiny Server
-RUN echo 'library(quartify)\nquartify_app()' > /srv/shiny-server/quartify/app.R
-
 # Expose port where shiny app will broadcast
 EXPOSE 3838
 
-# Use Shiny Server (already configured in rocker/shiny)
-CMD ["/usr/bin/shiny-server"]
+# Run the app directly using Rscript (not through Shiny Server)
+# Use host 0.0.0.0 to allow external connections
+CMD ["Rscript", "-e", "options(shiny.host='0.0.0.0', shiny.port=3838); quartify::quartify_app(launch.browser=FALSE)"]
