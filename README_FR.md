@@ -18,7 +18,6 @@ Le package facilite la transformation de vos analyses R en documents Quarto repr
 Alors que [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/) convertit les scripts R en R Markdown (.Rmd), `quartify` les convertit en **Quarto** (.qmd), vous donnant accès à toutes les fonctionnalités modernes de Quarto :
 
 - ✅ **Système de Publication Moderne** : Exploitez les fonctionnalités avancées de Quarto (callouts, tabsets, références croisées, etc.)
-- ✅ **Formats de Sortie Multiples** : Générez HTML, PDF, Word, et plus encore avec la même source
 - ✅ **Meilleurs Thèmes** : Accès à plus de 25 thèmes HTML modernes avec un style cohérent
 - ✅ **Interactivité Améliorée** : Support natif pour Observable JS, Shiny, et widgets interactifs
 - ✅ **Publication Scientifique** : Support intégré pour citations, bibliographies, et formatage académique

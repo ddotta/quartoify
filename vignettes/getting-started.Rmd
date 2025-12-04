@@ -35,7 +35,6 @@ If you're familiar with [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/),
 | **Callouts** | Manual HTML/CSS | Native Quarto callouts |
 | **Diagrams** | External tools | Native Mermaid support |
 | **Themes** | Limited R Markdown themes | 25+ modern Quarto themes |
-| **Publishing** | Basic HTML/PDF | Advanced Quarto publishing system |
 
 **Why choose quartify?**
 
@@ -45,11 +44,7 @@ If you're familiar with [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/),
 4. **Better Theming**: Access to modern, responsive HTML themes with consistent styling
 5. **Future-Proof**: Quarto is actively developed by Posit as the successor to R Markdown
 
-::: {.alert .alert-info}
-**Note**: While `knitr::spin()` is excellent for simple conversions to R Markdown, `quartify` is designed for teams that want to leverage Quarto's modern publishing capabilities while maintaining clean, maintainable R scripts.
-:::
-
-## Installation
+S## Installation
 
 You can install the development version of quartify from GitHub:
 
