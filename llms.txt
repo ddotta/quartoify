@@ -76,6 +76,9 @@ particularly useful for:
   the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from
   the R script in code chunks for traceability
+- **Web deployment ready**: Includes
+  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  for deploying on web servers with file upload/download capabilities
 
 ## Installation
 
@@ -93,7 +96,18 @@ devtools::install_github("ddotta/quartify")
 `quartify` provides an interactive Shiny interface that works in any R
 environment:
 
-#### Option 1: Standalone App (works in Positron, VS Code, terminal, etc.)
+#### Option 1: Online Web Application (no installation required)
+
+Use the deployed web application directly in your browser:
+
+**🌐 <https://quartify.lab.sspcloud.fr/>**
+
+This web version allows you to: - Upload your R script directly from
+your computer - Configure conversion options (title, author, theme,
+etc.) - Download generated .qmd and .html files - No R installation
+required!
+
+#### Option 2: Standalone App (works most IDEs)
 
 ``` r
 library(quartify)
@@ -107,7 +121,7 @@ options - Switch between English/French interface
 
 **Perfect for users of Positron, VS Code, or any IDE that supports R!**
 
-#### Option 2: RStudio Add-in
+#### Option 3: RStudio Add-in
 
 If you use RStudio, you can also access the same interface through:
 
@@ -547,6 +561,8 @@ Interactive conversion interfaces
   : Convert Active R Script to Quarto Markdown
 - [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md)
   : Launch Quartify Shiny Interface
+- [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  : Launch Quartify Web Application (for deployment)
 
 # Articles
 

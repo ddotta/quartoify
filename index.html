@@ -115,6 +115,8 @@
 <strong>Customizable themes</strong>: Choose from 25+ Quarto themes to customize the appearance of your HTML documents</li>
 <li>
 <strong>Source line numbers</strong>: Optionally display original line numbers from the R script in code chunks for traceability</li>
+<li>
+<strong>Web deployment ready</strong>: Includes <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code> for deploying on web servers with file upload/download capabilities</li>
 </ul>
 </div>
 <div class="section level2">
@@ -133,7 +135,14 @@
 </h3>
 <p><code>quartify</code> provides an interactive Shiny interface that works in any R environment:</p>
 <div class="section level4">
-<h4 id="option-1-standalone-app-works-in-positron-vs-code-terminal-etc">Option 1: Standalone App (works in Positron, VS Code, terminal, etc.)<a class="anchor" aria-label="anchor" href="#option-1-standalone-app-works-in-positron-vs-code-terminal-etc"></a>
+<h4 id="option-1-online-web-application-no-installation-required">Option 1: Online Web Application (no installation required)<a class="anchor" aria-label="anchor" href="#option-1-online-web-application-no-installation-required"></a>
+</h4>
+<p>Use the deployed web application directly in your browser:</p>
+<p><strong>🌐 <a href="https://quartify.lab.sspcloud.fr/" class="external-link">https://quartify.lab.sspcloud.fr/</a></strong></p>
+<p>This web version allows you to: - Upload your R script directly from your computer - Configure conversion options (title, author, theme, etc.) - Download generated .qmd and .html files - No R installation required!</p>
+</div>
+<div class="section level4">
+<h4 id="option-2-standalone-app-works-most-ides">Option 2: Standalone App (works most IDEs)<a class="anchor" aria-label="anchor" href="#option-2-standalone-app-works-most-ides"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
@@ -142,7 +151,7 @@
 <p><strong>Perfect for users of Positron, VS Code, or any IDE that supports R!</strong></p>
 </div>
 <div class="section level4">
-<h4 id="option-2-rstudio-add-in">Option 2: RStudio Add-in<a class="anchor" aria-label="anchor" href="#option-2-rstudio-add-in"></a>
+<h4 id="option-3-rstudio-add-in">Option 3: RStudio Add-in<a class="anchor" aria-label="anchor" href="#option-3-rstudio-add-in"></a>
 </h4>
 <p>If you use RStudio, you can also access the same interface through:</p>
 <ol style="list-style-type: decimal">

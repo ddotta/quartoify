@@ -85,6 +85,10 @@ affichable. Ceci est particulièrement utile pour :
   personnaliser l’apparence de vos documents HTML
 - **Numéros de ligne source** : Affichage optionnel des numéros de ligne
   originaux du script R dans les chunks de code pour la traçabilité
+- **Prêt pour déploiement web** : Inclut
+  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  pour déploiement sur serveurs web avec capacités
+  d’upload/téléchargement
 
 ## Installation
 
@@ -98,12 +102,23 @@ devtools::install_github("ddotta/quartify")
 
 ## Utilisation
 
-### Interface Shiny interactive
+### Interface Shiny Interactive
 
 `quartify` fournit une interface Shiny interactive qui fonctionne dans
 n’importe quel environnement R :
 
-#### Option 1 : Application autonome (fonctionne dans Positron, VS Code, terminal, etc.)
+#### Option 1 : Application Web en Ligne (aucune installation requise)
+
+Utilisez l’application web déployée directement dans votre navigateur :
+
+**🌐 <https://quartify.lab.sspcloud.fr/>**
+
+Cette version web vous permet de : - Télécharger votre script R
+directement depuis votre ordinateur - Configurer les options de
+conversion (titre, auteur, thème, etc.) - Télécharger les fichiers .qmd
+et .html générés - Aucune installation de R nécessaire !
+
+#### Option 2 : Application Autonome (fonctionne dans la plupart des IDE)
 
 ``` r
 library(quartify)
@@ -116,10 +131,10 @@ Choisir l’emplacement du fichier de sortie - Personnaliser le titre du
 document, l’auteur et le thème - Activer/désactiver les options de rendu
 et d’affichage - Basculer entre l’interface anglaise/française
 
-**Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE qui
-supporte R !**
+**Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE
+supportant R !**
 
-#### Option 2 : Add-in RStudio
+#### Option 3 : Add-in RStudio
 
 Si vous utilisez RStudio, vous pouvez également accéder à la même
 interface via :

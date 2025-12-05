@@ -17,3 +17,5 @@ Interactive conversion interfaces
   : Convert Active R Script to Quarto Markdown
 - [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md)
   : Launch Quartify Shiny Interface
+- [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  : Launch Quartify Web Application (for deployment)
