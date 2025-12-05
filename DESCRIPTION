@@ -20,7 +20,8 @@ Imports:
     shiny,
     miniUI,
     base64enc,
-    shinyFiles
+    shinyFiles,
+    quarto
 Suggests: 
     testthat (>= 3.0.0),
     dplyr

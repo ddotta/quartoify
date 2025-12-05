@@ -58,11 +58,23 @@ devtools::install_github("ddotta/quartify")
 
 ## Utilisation
 
-### Interface Shiny interactive
+### Interface Shiny Interactive
 
 `quartify` fournit une interface Shiny interactive qui fonctionne dans n'importe quel environnement R :
 
-#### Option 1 : Application autonome (fonctionne dans Positron, VS Code, terminal, etc.)
+#### Option 1 : Application Web en Ligne (aucune installation requise)
+
+Utilisez l'application web déployée directement dans votre navigateur :
+
+**🌐 [https://quartify.lab.sspcloud.fr/](https://quartify.lab.sspcloud.fr/)**
+
+Cette version web vous permet de :
+- Télécharger votre script R directement depuis votre ordinateur
+- Configurer les options de conversion (titre, auteur, thème, etc.)
+- Télécharger les fichiers .qmd et .html générés
+- Aucune installation de R nécessaire !
+
+#### Option 2 : Application Autonome (fonctionne dans la plupart des IDE)
 
 ```r
 library(quartify)
@@ -76,9 +88,9 @@ Cela lance une interface basée sur le navigateur où vous pouvez :
 - Activer/désactiver les options de rendu et d'affichage
 - Basculer entre l'interface anglaise/française
 
-**Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE qui supporte R !**
+**Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE supportant R !**
 
-#### Option 2 : Add-in RStudio
+#### Option 3 : Add-in RStudio
 
 Si vous utilisez RStudio, vous pouvez également accéder à la même interface via :
 
