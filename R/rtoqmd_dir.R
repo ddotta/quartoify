@@ -30,6 +30,7 @@
 #' @param create_book Logical, whether to create a Quarto book structure with _quarto.yml (default: NULL, auto-enabled when output_html_dir is specified with render=TRUE)
 #' @param book_title Title for the Quarto book (default: "R Scripts Documentation")
 #' @param output_dir Output directory for the book (required if create_book=TRUE, default: NULL uses input_dir/output)
+#' @param language Language for the documentation ("en" or "fr", default: "en")
 #' @returns Invisibly returns a data frame with conversion results (file paths and status)
 #' @note When creating a Quarto book, you may see warnings like "Could not fetch resource ./file.html" during rendering. These are harmless and occur because Quarto is processing cross-references between chapters. The final book will render correctly.
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_warning cli_alert_danger cli_h1 cli_h2
@@ -50,6 +51,16 @@
 #'   author = "Your Name",
 #'   book_title = "My R Scripts Documentation",
 #'   open_html = TRUE
+#' )
+#' 
+#' # Create a Quarto book in French
+#' rtoqmd_dir(
+#'   dir_path = "path/to/scripts",
+#'   output_html_dir = "path/to/scripts/documentation",
+#'   render = TRUE,
+#'   author = "Votre Nom",
+#'   book_title = "Documentation des Scripts R",
+#'   language = "fr"
 #' )
 #' 
 #' # Convert with custom author and title prefix
@@ -90,7 +101,8 @@ rtoqmd_dir <- function(dir_path,
                        exclude_pattern = NULL,
                        create_book = NULL,
                        book_title = "R Scripts Documentation",
-                       output_dir = NULL) {
+                       output_dir = NULL,
+                       language = "en") {
   
   # Check if directory exists
   if (!dir.exists(dir_path)) {
@@ -294,13 +306,20 @@ rtoqmd_dir <- function(dir_path,
     # Create index.qmd (required for Quarto books)
     index_path <- file.path(dir_path, "index.qmd")
     if (!file.exists(index_path)) {
+      # Navigation text based on language
+      nav_text <- if (language == "fr") {
+        "Naviguez entre les chapitres en utilisant la barre latérale."
+      } else {
+        "Navigate through the chapters using the sidebar."
+      }
+      
       index_content <- paste0(
         "---\n",
         "title: \"Documentation\"\n",
         "author: \"", author, "\"\n",
         "---\n\n",
         "# ", book_title, "\n\n",
-        "Navigate through the chapters using the sidebar.\n"
+        nav_text, "\n"
       )
       writeLines(index_content, index_path)
       cli::cli_alert_success("Created: {.file {index_path}}")
@@ -365,7 +384,15 @@ rtoqmd_dir <- function(dir_path,
       tryCatch({
         old_wd <- getwd()
         setwd(dir_path)
-        quarto::quarto_render()
+        
+        # Suppress warnings by capturing output
+        suppressWarnings({
+          capture.output(
+            quarto::quarto_render(quiet = TRUE),
+            type = "message"
+          )
+        })
+        
         setwd(old_wd)
         
         cli::cli_alert_success("Book rendered to: {.file {book_output_dir}}")
