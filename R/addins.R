@@ -1339,9 +1339,15 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         
         # Render HTML if requested
         if (input$render_html) {
-          html_path <- file.path(temp_dir, "output.html")
-          quarto::quarto_render(qmd_path, output_file = html_path)
-          rv$html_file <- html_path
+          # Change working directory to temp_dir to avoid path issues with Quarto
+          old_wd <- getwd()
+          setwd(temp_dir)
+          tryCatch({
+            quarto::quarto_render("output.qmd", output_file = "output.html")
+            rv$html_file <- file.path(temp_dir, "output.html")
+          }, finally = {
+            setwd(old_wd)
+          })
         } else {
           rv$html_file <- NULL
         }
