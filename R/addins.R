@@ -244,12 +244,13 @@ rtoqmd_addin <- function() {
                     shiny::strong(shiny::textOutput("label_input_directory")),
                     shiny::br(),
                     shiny::div(
-                      style = "display: flex; flex-direction: column; margin-top: 5px;",
+                      style = "margin-top: 5px;",
                       shinyFiles::shinyDirButton("input_directory", 
-                                                 shiny::textOutput("button_select_directory", inline = TRUE), 
+                                                 "Browse", 
                                                  "Select directory containing R scripts",
                                                  class = "btn-primary",
-                                                 style = "margin-bottom: 10px; width: fit-content;"),
+                                                 style = "margin-bottom: 10px;"),
+                      shiny::br(),
                       shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
                     )
                   )
@@ -556,7 +557,7 @@ rtoqmd_addin <- function() {
           dir_path <- shiny::req(selected_dir())
           
           rtoqmd_dir(
-            input_dir = dir_path,
+            dir_path = dir_path,
             title_prefix = paste0(title, " - "),
             author = author,
             format = "html",
@@ -885,12 +886,13 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
               shiny::strong(shiny::textOutput("label_input_directory")),
               shiny::br(),
               shiny::div(
-                style = "display: flex; flex-direction: column; margin-top: 5px;",
+                style = "margin-top: 5px;",
                 shinyFiles::shinyDirButton("input_directory", 
-                                          shiny::textOutput("button_select_directory", inline = TRUE), 
+                                          "Browse", 
                                           "Select directory containing R scripts",
                                           class = "btn-primary",
-                                          style = "margin-bottom: 10px; width: fit-content;"),
+                                          style = "margin-bottom: 10px;"),
+                shiny::br(),
                 shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
               )
             )
@@ -1149,7 +1151,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
           dir_path <- selected_dir()
           
           rtoqmd_dir(
-            input_dir = dir_path,
+            dir_path = dir_path,
             title_prefix = paste0(title, " - "),
             author = author,
             format = "html",
