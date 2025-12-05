@@ -1,5 +1,5 @@
-# Base image
-FROM rocker/shiny:4.4.1
+# Base image - using r-ver instead of shiny to avoid Shiny Server checks
+FROM rocker/r-ver:4.4.1
 
 # Install Quarto
 RUN apt-get update -y && \
