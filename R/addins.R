@@ -1201,18 +1201,49 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         )
       ),
       
-      # Batch file upload
+      # Batch file upload or directory selection
       shiny::conditionalPanel(
         condition = "input.conversion_mode == 'batch'",
         shiny::fluidRow(
           shiny::column(12,
             shiny::div(
               style = "margin-bottom: 20px;",
-              shiny::strong(shiny::textOutput("label_upload_files")),
-              shiny::br(),
-              shiny::fileInput("input_files", NULL, accept = c(".R", ".r"), 
-                             multiple = TRUE,
-                             buttonLabel = shiny::textOutput("button_upload_batch", inline = TRUE))
+              shiny::strong(shiny::textOutput("label_batch_source")),
+              shiny::radioButtons("batch_source_type",
+                                NULL,
+                                choices = c("Upload files" = "files", "Select directory" = "directory"),
+                                selected = "files",
+                                inline = TRUE)
+            )
+          )
+        ),
+        # File upload option
+        shiny::conditionalPanel(
+          condition = "input.batch_source_type == 'files'",
+          shiny::fluidRow(
+            shiny::column(12,
+              shiny::div(
+                style = "margin-bottom: 20px;",
+                shiny::fileInput("input_files", NULL, accept = c(".R", ".r"), 
+                               multiple = TRUE,
+                               buttonLabel = shiny::textOutput("button_upload_batch", inline = TRUE))
+              )
+            )
+          )
+        ),
+        # Directory selection option
+        shiny::conditionalPanel(
+          condition = "input.batch_source_type == 'directory'",
+          shiny::fluidRow(
+            shiny::column(12,
+              shiny::div(
+                style = "margin-bottom: 20px;",
+                shinyFiles::shinyDirButton("input_directory", 
+                                          label = shiny::textOutput("button_select_directory", inline = TRUE),
+                                          title = "Select a directory containing R scripts"),
+                shiny::br(),
+                shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
+              )
             )
           )
         )
@@ -1311,8 +1342,39 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       qmd_files = list(),
       html_files = list(),
       generated = FALSE,
-      batch_mode = FALSE
+      batch_mode = FALSE,
+      selected_dir = NULL
     )
+    
+    # Initialize directory chooser
+    volumes <- c(Home = path.expand("~"), shinyFiles::getVolumes()())
+    shinyFiles::shinyDirChoose(input, "input_directory", roots = volumes, session = session)
+    
+    # Display selected directory
+    shiny::observeEvent(input$input_directory, {
+      if (!is.integer(input$input_directory)) {
+        dir_path <- shinyFiles::parseDirPath(volumes, input$input_directory)
+        if (length(dir_path) > 0) {
+          rv$selected_dir <- as.character(dir_path)
+        }
+      }
+    })
+    
+    output$selected_directory <- shiny::renderText({
+      if (!is.null(rv$selected_dir)) {
+        if (rv$lang == "en") {
+          paste0("Selected: ", rv$selected_dir)
+        } else {
+          paste0("S\u00E9lectionn\u00E9 : ", rv$selected_dir)
+        }
+      } else {
+        if (rv$lang == "en") {
+          "No directory selected"
+        } else {
+          "Aucun r\u00E9pertoire s\u00E9lectionn\u00E9"
+        }
+      }
+    })
     
     # Language management
     shiny::observeEvent(input$lang_en, { rv$lang <- "en" })
@@ -1331,12 +1393,20 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       if (rv$lang == "en") "Upload Multiple R Scripts (.R)" else "T\u00E9l\u00E9charger Plusieurs Scripts R (.R)"
     })
     
+    output$label_batch_source <- shiny::renderText({
+      if (rv$lang == "en") "Batch Source:" else "Source du Batch :"
+    })
+    
     output$button_upload <- shiny::renderText({
       if (rv$lang == "en") "Browse..." else "Parcourir..."
     })
     
     output$button_upload_batch <- shiny::renderText({
       if (rv$lang == "en") "Browse..." else "Parcourir..."
+    })
+    
+    output$button_select_directory <- shiny::renderText({
+      if (rv$lang == "en") "Select Directory" else "S\u00E9lectionner un R\u00E9pertoire"
     })
     
     output$label_title <- shiny::renderText({
@@ -1386,9 +1456,13 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       is_batch <- input$conversion_mode == "batch"
       
       if (is_batch) {
-        if (is.null(input$input_files)) {
+        # Check if either files are uploaded or directory is selected
+        has_files <- !is.null(input$input_files)
+        has_directory <- !is.null(rv$selected_dir) && input$batch_source_type == "directory"
+        
+        if (!has_files && !has_directory) {
           shiny::showNotification(
-            if (rv$lang == "en") "Please upload R scripts first" else "Veuillez d'abord t\u00E9l\u00E9charger des scripts R",
+            if (rv$lang == "en") "Please upload R scripts or select a directory" else "Veuillez t\u00E9l\u00E9charger des scripts R ou s\u00E9lectionner un r\u00E9pertoire",
             type = "error"
           )
           return()
@@ -1413,17 +1487,23 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         if (theme_val == "") theme_val <- NULL
         
         if (is_batch) {
-          # BATCH MODE: Process multiple files
+          # BATCH MODE: Process multiple files or directory
           temp_dir <- file.path(tempdir(), "quartify_batch")
           if (!dir.exists(temp_dir)) dir.create(temp_dir, recursive = TRUE)
           
-          # Copy uploaded files to temp directory
-          input_dir <- file.path(temp_dir, "input")
-          if (!dir.exists(input_dir)) dir.create(input_dir)
-          
-          for (i in seq_len(nrow(input$input_files))) {
-            file.copy(input$input_files$datapath[i], 
-                     file.path(input_dir, input$input_files$name[i]))
+          # Determine input source
+          if (input$batch_source_type == "directory" && !is.null(rv$selected_dir)) {
+            # Use selected directory directly
+            input_dir <- rv$selected_dir
+          } else {
+            # Copy uploaded files to temp directory
+            input_dir <- file.path(temp_dir, "input")
+            if (!dir.exists(input_dir)) dir.create(input_dir)
+            
+            for (i in seq_len(nrow(input$input_files))) {
+              file.copy(input$input_files$datapath[i], 
+                       file.path(input_dir, input$input_files$name[i]))
+            }
           }
           
           # Create output directory
