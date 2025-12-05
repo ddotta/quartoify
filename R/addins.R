@@ -151,10 +151,26 @@ rtoqmd_addin <- function() {
               style = "text-align: center; margin-bottom: 20px;",
               logo_html
             ),
-            # Input and Output file selectors on same row
+            # Mode selection
             shiny::fluidRow(
-              # Input file
-              shiny::column(6,
+              shiny::column(12,
+                shiny::div(
+                  style = "margin-bottom: 20px;",
+                  shiny::radioButtons("conversion_mode", 
+                                    shiny::textOutput("label_mode", inline = TRUE),
+                                    choices = c("Single file" = "single", "Directory" = "directory"),
+                                    selected = "single",
+                                    inline = TRUE)
+                )
+              )
+            ),
+            # Input selector (conditional based on mode)
+            shiny::conditionalPanel(
+              condition = "input.conversion_mode == 'single'",
+              # Input and Output file selectors on same row
+              shiny::fluidRow(
+                # Input file
+                shiny::column(6,
                 shiny::div(
                   style = "margin-bottom: 15px;",
                   shiny::strong(shiny::textOutput("label_input_file")),
@@ -192,7 +208,7 @@ rtoqmd_addin <- function() {
                 )
               )
             ),
-            # HTML Output file (optional)
+            # HTML Output file (optional - single mode only)
             shiny::fluidRow(
               shiny::column(12,
                 shiny::div(
@@ -212,6 +228,29 @@ rtoqmd_addin <- function() {
                     shiny::div(
                       style = "margin-left: 10px;",
                       shinyFiles::shinySaveButton("html_file_btn", "Browse", "Save HTML file", filetype = list(html = "html"), class = "btn-primary", style = "padding: 6px 12px;")
+                    )
+                  )
+                )
+              )
+            )
+            ),  # End of single file conditional panel
+            # Directory selection (for directory mode)
+            shiny::conditionalPanel(
+              condition = "input.conversion_mode == 'directory'",
+              shiny::fluidRow(
+                shiny::column(12,
+                  shiny::div(
+                    style = "margin-bottom: 15px;",
+                    shiny::strong(shiny::textOutput("label_input_directory")),
+                    shiny::br(),
+                    shiny::div(
+                      style = "display: flex; flex-direction: column; margin-top: 5px;",
+                      shinyFiles::shinyDirButton("input_directory", 
+                                                 shiny::textOutput("button_select_directory", inline = TRUE), 
+                                                 "Select directory containing R scripts",
+                                                 class = "btn-primary",
+                                                 style = "margin-bottom: 10px; width: fit-content;"),
+                      shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
                     )
                   )
                 )
@@ -401,10 +440,43 @@ rtoqmd_addin <- function() {
       }
     })
     
+    # Reactive values for file paths and directory
+    selected_dir <- shiny::reactiveVal(NULL)
+    
+    # Directory chooser
+    shinyFiles::shinyDirChoose(input, "input_directory", roots = volumes)
+    
+    shiny::observeEvent(input$input_directory, {
+      dir_path <- shinyFiles::parseDirPath(volumes, input$input_directory)
+      if (length(dir_path) > 0) {
+        selected_dir(as.character(dir_path))
+      }
+    })
+    
+    # Display selected directory
+    output$selected_directory <- shiny::renderText({
+      if (!is.null(selected_dir())) {
+        if (lang() == "fr") {
+          paste0("S\u00e9lectionn\u00e9 : ", selected_dir())
+        } else {
+          paste0("Selected: ", selected_dir())
+        }
+      } else {
+        if (lang() == "fr") {
+          "Aucun r\u00e9pertoire s\u00e9lectionn\u00e9"
+        } else {
+          "No directory selected"
+        }
+      }
+    })
+    
     # Translations
     translations <- list(
       en = list(
+        mode = "Conversion mode:",
         input_file = "Input file:",
+        input_directory = "Input directory:",
+        button_select_directory = "Select Directory",
         output_file = "Output file path:",
         html_file = "HTML output file path:",
         html_file_optional = "(optional - leave blank for default location)",
@@ -419,7 +491,10 @@ rtoqmd_addin <- function() {
         show_source_lines = "Show original line numbers in code chunks"
       ),
       fr = list(
+        mode = "Mode de conversion :",
         input_file = "Fichier d'entr\u00e9e :",
+        input_directory = "R\u00e9pertoire d'entr\u00e9e :",
+        button_select_directory = "S\u00e9lectionner un R\u00e9pertoire",
         output_file = "Chemin du fichier de sortie :",
         html_file = "Chemin du fichier HTML :",
         html_file_optional = "(optionnel - laisser vide pour l'emplacement par d\u00e9faut)",
@@ -436,7 +511,10 @@ rtoqmd_addin <- function() {
     )
     
     # Dynamic labels
+    output$label_mode <- shiny::renderText({ translations[[lang()]]$mode })
     output$label_input_file <- shiny::renderText({ translations[[lang()]]$input_file })
+    output$label_input_directory <- shiny::renderText({ translations[[lang()]]$input_directory })
+    output$button_select_directory <- shiny::renderText({ translations[[lang()]]$button_select_directory })
     output$label_output_file <- shiny::renderText({ translations[[lang()]]$output_file })
     output$label_html_file <- shiny::renderText({ translations[[lang()]]$html_file })
     output$label_html_file_optional <- shiny::renderText({ translations[[lang()]]$html_file_optional })
@@ -456,10 +534,7 @@ rtoqmd_addin <- function() {
       # Show loader
       session$sendCustomMessage('toggleLoader', TRUE)
       
-      # Get values
-      input_file_final <- shiny::req(input_file_path())
-      output_file_final <- shiny::req(output_file_path())
-      html_file_final <- html_file_path()
+      # Get common values
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
       theme <- input$theme
@@ -471,26 +546,52 @@ rtoqmd_addin <- function() {
       number_sections <- input$number_sections
       show_source_lines <- input$show_source_lines
       
-      # Convert the file
+      # Check mode
+      is_directory_mode <- input$conversion_mode == "directory"
+      
+      # Convert based on mode
       tryCatch({
-        rtoqmd(
-          input_file = input_file_final,
-          output_file = output_file_final,
-          title = title,
-          author = author,
-          format = "html",
-          theme = theme,
-          render = render,
-          output_html_file = html_file_final,
-          open_html = open_html && render,
-          code_fold = code_fold,
-          number_sections = number_sections,
-          lang = lang(),
-          show_source_lines = show_source_lines
-        )
+        if (is_directory_mode) {
+          # Directory mode
+          dir_path <- shiny::req(selected_dir())
+          
+          rtoqmd_dir(
+            input_dir = dir_path,
+            title_prefix = paste0(title, " - "),
+            author = author,
+            format = "html",
+            theme = theme,
+            render = render,
+            code_fold = code_fold,
+            number_sections = number_sections,
+            lang = lang()
+          )
+          
+        } else {
+          # Single file mode
+          input_file_final <- shiny::req(input_file_path())
+          output_file_final <- shiny::req(output_file_path())
+          html_file_final <- html_file_path()
+          
+          rtoqmd(
+            input_file = input_file_final,
+            output_file = output_file_final,
+            title = title,
+            author = author,
+            format = "html",
+            theme = theme,
+            render = render,
+            output_html_file = html_file_final,
+            open_html = open_html && render,
+            code_fold = code_fold,
+            number_sections = number_sections,
+            lang = lang(),
+            show_source_lines = show_source_lines
+          )
+        }
         
-        # Open QMD file if requested
-        if (open_qmd && file.exists(output_file_final)) {
+        # Open QMD file if requested (single mode only)
+        if (!is_directory_mode && open_qmd && file.exists(output_file_final)) {
           rstudioapi::navigateToFile(output_file_final)
         }
         
@@ -690,12 +791,29 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         logo_html
       ),
       
-      # File selectors
+      # Mode selection
       shiny::fluidRow(
-        shiny::column(6,
+        shiny::column(12,
           shiny::div(
-            style = "margin-bottom: 15px;",
-            shiny::strong(shiny::textOutput("label_input_file")),
+            style = "margin-bottom: 20px;",
+            shiny::radioButtons("conversion_mode", 
+                              shiny::textOutput("label_mode", inline = TRUE),
+                              choices = c("Single file" = "single", "Directory" = "directory"),
+                              selected = "single",
+                              inline = TRUE)
+          )
+        )
+      ),
+      
+      # Input selector (conditional based on mode)
+      shiny::conditionalPanel(
+        condition = "input.conversion_mode == 'single'",
+        # File selectors
+        shiny::fluidRow(
+          shiny::column(6,
+            shiny::div(
+              style = "margin-bottom: 15px;",
+              shiny::strong(shiny::textOutput("label_input_file")),
             shiny::br(),
             shiny::div(
               style = "display: flex; align-items: center; margin-top: 5px;",
@@ -750,6 +868,30 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
               shiny::div(
                 style = "margin-left: 10px;",
                 shinyFiles::shinySaveButton("html_file_btn", "Browse", "Save HTML file", filetype = list(html = "html"), class = "btn-primary")
+              )
+            )
+          )
+        )
+      )
+      ),  # End of single file conditional panel
+      
+      # Directory selection (for directory mode)
+      shiny::conditionalPanel(
+        condition = "input.conversion_mode == 'directory'",
+        shiny::fluidRow(
+          shiny::column(12,
+            shiny::div(
+              style = "margin-bottom: 15px;",
+              shiny::strong(shiny::textOutput("label_input_directory")),
+              shiny::br(),
+              shiny::div(
+                style = "display: flex; flex-direction: column; margin-top: 5px;",
+                shinyFiles::shinyDirButton("input_directory", 
+                                          shiny::textOutput("button_select_directory", inline = TRUE), 
+                                          "Select directory containing R scripts",
+                                          class = "btn-primary",
+                                          style = "margin-bottom: 10px; width: fit-content;"),
+                shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
               )
             )
           )
@@ -816,9 +958,37 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     input_file_path <- shiny::reactiveVal(NULL)
     output_file_path <- shiny::reactiveVal(NULL)
     html_file_path <- shiny::reactiveVal(NULL)
+    selected_dir <- shiny::reactiveVal(NULL)
     
     volumes <- shinyFiles::getVolumes()()
     shinyFiles::shinyFileChoose(input, "input_file_btn", roots = volumes, session = session, filetypes = c("", "R"))
+    
+    # Directory chooser
+    shinyFiles::shinyDirChoose(input, "input_directory", roots = volumes)
+    
+    shiny::observeEvent(input$input_directory, {
+      dir_path <- shinyFiles::parseDirPath(volumes, input$input_directory)
+      if (length(dir_path) > 0) {
+        selected_dir(as.character(dir_path))
+      }
+    })
+    
+    # Display selected directory
+    output$selected_directory <- shiny::renderText({
+      if (!is.null(selected_dir())) {
+        if (lang() == "fr") {
+          paste0("S\u00e9lectionn\u00e9 : ", selected_dir())
+        } else {
+          paste0("Selected: ", selected_dir())
+        }
+      } else {
+        if (lang() == "fr") {
+          "Aucun r\u00e9pertoire s\u00e9lectionn\u00e9"
+        } else {
+          "No directory selected"
+        }
+      }
+    })
     
     shiny::observeEvent(input$input_file_btn, {
       file_selected <- shinyFiles::parseFilePaths(volumes, input$input_file_btn)
@@ -876,7 +1046,10 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     
     translations <- list(
       en = list(
+        mode = "Conversion mode:",
         input_file = "Input file:",
+        input_directory = "Input directory:",
+        button_select_directory = "Select Directory",
         output_file = "Output file path:",
         html_file = "HTML output file path:",
         html_file_optional = "(optional - leave blank for default location)",
@@ -891,7 +1064,10 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         show_source_lines = "Show original line numbers in code chunks"
       ),
       fr = list(
+        mode = "Mode de conversion :",
         input_file = "Fichier d'entr\u00E9e :",
+        input_directory = "R\u00E9pertoire d'entr\u00E9e :",
+        button_select_directory = "S\u00E9lectionner un R\u00E9pertoire",
         output_file = "Chemin du fichier de sortie :",
         html_file = "Chemin du fichier HTML :",
         html_file_optional = "(optionnel - laisser vide pour l'emplacement par d\u00E9faut)",
@@ -907,7 +1083,10 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       )
     )
     
+    output$label_mode <- shiny::renderText({ translations[[lang()]]$mode })
     output$label_input_file <- shiny::renderText({ translations[[lang()]]$input_file })
+    output$label_input_directory <- shiny::renderText({ translations[[lang()]]$input_directory })
+    output$button_select_directory <- shiny::renderText({ translations[[lang()]]$button_select_directory })
     output$label_output_file <- shiny::renderText({ translations[[lang()]]$output_file })
     output$label_html_file <- shiny::renderText({ translations[[lang()]]$html_file })
     output$label_html_file_optional <- shiny::renderText({ translations[[lang()]]$html_file_optional })
@@ -923,21 +1102,36 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     
     shiny::observeEvent(input$done, {
       
-      input_file_final <- input_file_path()
-      output_file_final <- output_file_path()
+      # Check mode
+      is_directory_mode <- input$conversion_mode == "directory"
       
-      if (is.null(input_file_final) || is.null(output_file_final)) {
-        shiny::showNotification(
-          if (lang() == "fr") "Veuillez s\u00E9lectionner les fichiers d'entr\u00E9e et de sortie" else "Please select input and output files",
-          type = "error",
-          duration = 5
-        )
-        return()
+      # Validation based on mode
+      if (is_directory_mode) {
+        if (is.null(selected_dir())) {
+          shiny::showNotification(
+            if (lang() == "fr") "Veuillez s\u00E9lectionner un r\u00E9pertoire" else "Please select a directory",
+            type = "error",
+            duration = 5
+          )
+          return()
+        }
+      } else {
+        input_file_final <- input_file_path()
+        output_file_final <- output_file_path()
+        
+        if (is.null(input_file_final) || is.null(output_file_final)) {
+          shiny::showNotification(
+            if (lang() == "fr") "Veuillez s\u00E9lectionner les fichiers d'entr\u00E9e et de sortie" else "Please select input and output files",
+            type = "error",
+            duration = 5
+          )
+          return()
+        }
       }
       
       session$sendCustomMessage('toggleLoader', TRUE)
       
-      html_file_final <- html_file_path()
+      # Get common values
       title <- shiny::req(input$title)
       author <- shiny::req(input$author)
       theme <- input$theme
@@ -950,24 +1144,45 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       show_source_lines <- input$show_source_lines
       
       tryCatch({
-        rtoqmd(
-          input_file = input_file_final,
-          output_file = output_file_final,
-          title = title,
-          author = author,
-          format = "html",
-          theme = theme,
-          render = render,
-          output_html_file = html_file_final,
-          open_html = open_html && render,
-          code_fold = code_fold,
-          number_sections = number_sections,
-          lang = lang(),
-          show_source_lines = show_source_lines
-        )
-        
-        if (open_qmd && file.exists(output_file_final)) {
-          utils::browseURL(output_file_final)
+        if (is_directory_mode) {
+          # Directory mode
+          dir_path <- selected_dir()
+          
+          rtoqmd_dir(
+            input_dir = dir_path,
+            title_prefix = paste0(title, " - "),
+            author = author,
+            format = "html",
+            theme = theme,
+            render = render,
+            code_fold = code_fold,
+            number_sections = number_sections,
+            lang = lang()
+          )
+          
+        } else {
+          # Single file mode
+          html_file_final <- html_file_path()
+          
+          rtoqmd(
+            input_file = input_file_final,
+            output_file = output_file_final,
+            title = title,
+            author = author,
+            format = "html",
+            theme = theme,
+            render = render,
+            output_html_file = html_file_final,
+            open_html = open_html && render,
+            code_fold = code_fold,
+            number_sections = number_sections,
+            lang = lang(),
+            show_source_lines = show_source_lines
+          )
+          
+          if (open_qmd && file.exists(output_file_final)) {
+            utils::browseURL(output_file_final)
+          }
         }
         
         session$sendCustomMessage('toggleLoader', FALSE)
