@@ -15,7 +15,6 @@ docs/
 inst/doc/
 vignettes/*.html
 vignettes/*.pdf
-man/figures/
 
 # Tests
 tests/
