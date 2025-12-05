@@ -24,7 +24,8 @@ rtoqmd_dir(
   exclude_pattern = NULL,
   create_book = NULL,
   book_title = "R Scripts Documentation",
-  output_dir = NULL
+  output_dir = NULL,
+  language = "en"
 )
 ```
 
@@ -103,6 +104,10 @@ rtoqmd_dir(
   Output directory for the book (required if create_book=TRUE, default:
   NULL uses input_dir/output)
 
+- language:
+
+  Language for the documentation ("en" or "fr", default: "en")
+
 ## Value
 
 Invisibly returns a data frame with conversion results (file paths and
@@ -150,6 +155,16 @@ rtoqmd_dir(
   author = "Your Name",
   book_title = "My R Scripts Documentation",
   open_html = TRUE
+)
+
+# Create a Quarto book in French
+rtoqmd_dir(
+  dir_path = "path/to/scripts",
+  output_html_dir = "path/to/scripts/documentation",
+  render = TRUE,
+  author = "Votre Nom",
+  book_title = "Documentation des Scripts R",
+  language = "fr"
 )
 
 # Convert with custom author and title prefix
