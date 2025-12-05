@@ -9,13 +9,9 @@ Convert R scripts to Quarto markdown
 - [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)
   : Convert All R Scripts in a Directory to Quarto Markdown
 
-## Interactive tools
+## RStudio Add-in
 
-Interactive conversion interfaces
+Interactive conversion via RStudio
 
 - [`rtoqmd_addin()`](https://ddotta.github.io/quartify/reference/rtoqmd_addin.md)
   : Convert Active R Script to Quarto Markdown
-- [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md)
-  : Launch Quartify Shiny Interface
-- [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
-  : Launch Quartify Web Application (for deployment)

@@ -26,7 +26,7 @@ en **Quarto** (.qmd), vous donnant accès à toutes les fonctionnalités
 modernes de Quarto :
 
 - ✅ **Système de Publication Moderne** : Exploitez les fonctionnalités
-  avancées de Quarto (callouts, tabsets, etc.)
+  avancées de Quarto (callouts, tabsets, références croisées, etc.)
 - ✅ **Meilleurs Thèmes** : Accès à plus de 25 thèmes HTML modernes avec
   un style cohérent
 - ✅ **Interactivité Améliorée** : Support natif pour Observable JS,
@@ -37,11 +37,6 @@ modernes de Quarto :
   directement dans votre documentation
 - ✅ **Pérennité** : Quarto est le successeur de nouvelle génération de
   R Markdown, activement développé par Posit
-- ✅ **Génération HTML en Une Étape** : Contrairement à
-  [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) qui crée
-  uniquement des fichiers .Rmd (nécessitant une étape de knitting
-  séparée), `quartify` peut générer directement le HTML en une seule
-  étape
 
 **Différence Clé** :
 [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) utilise `#'`
@@ -85,10 +80,6 @@ affichable. Ceci est particulièrement utile pour :
   personnaliser l’apparence de vos documents HTML
 - **Numéros de ligne source** : Affichage optionnel des numéros de ligne
   originaux du script R dans les chunks de code pour la traçabilité
-- **Prêt pour déploiement web** : Inclut
-  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
-  pour déploiement sur serveurs web avec capacités
-  d’upload/téléchargement
 
 ## Installation
 
@@ -102,51 +93,23 @@ devtools::install_github("ddotta/quartify")
 
 ## Utilisation
 
-### 🌐 Essayez l’Application Web en Ligne !
+### Add-in RStudio
 
-**Aucune installation requise !** Utilisez quartify directement dans
-votre navigateur :
-
-### **→ <https://quartify.lab.sspcloud.fr/> ←**
-
-La version web vous permet de : - ✅ Télécharger votre script R
-directement depuis votre ordinateur - ✅ Configurer les options de
-conversion (titre, auteur, thème, etc.) - ✅ Télécharger les fichiers
-.qmd et .html générés - ✅ Aucune installation de R nécessaire !
-
-------------------------------------------------------------------------
-
-### Interface Shiny Interactive (pour les utilisateurs R)
-
-`quartify` fournit également une interface Shiny interactive qui
-fonctionne dans n’importe quel environnement R :
-
-#### Option 1 : Application Autonome (fonctionne dans la plupart des IDE)
-
-``` r
-library(quartify)
-quartify_app()  # S'ouvre dans votre navigateur par défaut
-```
-
-Cela lance une interface basée sur le navigateur où vous pouvez : -
-Sélectionner le script R d’entrée avec un explorateur de fichiers -
-Choisir l’emplacement du fichier de sortie - Personnaliser le titre du
-document, l’auteur et le thème - Activer/désactiver les options de rendu
-et d’affichage - Basculer entre l’interface anglaise/française
-
-**Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE
-supportant R !**
-
-#### Option 2 : Add-in RStudio
-
-Si vous utilisez RStudio, vous pouvez également accéder à la même
-interface via :
+La façon la plus simple d’utiliser `quartify` est via l’add-in RStudio
+avec son interface Shiny interactive :
 
 1.  Ouvrez votre script R dans RStudio
 2.  Allez dans le menu **Addins** → **Convert R Script to Quarto**
-3.  Une fenêtre de dialogue apparaîtra avec les mêmes options que
-    l’application autonome
-4.  Cliquez sur **GENERATE** pour convertir votre script
+3.  Une fenêtre de dialogue apparaîtra avec :
+    - Boutons de sélection de langue **EN/FR** (détection automatique de
+      la langue de votre session R)
+    - Formulaire pour spécifier :
+      - Fichier d’entrée (avec explorateur de fichiers)
+      - Le chemin du fichier de sortie (avec explorateur de fichiers)
+      - Le titre du document et le nom de l’auteur
+      - Le thème HTML (25+ thèmes disponibles)
+      - Les options de génération
+4.  Cliquez sur **GO** pour convertir votre script (ou ↩︎ pour annuler)
 
 L’interface détecte automatiquement les préférences de langue de votre
 session R et affiche tous les libellés en anglais ou en français en
