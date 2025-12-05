@@ -110,9 +110,11 @@ votre navigateur :
 ### **→ <https://quartify.lab.sspcloud.fr/> ←**
 
 La version web vous permet de : - ✅ Télécharger votre script R
-directement depuis votre ordinateur - ✅ Configurer les options de
-conversion (titre, auteur, thème, etc.) - ✅ Télécharger les fichiers
-.qmd et .html générés - ✅ Aucune installation de R nécessaire !
+directement depuis votre ordinateur **OU sélectionner un répertoire**
+contenant des scripts R pour une conversion par lots - ✅ Configurer les
+options de conversion (titre, auteur, thème, etc.) - ✅ Télécharger les
+fichiers .qmd et .html générés (ou une archive .zip en mode batch) - ✅
+Aucune installation de R nécessaire !
 
 ------------------------------------------------------------------------
 
@@ -193,6 +195,25 @@ rtoqmd(example_file, "test_output.qmd")
 ```
 
 ### Conversion par lots
+
+#### Utilisation de l’Interface Web
+
+Dans
+[`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+(ou l’[application en ligne](https://quartify.lab.sspcloud.fr/)), vous
+pouvez :
+
+1.  **Sélectionner le mode “Batch (multiple files)”**
+2.  **Choisir votre méthode d’entrée :**
+    - **Upload files** : Télécharger plusieurs scripts R en même temps
+    - **Select directory** : Parcourir et sélectionner un répertoire
+      contenant vos scripts R
+3.  L’application convertira tous les scripts R et créera une archive
+    .zip téléchargeable
+
+Parfait pour convertir des projets entiers sans écrire de code R !
+
+#### Utilisation des Fonctions R
 
 Convertir tous les scripts R d’un répertoire (y compris les
 sous-répertoires) :

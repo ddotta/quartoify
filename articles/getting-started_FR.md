@@ -609,8 +609,26 @@ depuis [quarto.org](https://quarto.org/docs/get-started/).
 
 ## Conversion de répertoires entiers
 
+### Utilisation de l’Interface Web
+
+La façon la plus simple de convertir plusieurs fichiers est d’utiliser
+l’interface web :
+
+``` r
+quartify_app_web()
+```
+
+En mode batch, vous pouvez : - **Télécharger plusieurs fichiers R** en
+même temps - **Sélectionner un répertoire** contenant vos scripts R
+(nouvelle fonctionnalité !)
+
+L’interface convertira tous les fichiers et fournira une archive .zip
+téléchargeable.
+
+### Utilisation des Fonctions R
+
 Pour convertir tous les scripts R d’un répertoire (y compris les
-sous-répertoires), utilisez
+sous-répertoires) de manière programmatique, utilisez
 [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)
 :
 

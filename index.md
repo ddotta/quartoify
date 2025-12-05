@@ -98,9 +98,10 @@ devtools::install_github("ddotta/quartify")
 ### **→ <https://quartify.lab.sspcloud.fr/> ←**
 
 The web version allows you to: - ✅ Upload your R script directly from
-your computer - ✅ Configure conversion options (title, author, theme,
-etc.) - ✅ Download generated .qmd and .html files - ✅ No R
-installation required!
+your computer **OR select a directory** containing R scripts for batch
+conversion - ✅ Configure conversion options (title, author, theme,
+etc.) - ✅ Download generated .qmd and .html files (or .zip archive for
+batch mode) - ✅ No R installation required!
 
 ------------------------------------------------------------------------
 
@@ -183,6 +184,25 @@ rtoqmd(mermaid_file, "test_mermaid.qmd", render = TRUE)
 ```
 
 ### Batch conversion
+
+#### Using the Web Interface
+
+In
+[`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+(or the [online app](https://quartify.lab.sspcloud.fr/)), you can:
+
+1.  **Select “Batch (multiple files)” mode**
+2.  **Choose your input method:**
+    - **Upload files**: Upload multiple R scripts at once
+    - **Select directory**: Browse and select a directory containing
+      your R scripts
+3.  The app will convert all R scripts and create a downloadable .zip
+    archive
+
+This is perfect for converting entire projects without writing any R
+code!
+
+#### Using R Functions
 
 Convert all R scripts in a directory (including subdirectories):
 

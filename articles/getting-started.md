@@ -593,7 +593,24 @@ quarto::quarto_render("iris_analysis.qmd")
 
 ## Batch Converting Directories
 
-To convert all R scripts in a directory (including subdirectories), use
+### Using the Web Interface
+
+The easiest way to convert multiple files is through the web interface:
+
+``` r
+quartify_app_web()
+```
+
+In batch mode, you can either: - **Upload multiple R files** at once -
+**Select a directory** containing your R scripts (new feature!)
+
+The interface will convert all files and provide a downloadable .zip
+archive.
+
+### Using R Functions
+
+To convert all R scripts in a directory (including subdirectories)
+programmatically, use
 [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md):
 
 ``` r

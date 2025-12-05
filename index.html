@@ -139,7 +139,7 @@
 <h3 id="id_-httpsquartifylabsspcloudfr-">
 <strong>→ <a href="https://quartify.lab.sspcloud.fr/" class="external-link">https://quartify.lab.sspcloud.fr/</a> ←</strong><a class="anchor" aria-label="anchor" href="#id_-httpsquartifylabsspcloudfr-"></a>
 </h3>
-<p>The web version allows you to: - ✅ Upload your R script directly from your computer - ✅ Configure conversion options (title, author, theme, etc.) - ✅ Download generated .qmd and .html files - ✅ No R installation required!</p>
+<p>The web version allows you to: - ✅ Upload your R script directly from your computer <strong>OR select a directory</strong> containing R scripts for batch conversion - ✅ Configure conversion options (title, author, theme, etc.) - ✅ Download generated .qmd and .html files (or .zip archive for batch mode) - ✅ No R installation required!</p>
 <hr>
 </div>
 <div class="section level3">
@@ -215,6 +215,28 @@
 <div class="section level3">
 <h3 id="batch-conversion">Batch conversion<a class="anchor" aria-label="anchor" href="#batch-conversion"></a>
 </h3>
+<div class="section level4">
+<h4 id="using-the-web-interface">Using the Web Interface<a class="anchor" aria-label="anchor" href="#using-the-web-interface"></a>
+</h4>
+<p>In <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code> (or the <a href="https://quartify.lab.sspcloud.fr/" class="external-link">online app</a>), you can:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Select “Batch (multiple files)” mode</strong></li>
+<li>
+<strong>Choose your input method:</strong>
+<ul>
+<li>
+<strong>Upload files</strong>: Upload multiple R scripts at once</li>
+<li>
+<strong>Select directory</strong>: Browse and select a directory containing your R scripts</li>
+</ul>
+</li>
+<li>The app will convert all R scripts and create a downloadable .zip archive</li>
+</ol>
+<p>This is perfect for converting entire projects without writing any R code!</p>
+</div>
+<div class="section level4">
+<h4 id="using-r-functions">Using R Functions<a class="anchor" aria-label="anchor" href="#using-r-functions"></a>
+</h4>
 <p>Convert all R scripts in a directory (including subdirectories):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convert all R scripts in a directory</span></span>
@@ -229,6 +251,7 @@
 <span><span class="fu"><a href="reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"path/to/scripts"</span>, </span>
 <span>           author <span class="op">=</span> <span class="st">"Data Team"</span>,</span>
 <span>           exclude_pattern <span class="op">=</span> <span class="st">"test_.*\\.R$"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 </div>
 <div class="section level2">
