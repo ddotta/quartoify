@@ -52,6 +52,7 @@ reference:
     contents:
     - rtoqmd_addin
     - quartify_app
+    - quartify_app_web
 
 authors:
   Damien Dotta:
