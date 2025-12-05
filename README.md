@@ -46,6 +46,7 @@ If you have a working R script that contains comments, you may want to generate 
 - **Automatic HTML rendering**: Optionally renders the .qmd file to HTML and opens it in your browser (disabled by default)
 - **Customizable themes**: Choose from 25+ Quarto themes to customize the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from the R script in code chunks for traceability
+- **Web deployment ready**: Includes `quartify_app_web()` for deploying on web servers with file upload/download capabilities
 
 ## Installation
 

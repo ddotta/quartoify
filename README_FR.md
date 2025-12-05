@@ -45,6 +45,7 @@ Si vous avez un script R fonctionnel qui contient des commentaires, vous pourrie
 - **Génération HTML automatique** : Génère optionnellement le fichier HTML à partir du .qmd et l'ouvre dans le navigateur (désactivé par défaut)
 - **Thèmes personnalisables** : Choisissez parmi 25+ thèmes Quarto pour personnaliser l'apparence de vos documents HTML
 - **Numéros de ligne source** : Affichage optionnel des numéros de ligne originaux du script R dans les chunks de code pour la traçabilité
+- **Prêt pour déploiement web** : Inclut `quartify_app_web()` pour déploiement sur serveurs web avec capacités d'upload/téléchargement
 
 ## Installation
 
