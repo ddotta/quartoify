@@ -1,3 +1,33 @@
+# quartify 0.0.6
+
+## New Features
+
+* **Web Deployment Version** (`quartify_app_web()`):
+  - New web-friendly version designed for deployment on web servers
+  - Uses file upload/download instead of local file system access
+  - Deployed on SSP Cloud at [https://quartify.lab.sspcloud.fr/](https://quartify.lab.sspcloud.fr/)
+  - No R installation required - use directly in your browser
+  - Upload your R script, configure options, and download generated .qmd and .html files
+  - Perfect for sharing quartify with non-R users
+
+* **Docker Support**:
+  - Added Dockerfile for containerized deployment
+  - Based on rocker/r-ver:4.4.1 with Quarto 1.4.549
+  - Automated CI/CD with GitHub Actions
+  - Docker images published to Docker Hub: `ddottaagr/quartify`
+  - Includes Helm chart for Kubernetes deployment
+
+* **UI Improvements**:
+  - Changed "GO" button to "GENERATE" across all interfaces for clarity
+  - Added bilingual support (EN/FR) for web version
+  - Improved button styling and layout consistency
+
+## Bug Fixes
+
+* Fixed Quarto path issues in Docker environment
+* Fixed image resource loading (hex logo and language flags) in web version
+* Fixed relative path handling for `quarto_render()` to avoid output path errors
+
 # quartify 0.0.5
 
 ## New Features

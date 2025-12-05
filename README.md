@@ -59,23 +59,25 @@ devtools::install_github("ddotta/quartify")
 
 ## Usage
 
-### Interactive Shiny Interface
+### 🌐 Try the Online Web Application!
 
-`quartify` provides an interactive Shiny interface that works in any R environment:
+**No installation required!** Use quartify directly in your browser:
 
-#### Option 1: Online Web Application (no installation required)
+### **→ [https://quartify.lab.sspcloud.fr/](https://quartify.lab.sspcloud.fr/) ←**
 
-Use the deployed web application directly in your browser:
+The web version allows you to:
+- ✅ Upload your R script directly from your computer
+- ✅ Configure conversion options (title, author, theme, etc.)
+- ✅ Download generated .qmd and .html files
+- ✅ No R installation required!
 
-**🌐 [https://quartify.lab.sspcloud.fr/](https://quartify.lab.sspcloud.fr/)**
+---
 
-This web version allows you to:
-- Upload your R script directly from your computer
-- Configure conversion options (title, author, theme, etc.)
-- Download generated .qmd and .html files
-- No R installation required!
+### Interactive Shiny Interface (for R users)
 
-#### Option 2: Standalone App (works most IDEs)
+`quartify` also provides an interactive Shiny interface that works in any R environment:
+
+#### Option 1: Standalone App (works in most IDEs)
 
 ```r
 library(quartify)
@@ -91,14 +93,14 @@ This launches a browser-based interface where you can:
 
 **Perfect for users of Positron, VS Code, or any IDE that supports R!**
 
-#### Option 3: RStudio Add-in
+#### Option 2: RStudio Add-in
 
 If you use RStudio, you can also access the same interface through:
 
 1. Open your R script in RStudio
 2. Go to **Addins** menu → **Convert R Script to Quarto**
 3. A dialog window will appear with the same options as the standalone app
-4. Click **GO** to convert your script
+4. Click **GENERATE** to convert your script
 
 The interface automatically detects your R session language preferences and displays all labels in English or French accordingly. You can change the language at any time using the EN/FR buttons.
 The output format is always HTML.

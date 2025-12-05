@@ -1,7 +1,7 @@
 Package: quartify
 Type: Package
 Title: Convert R Scripts to Quarto Markdown Documents
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: c(
     person("Damien", "Dotta", , "damien.dotta@live.fr", role = c("aut", "cre", "cph"))
     )
