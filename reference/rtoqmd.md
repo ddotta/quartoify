@@ -23,7 +23,7 @@ rtoqmd(
   code_fold = FALSE,
   number_sections = TRUE,
   lang = "en",
-  show_source_lines = FALSE
+  show_source_lines = TRUE
 )
 ```
 
@@ -93,7 +93,7 @@ rtoqmd(
 
   Logical, whether to add comments indicating original line numbers from
   the source R script at the beginning of each code chunk (default:
-  FALSE). This helps maintain traceability between the documentation and
+  TRUE). This helps maintain traceability between the documentation and
   the source code.
 
 ## Value

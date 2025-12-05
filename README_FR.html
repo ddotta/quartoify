@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">quartify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>📦 quartify </h1>
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.5/README_FR.md" class="external-link"><code>README_FR.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.6/README_FR.md" class="external-link"><code>README_FR.md</code></a></small>
     </div>
 
 
@@ -50,12 +50,13 @@
 <div class="section level3">
 <h3 id="pourquoi-quartify-plutôt-que-knitrspin-">Pourquoi quartify plutôt que knitr::spin() ?<a class="anchor" aria-label="anchor" href="#pourquoi-quartify-plut%C3%B4t-que-knitrspin-"></a></h3>
 <p>Alors que <a href="https://yihui.org/knitr/demo/stitch/" class="external-link"><code>knitr::spin()</code></a> convertit les scripts R en R Markdown (.Rmd), <code>quartify</code> les convertit en <strong>Quarto</strong> (.qmd), vous donnant accès à toutes les fonctionnalités modernes de Quarto :</p>
-<ul><li>✅ <strong>Système de Publication Moderne</strong> : Exploitez les fonctionnalités avancées de Quarto (callouts, tabsets, références croisées, etc.)</li>
+<ul><li>✅ <strong>Système de Publication Moderne</strong> : Exploitez les fonctionnalités avancées de Quarto (callouts, tabsets, etc.)</li>
 <li>✅ <strong>Meilleurs Thèmes</strong> : Accès à plus de 25 thèmes HTML modernes avec un style cohérent</li>
 <li>✅ <strong>Interactivité Améliorée</strong> : Support natif pour Observable JS, Shiny, et widgets interactifs</li>
 <li>✅ <strong>Publication Scientifique</strong> : Support intégré pour citations, bibliographies, et formatage académique</li>
 <li>✅ <strong>Diagrammes Mermaid</strong> : Créez des organigrammes et diagrammes directement dans votre documentation</li>
 <li>✅ <strong>Pérennité</strong> : Quarto est le successeur de nouvelle génération de R Markdown, activement développé par Posit</li>
+<li>✅ <strong>Génération HTML en Une Étape</strong> : Contrairement à <code><a href="https://rdrr.io/pkg/knitr/man/spin.html" class="external-link">knitr::spin()</a></code> qui crée uniquement des fichiers .Rmd (nécessitant une étape de knitting séparée), <code>quartify</code> peut générer directement le HTML en une seule étape</li>
 </ul><p><strong>Différence Clé</strong> : <code><a href="https://rdrr.io/pkg/knitr/man/spin.html" class="external-link">knitr::spin()</a></code> utilise <code>#'</code> pour le texte markdown et <code>#+</code> pour les options de chunk, tandis que <code>quartify</code> utilise des commentaires R naturels (<code>#</code> pour le texte, sections RStudio pour les titres) rendant vos scripts R plus lisibles et maintenables même avant conversion.</p>
 </div>
 <div class="section level3">
@@ -87,6 +88,8 @@
 <strong>Thèmes personnalisables</strong> : Choisissez parmi 25+ thèmes Quarto pour personnaliser l’apparence de vos documents HTML</li>
 <li>
 <strong>Numéros de ligne source</strong> : Affichage optionnel des numéros de ligne originaux du script R dans les chunks de code pour la traçabilité</li>
+<li>
+<strong>Prêt pour déploiement web</strong> : Inclut <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code> pour déploiement sur serveurs web avec capacités d’upload/téléchargement</li>
 </ul></div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a></h2>
@@ -98,27 +101,38 @@
 <div class="section level2">
 <h2 id="utilisation">Utilisation<a class="anchor" aria-label="anchor" href="#utilisation"></a></h2>
 <div class="section level3">
-<h3 id="add-in-rstudio">Add-in RStudio<a class="anchor" aria-label="anchor" href="#add-in-rstudio"></a></h3>
-<p>La façon la plus simple d’utiliser <code>quartify</code> est via l’add-in RStudio avec son interface Shiny interactive :</p>
+<h3 id="id_-essayez-lapplication-web-en-ligne-">🌐 Essayez l’Application Web en Ligne !<a class="anchor" aria-label="anchor" href="#id_-essayez-lapplication-web-en-ligne-"></a></h3>
+<p><strong>Aucune installation requise !</strong> Utilisez quartify directement dans votre navigateur :</p>
+</div>
+<div class="section level3">
+<h3 id="id_-httpsquartifylabsspcloudfr-"><strong>→ <a href="https://quartify.lab.sspcloud.fr/" class="external-link">https://quartify.lab.sspcloud.fr/</a> ←</strong><a class="anchor" aria-label="anchor" href="#id_-httpsquartifylabsspcloudfr-"></a></h3>
+<p>La version web vous permet de : - ✅ Télécharger votre script R directement depuis votre ordinateur - ✅ Configurer les options de conversion (titre, auteur, thème, etc.) - ✅ Télécharger les fichiers .qmd et .html générés - ✅ Aucune installation de R nécessaire !</p>
+<hr></div>
+<div class="section level3">
+<h3 id="interface-shiny-interactive-pour-les-utilisateurs-r">Interface Shiny Interactive (pour les utilisateurs R)<a class="anchor" aria-label="anchor" href="#interface-shiny-interactive-pour-les-utilisateurs-r"></a></h3>
+<p><code>quartify</code> fournit également une interface Shiny interactive qui fonctionne dans n’importe quel environnement R :</p>
+<div class="section level4">
+<h4 id="option-1--application-autonome-fonctionne-dans-la-plupart-des-ide">Option 1 : Application Autonome (fonctionne dans la plupart des IDE)<a class="anchor" aria-label="anchor" href="#option-1--application-autonome-fonctionne-dans-la-plupart-des-ide"></a></h4>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/quartify_app.html">quartify_app</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># S'ouvre dans votre navigateur par défaut</span></span></code></pre></div>
+<p>Cela lance une interface basée sur le navigateur où vous pouvez : - Sélectionner le script R d’entrée avec un explorateur de fichiers - Choisir l’emplacement du fichier de sortie - Personnaliser le titre du document, l’auteur et le thème - Activer/désactiver les options de rendu et d’affichage - Basculer entre l’interface anglaise/française</p>
+<p><strong>Parfait pour les utilisateurs de Positron, VS Code, ou tout IDE supportant R !</strong></p>
+</div>
+<div class="section level4">
+<h4 id="option-2--add-in-rstudio">Option 2 : Add-in RStudio<a class="anchor" aria-label="anchor" href="#option-2--add-in-rstudio"></a></h4>
+<p>Si vous utilisez RStudio, vous pouvez également accéder à la même interface via :</p>
 <ol style="list-style-type: decimal"><li>Ouvrez votre script R dans RStudio</li>
 <li>Allez dans le menu <strong>Addins</strong> → <strong>Convert R Script to Quarto</strong>
 </li>
-<li>Une fenêtre de dialogue apparaîtra avec :
-<ul><li>Boutons de sélection de langue <strong>EN/FR</strong> (détection automatique de la langue de votre session R)</li>
-<li>Formulaire pour spécifier :
-<ul><li>Fichier d’entrée (avec explorateur de fichiers)</li>
-<li>Le chemin du fichier de sortie (avec explorateur de fichiers)</li>
-<li>Le titre du document et le nom de l’auteur</li>
-<li>Le thème HTML (25+ thèmes disponibles)</li>
-<li>Les options de génération</li>
-</ul></li>
-</ul></li>
-<li>Cliquez sur <strong>GO</strong> pour convertir votre script (ou ↩︎ pour annuler)</li>
+<li>Une fenêtre de dialogue apparaîtra avec les mêmes options que l’application autonome</li>
+<li>Cliquez sur <strong>GENERATE</strong> pour convertir votre script</li>
 </ol><p>L’interface détecte automatiquement les préférences de langue de votre session R et affiche tous les libellés en anglais ou en français en conséquence. Vous pouvez changer la langue à tout moment avec les boutons EN/FR. Le format de sortie est toujours HTML.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="exemple-basique">Exemple basique<a class="anchor" aria-label="anchor" href="#exemple-basique"></a></h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Convertir un script R en document Quarto et générer le HTML</span></span>
@@ -129,7 +143,7 @@
 </div>
 <div class="section level3">
 <h3 id="personnalisation">Personnalisation<a class="anchor" aria-label="anchor" href="#personnalisation"></a></h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Avec personnalisation du titre et de l'auteur</span></span>
 <span><span class="fu"><a href="reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, </span>
 <span>       output_file <span class="op">=</span> <span class="st">"mon_document.qmd"</span>,</span>
@@ -144,7 +158,7 @@
 <div class="section level3">
 <h3 id="utilisation-du-fichier-exemple">Utilisation du fichier exemple<a class="anchor" aria-label="anchor" href="#utilisation-du-fichier-exemple"></a></h3>
 <p>Un fichier exemple est inclus dans le package pour tester la fonction :</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Localiser le fichier exemple</span></span>
 <span><span class="va">example_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"example.R"</span>, package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span></span>
 <span></span>
@@ -154,7 +168,7 @@
 <div class="section level3">
 <h3 id="conversion-par-lots">Conversion par lots<a class="anchor" aria-label="anchor" href="#conversion-par-lots"></a></h3>
 <p>Convertir tous les scripts R d’un répertoire (y compris les sous-répertoires) :</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convertir tous les scripts R d'un répertoire</span></span>
 <span><span class="fu"><a href="reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span><span class="op">)</span></span>
 <span></span>
@@ -170,7 +184,7 @@
 <div class="section level2">
 <h2 id="format-du-script-r-source">Format du script R source<a class="anchor" aria-label="anchor" href="#format-du-script-r-source"></a></h2>
 <p>Pour que la conversion fonctionne correctement, structurez votre script R en utilisant les sections de code RStudio :</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Titre : Analyse des données Iris</span></span>
 <span><span class="co">#</span></span>
 <span><span class="co"># Auteur : Jean Dupont</span></span>
@@ -237,7 +251,7 @@
 <p><strong>Comportement :</strong> - Les métadonnées trouvées dans le script <strong>remplacent</strong> les paramètres de la fonction - Les lignes de métadonnées sont <strong>retirées</strong> du corps du document (uniquement dans le YAML) - Si aucune métadonnée dans le script, les paramètres de la fonction sont utilisés</p>
 <blockquote>
 <p><strong>📝 Note :</strong> Le champ <code>Description</code> peut s’étendre sur plusieurs lignes. Pour continuer la description, commencez la ligne suivante par <code>#</code> suivi d’au moins un espace. Les lignes de continuation sont automatiquement concaténées. Exemple :</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Description : Cette analyse explore les différences entre les espèces d'iris</span></span>
 <span><span class="co"># en utilisant diverses méthodes statistiques et techniques de visualisation</span></span>
 <span><span class="co"># pour identifier les patterns et corrélations.</span></span></code></pre></div>
@@ -258,7 +272,7 @@
 <div class="section level4">
 <h4 id="id_2-commentaires-réguliers-texte">2. Commentaires réguliers (Texte)<a class="anchor" aria-label="anchor" href="#id_2-commentaires-r%C3%A9guliers-texte"></a></h4>
 <p>Les commentaires simples avec <code>#</code> <strong>en début de ligne (sans espace avant)</strong> deviennent du texte explicatif :</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ceci est un commentaire autonome</span></span>
 <span><span class="co"># Il devient du texte simple dans le document Quarto</span></span></code></pre></div>
 <blockquote>
@@ -272,13 +286,13 @@
 <div class="section level4">
 <h4 id="id_3-lignes-de-code">3. Lignes de code<a class="anchor" aria-label="anchor" href="#id_3-lignes-de-code"></a></h4>
 <p>Les lignes non commentées deviennent des chunks de code R exécutables :</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="id_4-commentaires-en-ligne-à-lintérieur-du-code">4. Commentaires en ligne (À l’intérieur du code)<a class="anchor" aria-label="anchor" href="#id_4-commentaires-en-ligne-%C3%A0-lint%C3%A9rieur-du-code"></a></h4>
 <p>Les commentaires <strong>à l’intérieur des blocs de code</strong> sont préservés dans le chunk de code R :</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="co"># Ce commentaire reste dans le bloc de code</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
@@ -287,7 +301,7 @@
 <h4 id="id_5-callouts-encadrés">5. Callouts (Encadrés)<a class="anchor" aria-label="anchor" href="#id_5-callouts-encadr%C3%A9s"></a></h4>
 <p>Les callouts sont des blocs spéciaux qui mettent en évidence des informations importantes. Cinq types sont supportés : <code>note</code>, <code>tip</code>, <code>warning</code>, <code>caution</code>, <code>important</code>.</p>
 <p><strong>Syntaxe dans le script R :</strong></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># callout-note - Note importante</span></span>
 <span><span class="co"># Ceci est le contenu du callout.</span></span>
 <span><span class="co"># Il peut s'étendre sur plusieurs lignes.</span></span>
@@ -295,12 +309,12 @@
 <span><span class="co"># Une ligne vide ou du code termine le callout</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
 <p><strong>Se convertit en Quarto :</strong></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>::: {.callout-note title="Note importante"}</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>Ceci est le contenu du callout.</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>Il peut s'étendre sur plusieurs lignes.</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>:::</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>::: {.callout-note title="Note importante"}</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>Ceci est le contenu du callout.</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>Il peut s'étendre sur plusieurs lignes.</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>:::</span></code></pre></div>
 <p><strong>Sans titre :</strong></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># callout-tip</span></span>
 <span><span class="co"># Ceci est un conseil sans titre.</span></span></code></pre></div>
 <p>Les callouts se terminent lorsqu’on rencontre une ligne vide, du code, ou une autre section.</p>
@@ -309,19 +323,19 @@
 <h4 id="id_6-diagrammes-mermaid">6. Diagrammes Mermaid<a class="anchor" aria-label="anchor" href="#id_6-diagrammes-mermaid"></a></h4>
 <p>Créez des organigrammes, des diagrammes de séquence et d’autres visualisations avec la syntaxe Mermaid, rendus directement dans la sortie HTML.</p>
 <p><strong>Syntaxe dans le script R :</strong></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">#| mermaid</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>flowchart LR</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  A[Démarrer] <span class="sc">-</span><span class="ot">-&gt;</span> B{Décision}</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Oui<span class="sc">|</span> C[Résultat <span class="dv">1</span>]</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Non<span class="sc">|</span> D[Résultat <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">#| mermaid</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>flowchart LR</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  A[Démarrer] <span class="sc">-</span><span class="ot">-&gt;</span> B{Décision}</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Oui<span class="sc">|</span> C[Résultat <span class="dv">1</span>]</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  B <span class="sc">-</span><span class="ot">-&gt;</span><span class="er">|</span>Non<span class="sc">|</span> D[Résultat <span class="dv">2</span>]</span></code></pre></div>
 <p><strong>Se convertit en Quarto :</strong></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="in">%%| eval: true</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="in">flowchart LR</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="in">  A[Démarrer] --&gt; B{Décision}</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="in">  B --&gt;|Oui| C[Résultat 1]</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="in">  B --&gt;|Non| D[Résultat 2]</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="in">%%| eval: true</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="in">flowchart LR</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="in">  A[Démarrer] --&gt; B{Décision}</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="in">  B --&gt;|Oui| C[Résultat 1]</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="in">  B --&gt;|Non| D[Résultat 2]</span></span></code></pre></div>
 <pre><code>
 Pour plus d'informations : [Documentation Mermaid](https://mermaid.js.org/)
 
@@ -345,14 +359,14 @@ str(iris)
 # Premières observations :
 head(iris)</code></pre>
 <p><strong>Se convertit en Quarto :</strong></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>::: {.panel-tabset}</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">## Statistiques résumées</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>Voici les statistiques pour iris :</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="in">summary(iris)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">## Statistiques résumées</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>Voici les statistiques pour iris :</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="in">summary(iris)</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -414,27 +428,27 @@ rtoqmd("mon_script.R", theme = "darkly")</code></pre>
 <h2 id="intégration-cicd">Intégration CI/CD<a class="anchor" aria-label="anchor" href="#int%C3%A9gration-cicd"></a></h2>
 <p>Utilisez <code>quartify</code> dans vos pipelines CI/CD pour générer automatiquement la documentation :</p>
 <p><strong>GitHub Actions</strong> (<code>.github/workflows/generate-docs.yml</code>) :</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Générer la documentation</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">  run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    library(quartify)</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    rtoqmd_dir("scripts/", render = TRUE, author = "Équipe Data")</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="at">  </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> documentation</span></span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="fu">    path</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>      scripts/**/*.qmd</span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>      scripts/**/*.html</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Générer la documentation</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">  run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    library(quartify)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    rtoqmd_dir("scripts/", render = TRUE, author = "Équipe Data")</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="at">  </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> documentation</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="fu">    path</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>      scripts/**/*.qmd</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>      scripts/**/*.html</span></code></pre></div>
 <p><strong>GitLab CI</strong> (<code>.gitlab-ci.yml</code>) :</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">generate-docs</span><span class="kw">:</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> rocker/r-ver:4.5.1</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Équipe Data')"</span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.qmd</span></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.html</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">generate-docs</span><span class="kw">:</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="at">  </span><span class="fu">image</span><span class="kw">:</span><span class="at"> rocker/r-ver:4.5.1</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> R -e "quartify::rtoqmd_dir('scripts/', render = TRUE, author = 'Équipe Data')"</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.qmd</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scripts/**/*.html</span></span></code></pre></div>
 <p>📘 <strong>Guide complet CI/CD</strong> avec exemples détaillés : <a href="https://ddotta.github.io/quartify/articles/getting-started_FR.html#int%C3%A9gration-cicd">Intégration CI/CD</a></p>
 </div>
 <div class="section level2">

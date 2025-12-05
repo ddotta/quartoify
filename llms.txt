@@ -21,7 +21,7 @@ scripts to R Markdown (.Rmd), `quartify` converts them to **Quarto**
 (.qmd), giving you access to all modern Quarto features:
 
 - ✅ **Modern Publishing System**: Leverage Quarto’s advanced features
-  (callouts, tabsets, cross-references, etc.)
+  (callouts, tabsets, etc.)
 - ✅ **Better Theming**: Access to 25+ modern HTML themes with
   consistent styling
 - ✅ **Enhanced Interactivity**: Native support for Observable JS,
@@ -32,6 +32,10 @@ scripts to R Markdown (.Rmd), `quartify` converts them to **Quarto**
   your documentation
 - ✅ **Future-Proof**: Quarto is the next-generation successor to R
   Markdown, actively developed by Posit
+- ✅ **One-Step HTML Generation**: Unlike
+  [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) which only
+  creates .Rmd files (requiring a separate knitting step), `quartify`
+  can generate HTML output directly in a single step
 
 **Key Difference**:
 [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) uses `#'` for
@@ -72,6 +76,9 @@ particularly useful for:
   the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from
   the R script in code chunks for traceability
+- **Web deployment ready**: Includes
+  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  for deploying on web servers with file upload/download capabilities
 
 ## Installation
 
@@ -84,23 +91,47 @@ devtools::install_github("ddotta/quartify")
 
 ## Usage
 
-### RStudio Add-in
+### 🌐 Try the Online Web Application!
 
-The easiest way to use `quartify` is through the RStudio add-in with its
-interactive Shiny interface:
+**No installation required!** Use quartify directly in your browser:
+
+### **→ <https://quartify.lab.sspcloud.fr/> ←**
+
+The web version allows you to: - ✅ Upload your R script directly from
+your computer - ✅ Configure conversion options (title, author, theme,
+etc.) - ✅ Download generated .qmd and .html files - ✅ No R
+installation required!
+
+------------------------------------------------------------------------
+
+### Interactive Shiny Interface (for R users)
+
+`quartify` also provides an interactive Shiny interface that works in
+any R environment:
+
+#### Option 1: Standalone App (works in most IDEs)
+
+``` r
+library(quartify)
+quartify_app()  # Opens in your default web browser
+```
+
+This launches a browser-based interface where you can: - Select input R
+script using a file browser - Choose output file location - Customize
+document title, author, and theme - Toggle rendering and display
+options - Switch between English/French interface
+
+**Perfect for users of Positron, VS Code, or any IDE that supports R!**
+
+#### Option 2: RStudio Add-in
+
+If you use RStudio, you can also access the same interface through:
 
 1.  Open your R script in RStudio
 2.  Go to **Addins** menu → **Convert R Script to Quarto**
-3.  A dialog window will appear with:
-    - **EN/FR** language selector buttons (automatically detects your R
-      session language)
-    - Form fields to specify:
-      - Input file (with file browser)
-      - Output file path (with file browser)
-      - Document title and author name
-      - HTML theme (25+ themes available)
-      - Rendering options
-4.  Click **GO** to convert your script (or ↩︎ to cancel)
+3.  A dialog window will appear with the same options as the standalone
+    app
+4.  Click **GENERATE** to convert your script
 
 The interface automatically detects your R session language preferences
 and displays all labels in English or French accordingly. You can change
@@ -524,12 +555,16 @@ Convert R scripts to Quarto markdown
 - [`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)
   : Convert All R Scripts in a Directory to Quarto Markdown
 
-## RStudio Add-in
+## Interactive tools
 
-Interactive conversion via RStudio
+Interactive conversion interfaces
 
 - [`rtoqmd_addin()`](https://ddotta.github.io/quartify/reference/rtoqmd_addin.md)
   : Convert Active R Script to Quarto Markdown
+- [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md)
+  : Launch Quartify Shiny Interface
+- [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)
+  : Launch Quartify Web Application (for deployment)
 
 # Articles
 
