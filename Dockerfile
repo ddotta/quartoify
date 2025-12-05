@@ -26,6 +26,6 @@ RUN Rscript -e 'install.packages("/quartify", repos = NULL, type="source")'
 # Expose port where shiny app will broadcast
 EXPOSE 3838
 
-# Run the app directly using Rscript (not through Shiny Server)
+# Run the web version of the app (with upload/download instead of file browser)
 # Use host 0.0.0.0 to allow external connections
-CMD ["Rscript", "-e", "options(shiny.host='0.0.0.0', shiny.port=3838); quartify::quartify_app(launch.browser=FALSE)"]
+CMD ["Rscript", "-e", "options(shiny.host='0.0.0.0', shiny.port=3838); quartify::quartify_app_web(launch.browser=FALSE)"]
