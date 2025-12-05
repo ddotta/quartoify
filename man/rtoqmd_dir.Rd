@@ -79,7 +79,7 @@ Supports all features of \code{\link{rtoqmd}}, including:
 See \code{\link{rtoqmd}} for details on callout syntax and metadata detection.
 }
 \note{
-When creating a Quarto book, you may see warnings like "Could not fetch resource ./file.html" during rendering. These are harmless and occur because Quarto is processing cross-references between chapters. The final book will render correctly.
+Existing .qmd and .html files will be automatically overwritten during generation to ensure fresh output.
 }
 \examples{
 \dontrun{
