@@ -37,6 +37,11 @@ modernes de Quarto :
   directement dans votre documentation
 - ✅ **Pérennité** : Quarto est le successeur de nouvelle génération de
   R Markdown, activement développé par Posit
+- ✅ **Génération HTML en Une Étape** : Contrairement à
+  [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) qui crée
+  uniquement des fichiers .Rmd (nécessitant une étape de knitting
+  séparée), `quartify` peut générer directement le HTML en une seule
+  étape
 
 **Différence Clé** :
 [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) utilise `#'`

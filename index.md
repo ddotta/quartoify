@@ -32,6 +32,10 @@ scripts to R Markdown (.Rmd), `quartify` converts them to **Quarto**
   your documentation
 - ✅ **Future-Proof**: Quarto is the next-generation successor to R
   Markdown, actively developed by Posit
+- ✅ **One-Step HTML Generation**: Unlike
+  [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) which only
+  creates .Rmd files (requiring a separate knitting step), `quartify`
+  can generate HTML output directly in a single step
 
 **Key Difference**:
 [`knitr::spin()`](https://rdrr.io/pkg/knitr/man/spin.html) uses `#'` for
