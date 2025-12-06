@@ -11,6 +11,50 @@
     index
   - Books created in French now display “Sommaire” instead of “Table of
     contents”
+  - Default output directory changed from `_documentation` to `_book`
+- **Enhanced Shiny Applications**
+  ([`rtoqmd_addin()`](https://ddotta.github.io/quartify/reference/rtoqmd_addin.md),
+  [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md),
+  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)):
+  - **Code Organization**: Split monolithic `addins.R` (2185 lines) into
+    3 separate files for better maintainability
+  - **Harmonized UI**:
+    - GENERATE button moved to top of page (below title bar) with
+      centered hex logo
+    - Consistent button placement across all 3 applications
+    - Blue title bar styling (`#0073e6`) with white text
+    - Removed Unicode symbols (checkmarks, arrows) for ASCII compliance
+  - **Output Directory Selection**: Added selector for custom output
+    directory in directory mode
+  - **Create Book Checkbox**: New checkbox to enable/disable book
+    creation in directory mode
+  - **Multiple File Selection**: Changed from single to multiple file
+    selection in file mode
+  - **Conditional UI Elements**:
+    - “Open .qmd file” checkbox only visible in file mode
+    - “Open HTML file” checkbox only visible in file mode
+    - Document title field hidden in directory mode (no title needed for
+      books)
+  - **Mode Labels**: Updated from “Un fichier” to “Un ou plusieurs
+    fichiers” (FR) and “Single file” to “One or more files” (EN)
+  - **Synchronized Loader**: Loader now waits for Quarto rendering to
+    complete before disappearing (checks for index.html creation)
+- **Web Application Improvements**
+  ([`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md)):
+  - Document title field hidden in batch mode
+  - Empty title automatically used in batch mode to avoid “My Analysis”
+    in book chapters
+  - Removed directory selection option (file upload only for web
+    deployment)
+  - Fixed ZIP download to include all generated files with proper
+    structure:
+    - `qmd/` folder contains all .qmd files and \_quarto.yml
+    - `html/` folder contains all HTML files with complete directory
+      structure
+    - Includes all resources (CSS, JS, fonts, images) for standalone
+      book viewing
+  - Force synchronous rendering (`as_job = FALSE`) to ensure all files
+    are generated before download
 - **Improved File Management**:
   - Automatic cleanup of existing book files before regeneration
   - Temporary backup of `_quarto.yml` when rendering individual files
@@ -19,9 +63,12 @@
 - **Enhanced User Experience**:
   - Changed loader background from opaque white to semi-transparent dark
     overlay
-  - Better visual feedback during conversion process
-  - Success notifications with emoji indicators
-  - HTML output opens automatically by default (`open_html = TRUE`)
+  - Better visual feedback during conversion process with synchronized
+    loader
+  - Success notifications with \[OK\] indicators
+  - Empty document title in directory/batch mode prevents placeholder
+    text in generated books
+  - All text without accented characters for better compatibility
 
 ### Bug Fixes
 
@@ -31,11 +78,28 @@
 - Resolved conflicts between individual file rendering and book
   structure
 - Corrected file path detection for HTML output in book projects
+- Fixed premature loader dismissal when Quarto renders in background
+- Fixed `index.html` missing from ZIP downloads in
+  [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md):
+  - Quarto book rendering now waits for completion before file
+    collection
+  - All HTML files including `index.html` are now properly included in
+    downloads
+  - ZIP structure preserves complete directory hierarchy for functional
+    offline viewing
+- Resolved non-ASCII character warnings in R CMD check
+
+### Code Quality
+
+- Removed all non-ASCII characters from source code for CRAN compliance
+- Improved code organization with modular file structure
+- Better maintainability with separated Shiny application files
 
 ### CI/CD
 
 - Docker image build now triggered manually via `workflow_dispatch`
   instead of automatic on push
+- Automatic push to DockerHub on main branch pushes
 - Reduced unnecessary Docker builds during development
 
 ## quartify 0.0.6

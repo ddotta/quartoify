@@ -103,6 +103,197 @@ rtoqmd("/home/user/scripts/script.R")
 rtoqmd("script.R", "output.qmd")
 ```
 
+## Using the RStudio Addin
+
+`quartify` provides an interactive RStudio addin for easy conversion
+without writing code. This is perfect for quick conversions while
+working in RStudio.
+
+### Accessing the Addin
+
+To use the addin:
+
+1.  **From RStudio menu**: Go to **Addins** \> **“Convert R to Quarto
+    (rtoqmd)”**
+2.  The interactive interface will open in a new window
+
+**Tip:** You can also bind a keyboard shortcut to the addin for even
+faster access. Go to **Tools** \> **Modify Keyboard Shortcuts** and
+search for “quartify” to assign your preferred shortcut.
+
+### Interface Overview
+
+The addin features a modern, intuitive interface with:
+
+- **Blue title bar** with language switcher (EN/FR flags)
+- **GENERATE button** prominently placed at the top below the title bar,
+  next to the quartify logo
+- **Mode selector** to choose between single file or directory
+  conversion
+- **File/directory browser** for easy selection
+- **Real-time validation** and error messages
+
+### Single File Mode
+
+Perfect for converting one R script at a time:
+
+1.  **Select mode**: Choose “Single File Mode”
+2.  **Browse for input**: Click “Browse” to select your R script
+3.  **Set output location**: Optionally specify where to save the .qmd
+    file (defaults to same directory as input)
+4.  **Configure options**:
+    - **Render to HTML**: Check to automatically generate HTML output
+    - **Open HTML**: Check to open the result in your browser
+5.  **Click GENERATE**: The blue GENERATE button at the top starts the
+    conversion
+
+The addin will show success/error messages and provide clickable links
+to output files.
+
+### Directory Mode
+
+Convert all R scripts in a directory at once:
+
+1.  **Select mode**: Choose “Directory Mode”
+2.  **Browse for input directory**: Select the folder containing your R
+    scripts
+3.  **Configure options**:
+    - **Recursive**: Check to include subdirectories
+    - **Render to HTML**: Generate HTML for all files
+    - **Create Book**: Automatically create a `_quarto.yml` file to
+      combine all documents into a Quarto book
+4.  **Output directory** (Optional): Choose where to save converted
+    files (defaults to same location as input files)
+5.  **Click GENERATE**: Start batch conversion
+
+**Create Book Feature**: When enabled, this option creates a
+`_quarto.yml` configuration file in the output directory, allowing you
+to render all converted documents as a unified Quarto book with
+automatic navigation and consistent styling. This is ideal for project
+documentation or analysis collections.
+
+### Advanced Features
+
+The addin includes several quality-of-life improvements:
+
+- **Volume management**: Easily navigate across different drives and
+  network locations
+- **Path validation**: Real-time checks for valid file/directory paths
+- **Bilingual interface**: Switch between English and French instantly
+- **Persistent settings**: Your last mode selection is remembered
+- **Detailed feedback**: Clear success/error messages with file counts
+  and locations
+
+### When to Use the Addin
+
+The RStudio addin is ideal for:
+
+- **Interactive exploration**: Testing conversion on sample scripts
+- **One-off conversions**: Quick document generation without scripting
+- **Visual feedback**: Seeing results immediately with the GUI
+- **Learning the package**: Understanding options before automating
+- **Teaching**: Demonstrating quartify features to colleagues
+
+For batch processing or CI/CD pipelines, consider using the programmatic
+functions
+([`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md),
+[`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md))
+instead.
+
+## Using the Standalone Shiny App
+
+For users working outside RStudio or wanting to share a conversion tool
+with their team, `quartify` provides a standalone Shiny application.
+
+### Launching the App
+
+Simply run:
+
+``` r
+library(quartify)
+quartify_app()
+```
+
+This opens the same intuitive interface as the RStudio addin, but in a
+standard browser window. The app can run on any system with R installed,
+making it perfect for:
+
+- **Non-RStudio environments**: Use with VS Code, Jupyter, or other IDEs
+- **Shared team tools**: Deploy on RStudio Connect or Shiny Server for
+  team access
+- **Demonstrations**: Show quartify features without requiring RStudio
+- **Remote work**: Access from any browser if hosted on a server
+
+### Features
+
+The standalone app includes all the same features as the RStudio addin:
+
+- **Single File Mode**: Convert individual R scripts with full control
+  over output location and rendering options
+- **Directory Mode**: Batch convert entire folders with recursive
+  directory scanning
+- **Create Book**: Generate `_quarto.yml` configuration for Quarto book
+  projects
+- **Bilingual Interface**: Switch between English and French with flag
+  buttons
+- **Modern UI**: Blue title bar, prominent GENERATE button, and
+  intuitive layout
+
+### Comparison with Addin
+
+| Feature              | RStudio Addin      | Standalone App                                                                  |
+|----------------------|--------------------|---------------------------------------------------------------------------------|
+| **Requires RStudio** | Yes                | No                                                                              |
+| **Launch Method**    | Addins menu        | [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md) |
+| **Interface**        | Gadget window      | Browser window                                                                  |
+| **File Browser**     | Native file system | Native file system                                                              |
+| **All Features**     | ✓                  | ✓                                                                               |
+| **Shareable**        | No                 | Yes (can deploy)                                                                |
+
+### Deployment Options
+
+The standalone app can be deployed for team access:
+
+**Local Network:**
+
+``` r
+# Run on a specific port accessible to your network
+shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"), 
+              host = "0.0.0.0", port = 3838)
+```
+
+**RStudio Connect / Shiny Server:** Deploy as a standard Shiny
+application for enterprise-wide access.
+
+### Web Version
+
+For environments where file system access is restricted (cloud
+deployments, sandboxed environments), use the web version:
+
+``` r
+quartify_app_web()
+```
+
+This version features:
+
+- **File upload**: Upload R scripts directly from your computer (single
+  or multiple files)
+- **File download**: Download generated files as .zip archives with
+  organized structure
+- **ZIP structure**:
+  - `qmd/` folder with all Quarto markdown files and configuration
+  - `html/` folder with complete rendered book (including `index.html`
+    and all resources)
+- **Batch conversion**: Upload multiple files to create a complete
+  Quarto book
+- **Offline viewing**: Downloaded ZIP contains everything needed to view
+  the book offline
+- **Same conversion logic**: All quartify features available
+
+Perfect for cloud deployments where direct file system access isn’t
+available. The downloaded ZIP is ready to extract and view immediately
+in any browser.
+
 ## Structuring Your R Script
 
 For optimal conversion, you need to follow specific commenting rules in
@@ -593,16 +784,58 @@ quarto::quarto_render("iris_analysis.qmd")
 
 ## Batch Converting Directories
 
+`quartify` v0.0.7 introduces powerful batch conversion capabilities
+through multiple interfaces. Choose the method that best fits your
+workflow.
+
+### Using the RStudio Addin or Standalone App
+
+The most intuitive way to batch convert files is through the **Directory
+Mode** in either the RStudio addin or standalone app:
+
+``` r
+# Launch the standalone app
+quartify_app()
+
+# Or use the RStudio addin: Addins > "Convert R to Quarto (rtoqmd)"
+```
+
+**Directory Mode features (v0.0.7):**
+
+1.  **Browse for directory**: Select the folder containing your R
+    scripts
+2.  **Recursive option**: Include or exclude subdirectories
+3.  **Output directory**: Optionally specify a different location for
+    converted files (new in v0.0.7!)
+4.  **Create Book checkbox**: Automatically generate `_quarto.yml` to
+    combine all documents into a Quarto book (new in v0.0.7!)
+5.  **Render option**: Choose whether to generate HTML files for all
+    scripts
+6.  **One-click conversion**: Click the GENERATE button at the top to
+    convert all files
+
+**New in v0.0.7**: The output directory feature allows you to keep your
+source R scripts separate from generated .qmd files. Combined with the
+“Create Book” option, you can instantly create a complete Quarto book
+project from a collection of R scripts.
+
+**Workflow example:**
+
+- Input directory: `~/my-project/scripts/` (contains 10 R scripts)
+- Output directory: `~/my-project/docs/` (where you want .qmd files)
+- Enable “Create Book”: Generates `~/my-project/docs/_quarto.yml`
+- Result: Complete Quarto book ready to render with `quarto render`
+
 ### Using the Web Interface
 
-The easiest way to convert multiple files is through the web interface:
+For environments without direct file system access:
 
 ``` r
 quartify_app_web()
 ```
 
 In batch mode, you can either: - **Upload multiple R files** at once -
-**Select a directory** containing your R scripts (new feature!)
+**Select a directory** containing your R scripts
 
 The interface will convert all files and provide a downloadable .zip
 archive.

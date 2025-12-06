@@ -49,6 +49,50 @@
 </li>
 <li>Automatically creates Quarto book structure with navigation and index</li>
 <li>Books created in French now display “Sommaire” instead of “Table of contents”</li>
+<li>Default output directory changed from <code>_documentation</code> to <code>_book</code>
+</li>
+</ul></li>
+<li>
+<strong>Enhanced Shiny Applications</strong> (<code><a href="../reference/rtoqmd_addin.html">rtoqmd_addin()</a></code>, <code><a href="../reference/quartify_app.html">quartify_app()</a></code>, <code><a href="../reference/quartify_app_web.html">quartify_app_web()</a></code>):
+<ul><li>
+<strong>Code Organization</strong>: Split monolithic <code>addins.R</code> (2185 lines) into 3 separate files for better maintainability</li>
+<li>
+<strong>Harmonized UI</strong>:
+<ul><li>GENERATE button moved to top of page (below title bar) with centered hex logo</li>
+<li>Consistent button placement across all 3 applications</li>
+<li>Blue title bar styling (<code>#0073e6</code>) with white text</li>
+<li>Removed Unicode symbols (checkmarks, arrows) for ASCII compliance</li>
+</ul></li>
+<li>
+<strong>Output Directory Selection</strong>: Added selector for custom output directory in directory mode</li>
+<li>
+<strong>Create Book Checkbox</strong>: New checkbox to enable/disable book creation in directory mode</li>
+<li>
+<strong>Multiple File Selection</strong>: Changed from single to multiple file selection in file mode</li>
+<li>
+<strong>Conditional UI Elements</strong>:
+<ul><li>“Open .qmd file” checkbox only visible in file mode</li>
+<li>“Open HTML file” checkbox only visible in file mode</li>
+<li>Document title field hidden in directory mode (no title needed for books)</li>
+</ul></li>
+<li>
+<strong>Mode Labels</strong>: Updated from “Un fichier” to “Un ou plusieurs fichiers” (FR) and “Single file” to “One or more files” (EN)</li>
+<li>
+<strong>Synchronized Loader</strong>: Loader now waits for Quarto rendering to complete before disappearing (checks for index.html creation)</li>
+</ul></li>
+<li>
+<strong>Web Application Improvements</strong> (<code><a href="../reference/quartify_app_web.html">quartify_app_web()</a></code>):
+<ul><li>Document title field hidden in batch mode</li>
+<li>Empty title automatically used in batch mode to avoid “My Analysis” in book chapters</li>
+<li>Removed directory selection option (file upload only for web deployment)</li>
+<li>Fixed ZIP download to include all generated files with proper structure:
+<ul><li>
+<code>qmd/</code> folder contains all .qmd files and _quarto.yml</li>
+<li>
+<code>html/</code> folder contains all HTML files with complete directory structure</li>
+<li>Includes all resources (CSS, JS, fonts, images) for standalone book viewing</li>
+</ul></li>
+<li>Force synchronous rendering (<code>as_job = FALSE</code>) to ensure all files are generated before download</li>
 </ul></li>
 <li>
 <strong>Improved File Management</strong>:
@@ -59,9 +103,10 @@
 <li>
 <strong>Enhanced User Experience</strong>:
 <ul><li>Changed loader background from opaque white to semi-transparent dark overlay</li>
-<li>Better visual feedback during conversion process</li>
-<li>Success notifications with emoji indicators</li>
-<li>HTML output opens automatically by default (<code>open_html = TRUE</code>)</li>
+<li>Better visual feedback during conversion process with synchronized loader</li>
+<li>Success notifications with [OK] indicators</li>
+<li>Empty document title in directory/batch mode prevents placeholder text in generated books</li>
+<li>All text without accented characters for better compatibility</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
@@ -70,10 +115,24 @@
 <li>Fixed <code>index.html</code> generation issues in Quarto books</li>
 <li>Resolved conflicts between individual file rendering and book structure</li>
 <li>Corrected file path detection for HTML output in book projects</li>
+<li>Fixed premature loader dismissal when Quarto renders in background</li>
+<li>Fixed <code>index.html</code> missing from ZIP downloads in <code><a href="../reference/quartify_app_web.html">quartify_app_web()</a></code>:
+<ul><li>Quarto book rendering now waits for completion before file collection</li>
+<li>All HTML files including <code>index.html</code> are now properly included in downloads</li>
+<li>ZIP structure preserves complete directory hierarchy for functional offline viewing</li>
+</ul></li>
+<li>Resolved non-ASCII character warnings in R CMD check</li>
+</ul></div>
+<div class="section level3">
+<h3 id="code-quality-0-0-7">Code Quality<a class="anchor" aria-label="anchor" href="#code-quality-0-0-7"></a></h3>
+<ul><li>Removed all non-ASCII characters from source code for CRAN compliance</li>
+<li>Improved code organization with modular file structure</li>
+<li>Better maintainability with separated Shiny application files</li>
 </ul></div>
 <div class="section level3">
 <h3 id="cicd-0-0-7">CI/CD<a class="anchor" aria-label="anchor" href="#cicd-0-0-7"></a></h3>
 <ul><li>Docker image build now triggered manually via <code>workflow_dispatch</code> instead of automatic on push</li>
+<li>Automatic push to DockerHub on main branch pushes</li>
 <li>Reduced unnecessary Docker builds during development</li>
 </ul></div>
 </div>

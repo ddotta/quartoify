@@ -99,6 +99,10 @@
 <li>
 <strong>Automatic conversion</strong>: Transforms your R scripts (.R) into Quarto documents (.qmd)</li>
 <li>
+<strong>Multiple file conversion</strong>: Convert single files, multiple files, or entire directories at once</li>
+<li>
+<strong>Quarto Book creation</strong>: Automatically generate navigable Quarto books from directories (enabled by default)</li>
+<li>
 <strong>RStudio code sections support</strong>: Recognizes RStudio code sections (<code>####</code>, <code>====</code>, <code>----</code>) and converts them to proper markdown headers with correct indentation levels</li>
 <li>
 <strong>Comment preservation</strong>: Regular comments are converted into explanatory text</li>
@@ -108,13 +112,19 @@
 <strong>Customizable YAML header</strong>: Ability to define title, author, and other parameters<br>
 </li>
 <li>
-<strong>Table of contents</strong>: Automatic generation of a table of contents in the Quarto document with proper depth</li>
+<strong>Table of contents</strong>: Automatic generation of a table of contents in the Quarto document with proper depth
+<ul>
+<li>French language support: Displays “Sommaire” instead of “Table of contents” when language is set to French</li>
+</ul>
+</li>
 <li>
-<strong>Automatic HTML rendering</strong>: Optionally renders the .qmd file to HTML and opens it in your browser (disabled by default)</li>
+<strong>Automatic HTML rendering</strong>: Optionally renders the .qmd file to HTML and opens it in your browser</li>
 <li>
 <strong>Customizable themes</strong>: Choose from 25+ Quarto themes to customize the appearance of your HTML documents</li>
 <li>
 <strong>Source line numbers</strong>: Optionally display original line numbers from the R script in code chunks for traceability</li>
+<li>
+<strong>Output directory customization</strong>: Specify custom output directories for book generation (defaults to <code>_book</code>)</li>
 <li>
 <strong>Web deployment ready</strong>: Includes <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code> for deploying on web servers with file upload/download capabilities</li>
 </ul>
@@ -139,7 +149,7 @@
 <h3 id="id_-httpsquartifylabsspcloudfr-">
 <strong>→ <a href="https://quartify.lab.sspcloud.fr/" class="external-link">https://quartify.lab.sspcloud.fr/</a> ←</strong><a class="anchor" aria-label="anchor" href="#id_-httpsquartifylabsspcloudfr-"></a>
 </h3>
-<p>The web version allows you to: - ✅ Upload your R script directly from your computer <strong>OR select a directory</strong> containing R scripts for batch conversion - ✅ Configure conversion options (title, author, theme, etc.) - ✅ Download generated .qmd and .html files (or .zip archive for batch mode) - ✅ No R installation required!</p>
+<p>The web version allows you to: - ✅ Upload <strong>one or multiple R scripts</strong> directly from your computer <strong>OR select a directory</strong> containing R scripts for batch conversion - ✅ <strong>Create Quarto Books</strong> automatically from multiple files with navigation structure - ✅ Configure conversion options (title, author, theme, book creation, etc.) - ✅ Download generated .qmd and .html files (or .zip archive for batch mode) - ✅ No R installation required!</p>
 <hr>
 </div>
 <div class="section level3">
@@ -152,7 +162,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/quartify_app.html">quartify_app</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Opens in your default web browser</span></span></code></pre></div>
-<p>This launches a browser-based interface where you can: - Select input R script using a file browser - Choose output file location - Customize document title, author, and theme - Toggle rendering and display options - Switch between English/French interface</p>
+<p>This launches a browser-based interface where you can: - Convert <strong>one or multiple files</strong> OR an entire <strong>directory</strong> of R scripts - <strong>Create Quarto Books</strong> with automatic navigation (enabled by default for directories) - Select custom <strong>output directory</strong> for book generation - Select input files/directories using a file browser - Choose output file location for individual files - Customize document title, author, and theme - Toggle rendering and display options - Switch between English/French interface</p>
 <p><strong>Perfect for users of Positron, VS Code, or any IDE that supports R!</strong></p>
 </div>
 <div class="section level4">

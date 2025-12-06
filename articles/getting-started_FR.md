@@ -104,6 +104,219 @@ rtoqmd("/home/utilisateur/scripts/script.R")
 rtoqmd("script.R", "sortie.qmd")
 ```
 
+## Utiliser l’Addin RStudio
+
+`quartify` fournit un addin RStudio interactif pour une conversion
+facile sans écrire de code. C’est parfait pour des conversions rapides
+en travaillant dans RStudio.
+
+### Accéder à l’Addin
+
+Pour utiliser l’addin :
+
+1.  **Depuis le menu RStudio** : Allez dans **Addins** \> **“Convert R
+    to Quarto (rtoqmd)”**
+2.  L’interface interactive s’ouvrira dans une nouvelle fenêtre
+
+**Astuce :** Vous pouvez également lier un raccourci clavier à l’addin
+pour un accès encore plus rapide. Allez dans **Tools** \> **Modify
+Keyboard Shortcuts** et recherchez “quartify” pour attribuer votre
+raccourci préféré.
+
+### Aperçu de l’Interface
+
+L’addin présente une interface moderne et intuitive avec :
+
+- **Barre de titre bleue** avec sélecteur de langue (drapeaux EN/FR)
+- **Bouton GENERATE** placé en évidence en haut sous la barre de titre,
+  à côté du logo quartify
+- **Sélecteur de mode** pour choisir entre conversion d’un fichier
+  unique ou d’un répertoire
+- **Navigateur de fichiers/répertoires** pour une sélection facile
+- **Validation en temps réel** et messages d’erreur
+
+### Mode Fichier Unique
+
+Parfait pour convertir un script R à la fois :
+
+1.  **Sélectionner le mode** : Choisissez “Mode Fichier Unique”
+2.  **Parcourir pour l’entrée** : Cliquez sur “Parcourir” pour
+    sélectionner votre script R
+3.  **Définir l’emplacement de sortie** : Spécifiez optionnellement où
+    enregistrer le fichier .qmd (par défaut dans le même répertoire que
+    l’entrée)
+4.  **Configurer les options** :
+    - **Générer le HTML** : Cochez pour générer automatiquement la
+      sortie HTML
+    - **Ouvrir le HTML** : Cochez pour ouvrir le résultat dans votre
+      navigateur
+5.  **Cliquez sur GENERATE** : Le bouton bleu GENERATE en haut démarre
+    la conversion
+
+L’addin affichera des messages de succès/erreur et fournira des liens
+cliquables vers les fichiers de sortie.
+
+### Mode Répertoire
+
+Convertir tous les scripts R d’un répertoire en une seule fois :
+
+1.  **Sélectionner le mode** : Choisissez “Mode Répertoire”
+2.  **Parcourir le répertoire d’entrée** : Sélectionnez le dossier
+    contenant vos scripts R
+3.  **Configurer les options** :
+    - **Récursif** : Cochez pour inclure les sous-répertoires
+    - **Générer le HTML** : Générer le HTML pour tous les fichiers
+    - **Créer un livre** : Créer automatiquement un fichier
+      `_quarto.yml` pour combiner tous les documents en un livre Quarto
+4.  **Répertoire de sortie** (Optionnel) : Choisissez où enregistrer les
+    fichiers convertis (par défaut au même emplacement que les fichiers
+    d’entrée)
+5.  **Cliquez sur GENERATE** : Démarrer la conversion en lot
+
+**Fonction Créer un Livre** : Lorsqu’elle est activée, cette option crée
+un fichier de configuration `_quarto.yml` dans le répertoire de sortie,
+vous permettant de générer tous les documents convertis comme un livre
+Quarto unifié avec navigation automatique et style cohérent. Ceci est
+idéal pour la documentation de projet ou les collections d’analyses.
+
+### Fonctionnalités Avancées
+
+L’addin inclut plusieurs améliorations de qualité de vie :
+
+- **Gestion des volumes** : Naviguez facilement entre différents
+  lecteurs et emplacements réseau
+- **Validation du chemin** : Vérifications en temps réel pour les
+  chemins de fichiers/répertoires valides
+- **Interface bilingue** : Basculez entre français et anglais
+  instantanément
+- **Paramètres persistants** : Votre dernière sélection de mode est
+  mémorisée
+- **Retour détaillé** : Messages de succès/erreur clairs avec comptes de
+  fichiers et emplacements
+
+### Quand Utiliser l’Addin
+
+L’addin RStudio est idéal pour :
+
+- **Exploration interactive** : Tester la conversion sur des scripts
+  exemples
+- **Conversions ponctuelles** : Génération rapide de documents sans
+  script
+- **Retour visuel** : Voir les résultats immédiatement avec l’interface
+  graphique
+- **Apprentissage du package** : Comprendre les options avant
+  d’automatiser
+- **Enseignement** : Démontrer les fonctionnalités de quartify aux
+  collègues
+
+Pour le traitement par lots ou les pipelines CI/CD, considérez plutôt
+l’utilisation des fonctions programmatiques
+([`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md),
+[`rtoqmd_dir()`](https://ddotta.github.io/quartify/reference/rtoqmd_dir.md)).
+
+## Utiliser l’Application Shiny Autonome
+
+Pour les utilisateurs travaillant en dehors de RStudio ou souhaitant
+partager un outil de conversion avec leur équipe, `quartify` fournit une
+application Shiny autonome.
+
+### Lancer l’Application
+
+Exécutez simplement :
+
+``` r
+library(quartify)
+quartify_app()
+```
+
+Cela ouvre la même interface intuitive que l’addin RStudio, mais dans
+une fenêtre de navigateur standard. L’application peut fonctionner sur
+n’importe quel système avec R installé, ce qui la rend parfaite pour :
+
+- **Environnements hors RStudio** : Utiliser avec VS Code, Jupyter ou
+  d’autres IDE
+- **Outils d’équipe partagés** : Déployer sur RStudio Connect ou Shiny
+  Server pour un accès en équipe
+- **Démonstrations** : Montrer les fonctionnalités de quartify sans
+  nécessiter RStudio
+- **Travail à distance** : Accéder depuis n’importe quel navigateur si
+  hébergé sur un serveur
+
+### Fonctionnalités
+
+L’application autonome inclut toutes les mêmes fonctionnalités que
+l’addin RStudio :
+
+- **Mode Fichier Unique** : Convertir des scripts R individuels avec
+  contrôle total sur l’emplacement de sortie et les options de
+  génération
+- **Mode Répertoire** : Convertir par lots des dossiers entiers avec
+  analyse récursive des répertoires
+- **Créer un Livre** : Générer la configuration `_quarto.yml` pour les
+  projets de livres Quarto
+- **Interface Bilingue** : Basculer entre français et anglais avec les
+  boutons drapeaux
+- **Interface Moderne** : Barre de titre bleue, bouton GENERATE en
+  évidence et mise en page intuitive
+
+### Comparaison avec l’Addin
+
+| Fonctionnalité                 | Addin RStudio             | Application Autonome                                                            |
+|--------------------------------|---------------------------|---------------------------------------------------------------------------------|
+| **Nécessite RStudio**          | Oui                       | Non                                                                             |
+| **Méthode de Lancement**       | Menu Addins               | [`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md) |
+| **Interface**                  | Fenêtre gadget            | Fenêtre navigateur                                                              |
+| **Navigateur de Fichiers**     | Système de fichiers natif | Système de fichiers natif                                                       |
+| **Toutes les Fonctionnalités** | ✓                         | ✓                                                                               |
+| **Partageable**                | Non                       | Oui (peut déployer)                                                             |
+
+### Options de Déploiement
+
+L’application autonome peut être déployée pour un accès en équipe :
+
+**Réseau Local :**
+
+``` r
+# Exécuter sur un port spécifique accessible à votre réseau
+shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"), 
+              host = "0.0.0.0", port = 3838)
+```
+
+**RStudio Connect / Shiny Server :** Déployer comme une application
+Shiny standard pour un accès à l’échelle de l’entreprise.
+
+### Version Web
+
+Pour les environnements où l’accès au système de fichiers est restreint
+(déploiements cloud, environnements sandboxés), utilisez la version web
+:
+
+``` r
+quartify_app_web()
+```
+
+Cette version propose :
+
+- **Upload de fichiers** : Téléverser des scripts R directement depuis
+  votre ordinateur (un ou plusieurs fichiers)
+- **Téléchargement** : Télécharger les fichiers générés sous forme
+  d’archives .zip avec structure organisée
+- **Structure ZIP** :
+  - Dossier `qmd/` avec tous les fichiers Quarto markdown et la
+    configuration
+  - Dossier `html/` avec le livre complet rendu (incluant `index.html`
+    et toutes les ressources)
+- **Conversion par lots** : Téléverser plusieurs fichiers pour créer un
+  livre Quarto complet
+- **Visualisation hors ligne** : Le ZIP téléchargé contient tout le
+  nécessaire pour voir le livre hors ligne
+- **Même logique de conversion** : Toutes les fonctionnalités de
+  quartify disponibles
+
+Parfait pour les déploiements cloud où l’accès direct au système de
+fichiers n’est pas disponible. Le ZIP téléchargé est prêt à extraire et
+visualiser immédiatement dans n’importe quel navigateur.
+
 ## Structurer votre script R
 
 Pour une conversion optimale, vous devez suivre des règles de
@@ -609,10 +822,56 @@ depuis [quarto.org](https://quarto.org/docs/get-started/).
 
 ## Conversion de répertoires entiers
 
+## Conversion par Lots de Répertoires
+
+`quartify` v0.0.7 introduit des capacités puissantes de conversion par
+lots à travers plusieurs interfaces. Choisissez la méthode qui
+correspond le mieux à votre flux de travail.
+
+### Utilisation de l’Addin RStudio ou de l’Application Autonome
+
+La façon la plus intuitive de convertir des fichiers par lots est via le
+**Mode Répertoire** dans l’addin RStudio ou l’application autonome :
+
+``` r
+# Lancer l'application autonome
+quartify_app()
+
+# Ou utiliser l'addin RStudio : Addins > "Convert R to Quarto (rtoqmd)"
+```
+
+**Fonctionnalités du Mode Répertoire (v0.0.7) :**
+
+1.  **Parcourir le répertoire** : Sélectionnez le dossier contenant vos
+    scripts R
+2.  **Option récursive** : Inclure ou exclure les sous-répertoires
+3.  **Répertoire de sortie** : Spécifiez optionnellement un emplacement
+    différent pour les fichiers convertis (nouveau dans v0.0.7 !)
+4.  **Case Créer un Livre** : Générer automatiquement `_quarto.yml` pour
+    combiner tous les documents en un livre Quarto (nouveau dans v0.0.7
+    !)
+5.  **Option de génération** : Choisissez si vous souhaitez générer les
+    fichiers HTML pour tous les scripts
+6.  **Conversion en un clic** : Cliquez sur le bouton GENERATE en haut
+    pour convertir tous les fichiers
+
+**Nouveau dans v0.0.7** : La fonctionnalité de répertoire de sortie vous
+permet de garder vos scripts R sources séparés des fichiers .qmd
+générés. Combinée avec l’option “Créer un Livre”, vous pouvez
+instantanément créer un projet de livre Quarto complet à partir d’une
+collection de scripts R.
+
+**Exemple de flux de travail :**
+
+- Répertoire d’entrée : `~/mon-projet/scripts/` (contient 10 scripts R)
+- Répertoire de sortie : `~/mon-projet/docs/` (où vous voulez les
+  fichiers .qmd)
+- Activer “Créer un Livre” : Génère `~/mon-projet/docs/_quarto.yml`
+- Résultat : Livre Quarto complet prêt à générer avec `quarto render`
+
 ### Utilisation de l’Interface Web
 
-La façon la plus simple de convertir plusieurs fichiers est d’utiliser
-l’interface web :
+Pour les environnements sans accès direct au système de fichiers :
 
 ``` r
 quartify_app_web()
@@ -620,7 +879,6 @@ quartify_app_web()
 
 En mode batch, vous pouvez : - **Télécharger plusieurs fichiers R** en
 même temps - **Sélectionner un répertoire** contenant vos scripts R
-(nouvelle fonctionnalité !)
 
 L’interface convertira tous les fichiers et fournira une archive .zip
 téléchargeable.
