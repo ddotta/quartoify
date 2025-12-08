@@ -268,21 +268,16 @@ You can define your document's metadata directly in your R script using special 
 - **Description**: `# Description : Description of your script`
 
 ::: {.alert .alert-success}
-**Tip - RStudio Snippets:** To save time, you can create an [RStudio snippet](https://docs.posit.co/ide/user/ide/guide/productivity/snippets.html) to automatically insert this metadata header. Add this snippet to your R snippets (Tools > Edit Code Snippets > R):
+**Tip - RStudio Snippets:** quartify provides a function to automatically install useful snippets including `header`, `callout`, `mermaid`, and `tabset`:
 
-```
-snippet header
-	# Title : ${1}
-	#
-	# Author : ${2}
-	#
-	# Date : ${3}
-	#
-	# Description : ${4}
-	#
+```{r eval=FALSE}
+# Install quartify snippets
+install_quartify_snippets()
 ```
 
-Once defined, type `header` followed by `Tab` in your R script to automatically insert the metadata structure.
+After installation and restarting RStudio, type the snippet name (e.g., `header`) followed by `Tab` in your R script to automatically insert the template.
+
+You can also manually add snippets via Tools > Edit Code Snippets > R. See `?install_quartify_snippets` for more details.
 :::
 
 **Complete example with metadata:**
@@ -1007,15 +1002,7 @@ iris %>% head()
 - Title is optional (omit the ` - Title` part)
 
 ::: {.alert .alert-info}
-**Tip:** Create RStudio snippets for callouts to speed up your workflow:
-
-```
-snippet callout
-	# callout-${1:note} - ${2:Title}
-	# ${0}
-```
-
-Type `callout` followed by `Tab` to insert the template.
+**Tip:** Use the `install_quartify_snippets()` function to add a `callout` snippet to your RStudio. Type `callout` followed by `Tab` to quickly insert the callout template.
 :::
 
 ## Mermaid Diagrams
@@ -1105,6 +1092,8 @@ rtoqmd(mermaid_file, render = TRUE, open_html = TRUE)
 ```
 
 ::: {.alert .alert-info}
+**Tip:** Use `install_quartify_snippets()` to add a `mermaid` snippet. Type `mermaid` + `Tab` to insert the diagram template.
+
 **More Mermaid Resources:**
 
 - [Mermaid Documentation](https://mermaid.js.org/)
@@ -1132,14 +1121,6 @@ To create a tabset:
 # tab - Summary Statistics
 # Here are the basic summary statistics for the iris dataset:
 summary(iris)
-
-# tab - Data Structure
-# Let's examine the structure of the data:
-str(iris)
-
-# tab - First Rows
-# Here are the first few rows:
-head(iris)
 ```
 
 **Resulting Quarto:**
@@ -1153,22 +1134,6 @@ Here are the basic summary statistics for the iris dataset:
 
 ```{r}
 summary(iris)
-```
-
-## Data Structure
-
-Let's examine the structure of the data:
-
-```{r}
-str(iris)
-```
-
-## First Rows
-
-Here are the first few rows:
-
-```{r}
-head(iris)
 ```
 
 :::
@@ -1196,6 +1161,8 @@ rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
 ```
 
 ::: {.alert .alert-info}
+**Tip:** Use `install_quartify_snippets()` to add a `tabset` snippet. Type `tabset` + `Tab` to insert the tabset template.
+
 **More Tabset Resources:**
 
 - [Quarto Tabset Documentation](https://quarto.org/docs/interactive/layout.html#tabset-panel)

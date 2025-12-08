@@ -1,3 +1,23 @@
+# quartify 0.0.8
+
+## New Features
+
+* **RStudio Snippets Installation**: New `install_quartify_snippets()` function to automatically install useful snippets:
+  - `header`: R script header template with Title, Author, Date, Description
+  - `callout`: Quarto callout structure
+  - `mermaid`: Mermaid diagram chunk with options
+  - `tabset`: Tabset structure with tabs
+  
+## Bug Fixes
+
+* Fixed `rtoqmd_addin()` error when no document is active or unsaved (handled NULL/empty path cases)
+
+## Documentation
+
+* Updated vignettes to reference `install_quartify_snippets()` function
+* Simplified tabset examples (removed "Data Structure" and "First Rows" tabs)
+* Added snippet tips for callouts, mermaid diagrams, and tabsets in both English and French vignettes
+
 # quartify 0.0.7
 
 ## New Features

@@ -1007,15 +1007,7 @@ iris %>% head()
 - Le titre est optionnel (omettre la partie ` - Titre`)
 
 ::: {.alert .alert-info}
-**Conseil :** Créez des snippets RStudio pour les callouts pour accélérer votre flux de travail :
-
-```
-snippet callout
-	# callout-${1:note} - ${2:Titre}
-	# ${0}
-```
-
-Tapez `callout` suivi de `Tab` pour insérer le modèle.
+**Conseil :** Utilisez la fonction `install_quartify_snippets()` pour ajouter un snippet `callout` à votre RStudio. Tapez `callout` suivi de `Tab` pour insérer rapidement le modèle de callout.
 :::
 
 ## Diagrammes Mermaid
@@ -1105,6 +1097,8 @@ rtoqmd(mermaid_file, render = TRUE, open_html = TRUE)
 ```
 
 ::: {.alert .alert-info}
+**Conseil :** Utilisez `install_quartify_snippets()` pour ajouter un snippet `mermaid`. Tapez `mermaid` + `Tab` pour insérer le modèle de diagramme.
+
 **Plus de ressources Mermaid :**
 
 - [Documentation Mermaid](https://mermaid.js.org/)
@@ -1132,14 +1126,6 @@ Pour créer un tabset :
 # tab - Statistiques résumées
 # Voici les statistiques résumées pour le jeu de données iris :
 summary(iris)
-
-# tab - Structure des données
-# Examinons la structure des données :
-str(iris)
-
-# tab - Premières lignes
-# Voici les premières lignes :
-head(iris)
 ```
 
 **Quarto résultant :**
@@ -1153,22 +1139,6 @@ Voici les statistiques résumées pour le jeu de données iris :
 
 ```{r}
 summary(iris)
-```
-
-## Structure des données
-
-Examinons la structure des données :
-
-```{r}
-str(iris)
-```
-
-## Premières lignes
-
-Voici les premières lignes :
-
-```{r}
-head(iris)
 ```
 
 :::
@@ -1196,6 +1166,8 @@ rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
 ```
 
 ::: {.alert .alert-info}
+**Conseil :** Utilisez `install_quartify_snippets()` pour ajouter un snippet `tabset`. Tapez `tabset` + `Tab` pour insérer le modèle de tabset.
+
 **Plus de ressources sur les tabsets :**
 
 - [Documentation Quarto Tabset](https://quarto.org/docs/interactive/layout.html#tabset-panel)

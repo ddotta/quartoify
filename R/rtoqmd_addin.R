@@ -16,7 +16,7 @@ rtoqmd_addin <- function() {
   input_path <- context$path
   
   # Check if the document has been saved
-  if (input_path == "") {
+  if (is.null(input_path) || length(input_path) == 0 || input_path == "") {
     rstudioapi::showDialog(
       title = "Unsaved Document",
       message = "Please save your R script before converting it to Quarto markdown."
