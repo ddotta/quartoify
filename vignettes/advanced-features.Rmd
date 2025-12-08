@@ -1,0 +1,538 @@
+---
+title: "Advanced Features"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Advanced Features}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+::: {.alert .alert-info}
+🇫🇷 **[Version française disponible](advanced-features_FR.html)** / **French version available**
+
+📖 **See also:** [Getting Started Guide](getting-started.html) for basic usage
+:::
+
+This vignette covers advanced features of `quartify` including customization options, batch processing, Quarto Books, code quality integration, and special features.
+
+## Customization Options
+
+You can customize the output document with several parameters:
+
+```{r eval=FALSE}
+library(quartify)
+
+rtoqmd(
+  input_file = "my_script.R",
+  output_file = "my_document.qmd",
+  title = "My Analysis Report",
+  author = "Your Name",
+  format = "html",
+  theme = "cosmo",
+  render_html = TRUE,
+  open_html = TRUE,
+  code_fold = TRUE,
+  number_sections = TRUE,
+  show_source_lines = TRUE
+)
+```
+
+### Available Parameters
+
+- **`input_file`**: Path to your R script
+- **`output_file`**: Path for the output Quarto document (optional)
+- **`title`**: Title for the document (default: "My title")
+- **`author`**: Author name (default: "Your name")
+- **`format`**: Output format - always "html" (parameter kept for backward compatibility)
+- **`theme`**: Quarto HTML theme (default: "cosmo")
+- **`render_html`**: Whether to render the .qmd to HTML (default: TRUE)
+- **`output_html_file`**: Custom path for HTML output (optional)
+- **`open_html`**: Whether to open the HTML file after rendering (default: FALSE)
+- **`code_fold`**: Whether to fold code blocks by default (default: FALSE)
+- **`number_sections`**: Whether to number sections automatically (default: TRUE)
+- **`show_source_lines`**: Show original line numbers in code chunks (default: TRUE)
+- **`lang`**: Language for UI elements ("en" or "fr", default: "en")
+
+### HTML Themes
+
+`quartify` supports 25+ Quarto themes for HTML output:
+
+**Light themes**: cosmo, flatly, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, yeti, zephyr
+
+**Dark themes**: cyborg, darkly, slate, solar, superhero, vapor
+
+**Combined**: cerulean (light-dark)
+
+Try different themes to find the perfect look:
+
+```{r eval=FALSE}
+# Modern and clean
+rtoqmd("script.R", theme = "cosmo")
+
+# Dark mode
+rtoqmd("script.R", theme = "darkly")
+
+# Academic style
+rtoqmd("script.R", theme = "litera")
+```
+
+## Batch Converting Directories
+
+### Using rtoqmd_dir()
+
+Convert all R scripts in a directory (including subdirectories) programmatically:
+
+```{r eval=FALSE}
+# Convert all R scripts in a directory
+rtoqmd_dir("path/to/scripts")
+
+# Convert and render to HTML
+rtoqmd_dir("path/to/scripts", render_html = TRUE)
+
+# With custom author and title prefix
+rtoqmd_dir("path/to/scripts", 
+           title_prefix = "Analysis: ",
+           author = "Data Team")
+
+# Exclude certain files (e.g., test files)
+rtoqmd_dir("path/to/scripts", 
+           exclude_pattern = "test_.*\\.R$")
+
+# Non-recursive (current directory only)
+rtoqmd_dir("path/to/scripts", recursive = FALSE)
+```
+
+### Directory Mode in Shiny Apps
+
+The most intuitive way to batch convert files is through the **Directory Mode** in either the RStudio addin or standalone app:
+
+```{r eval=FALSE}
+# Launch the standalone app
+quartify_app()
+
+# Or use the RStudio addin: Addins > "Convert R to Quarto (rtoqmd)"
+```
+
+**Directory Mode features:**
+
+1. **Browse for directory**: Select the folder containing your R scripts
+2. **Recursive option**: Include or exclude subdirectories
+3. **Output directory**: Optionally specify a different location for converted files
+4. **Create Book checkbox**: Automatically generate `_quarto.yml` to combine all documents into a Quarto book
+5. **Render option**: Choose whether to generate HTML files for all scripts
+6. **One-click conversion**: Click the GENERATE button to convert all files
+
+## Creating Quarto Books
+
+One of the most powerful features of `quartify` is the ability to automatically create Quarto books from directories of R scripts.
+
+### Automatic Book Creation
+
+When using `rtoqmd_dir()` with the `create_book` parameter, quartify automatically generates a `_quarto.yml` configuration file:
+
+```{r eval=FALSE}
+# Convert directory and create a Quarto book
+rtoqmd_dir(
+  dir_path = "my_scripts/",
+  output_html_dir = "documentation/",
+  create_book = TRUE,
+  book_title = "My Project Documentation",
+  render_html = TRUE
+)
+```
+
+This creates:
+
+```
+documentation/
+├── _quarto.yml           # Book configuration
+├── index.qmd             # Book landing page
+├── script1.qmd
+├── script2.qmd
+├── subfolder/
+│   └── script3.qmd
+└── _book/                # Rendered HTML book (if render_html = TRUE)
+    ├── index.html
+    ├── script1.html
+    ├── script2.html
+    └── ...
+```
+
+### Book Features
+
+The generated Quarto book includes:
+
+- **Automatic navigation**: Sidebar with all chapters organized by directory structure
+- **Search functionality**: Built-in search across all documents
+- **Cross-references**: Link between documents within the book
+- **Unified styling**: Consistent theme across all documents
+- **Table of contents**: Per-chapter and book-level navigation
+
+### Manual Book Configuration
+
+You can also manually configure a Quarto book. Create a `_quarto.yml` file:
+
+```yaml
+project:
+  type: book
+
+book:
+  title: "My Analysis Collection"
+  author: "Your Name"
+  chapters:
+    - index.qmd
+    - chapter1.qmd
+    - chapter2.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-fold: false
+```
+
+Then convert your scripts to the book directory and render:
+
+```{r eval=FALSE}
+# Convert scripts to book directory
+rtoqmd_dir("scripts/", output_dir = "book/", render_html = FALSE)
+
+# Render the book
+quarto::quarto_render("book/")
+```
+
+## Code Quality Integration
+
+`quartify` integrates with **styler** and **lintr** to provide automated code quality checks and formatting suggestions directly in your generated documentation. This is particularly useful for:
+
+- **Teaching materials**: Show students both original and properly formatted code
+- **Code review**: Automatically identify style issues in documentation
+- **Best practices**: Learn tidyverse style guide by example
+- **Quality control**: Ensure consistent code style across projects
+
+### Features Overview
+
+- **`use_styler = TRUE`**: Shows formatted code according to the [tidyverse style guide](https://style.tidyverse.org/)
+- **`use_lintr = TRUE`**: Identifies code quality issues and potential problems
+- **`apply_styler = TRUE`**: Directly applies styling to your original R script (⚠️ modifies source file)
+
+When quality issues are detected, `quartify` creates **interactive tabsets** in the HTML output with:
+
+- **Original Code**: Your code as written
+- **Styled Code**: Formatted version (only shown if changes are needed)
+- **Lint Issues**: Quality warnings (only shown if issues are found)
+
+**Smart Tabsets**: Tabsets are only created when needed. If there are no style changes or lint issues, you get a regular code chunk (no tabset).
+
+### Installation
+
+Code quality features require optional dependencies:
+
+```{r eval=FALSE}
+install.packages(c("styler", "lintr"))
+```
+
+These packages are only loaded when you use the code quality features.
+
+### Basic Usage
+
+#### Show Styling Suggestions
+
+```{r eval=FALSE}
+# Show styled code in tabsets
+rtoqmd("script.R", "output.qmd", 
+       use_styler = TRUE,
+       render_html = TRUE)
+```
+
+This generates tabsets showing both the original and styled code side-by-side.
+
+#### Show Lint Issues
+
+```{r eval=FALSE}
+# Show code quality issues
+rtoqmd("script.R", "output.qmd", 
+       use_lintr = TRUE,
+       render_html = TRUE)
+```
+
+This adds a "Lint Issues" tab with detailed quality feedback.
+
+#### Combined Quality Checks
+
+```{r eval=FALSE}
+# Show both styling and lint issues
+rtoqmd("script.R", "output.qmd",
+       use_styler = TRUE,
+       use_lintr = TRUE,
+       render_html = TRUE,
+       open_html = TRUE)
+```
+
+This creates comprehensive quality reports with three tabs:
+1. Original Code
+2. Styled Code
+3. Lint Issues
+
+### Applying Styles to Source Files
+
+::: {.alert .alert-warning}
+**⚠️ Warning**: `apply_styler = TRUE` **modifies your original R script file**. Always use version control or create backups before using this option.
+:::
+
+```{r eval=FALSE}
+# Apply styling directly to source file
+rtoqmd("my_script.R", "output.qmd",
+       use_styler = TRUE,
+       apply_styler = TRUE)
+```
+
+**Important**: When `apply_styler = TRUE`:
+
+1. Your source R file is modified before conversion
+2. No tabsets are created (source is already styled)
+3. `use_styler` must also be TRUE
+4. The conversion uses the styled source file
+
+This is useful for:
+
+- Cleaning up code before committing to version control
+- Batch formatting multiple scripts
+- Preparing code for publication or teaching
+
+### Example with Code Quality
+
+Try the included example that demonstrates code quality features:
+
+```{r eval=FALSE}
+# Locate the example file
+example_file <- system.file("examples", "example_code_quality.R", 
+                           package = "quartify")
+
+# View the file content to see intentional style issues
+file.show(example_file)
+
+# Convert with both checks
+rtoqmd(example_file, "quality_demo.qmd", 
+       use_styler = TRUE, 
+       use_lintr = TRUE,
+       render_html = TRUE,
+       open_html = TRUE)
+```
+
+The example file includes intentional style issues:
+
+```r
+# Here we have some code with style issues
+x = 3  # Should use <- instead of =
+y <- 2
+z<-10  # Missing spaces around <-
+
+# Calculate statistics
+mean_value<-mean(c(x,y,z)) # Missing spaces
+
+# Create a vector with inconsistent spacing
+my_vector<-c(1,2,3,4,5)
+```
+
+### Example Output
+
+Given code with style issues:
+
+```r
+x = 3  # Should use <- instead of =
+y <- 2
+z<-10  # Missing spaces
+```
+
+With `use_styler = TRUE` and `use_lintr = TRUE`, you'll see a tabset:
+
+**Original Code tab:**
+```r
+x = 3  # Should use <- instead of =
+y <- 2
+z<-10  # Missing spaces
+```
+
+**Styled Code tab:**
+```r
+x <- 3 # Should use <- instead of =
+y <- 2
+z <- 10 # Missing spaces
+```
+
+**Lint Issues tab:**
+- Line 1: Use `<-` or `<<-` for assignment, not `=`.
+- Line 3: Put spaces around all infix operators.
+
+### Batch Processing with Quality Checks
+
+Apply code quality checks to entire directories:
+
+```{r eval=FALSE}
+# Convert directory with quality checks
+rtoqmd_dir(
+  dir_path = "my_scripts/",
+  output_html_dir = "documentation/",
+  use_styler = TRUE,
+  use_lintr = TRUE,
+  render_html = TRUE
+)
+```
+
+This applies code quality checks to every R script in the directory.
+
+### Using in Shiny Apps
+
+All three Shiny applications (`rtoqmd_addin()`, `quartify_app()`, and `quartify_app_web()`) include checkboxes for code quality options:
+
+- ☑️ **Use styler formatting** (shows styled version in tabs)
+- ☑️ **Use lintr quality checks** (shows issues in tabs)
+- ☑️ **Apply styler to source file** (modifies original R file) - *Not available in web version*
+
+Simply check the desired options before clicking GENERATE.
+
+### Benefits of Code Quality Integration
+
+1. **Learn by Example**: See proper R coding style alongside your code
+2. **Code Review**: Automatic quality feedback without manual review
+3. **Teaching Tool**: Perfect for educational materials and tutorials
+4. **Documentation**: Generate clean, well-styled code in documentation
+5. **Best Practices**: Enforce tidyverse style guide automatically
+6. **Consistency**: Maintain uniform code style across projects
+
+### Configuration
+
+Both styler and lintr use their default configurations. For custom settings:
+
+- **styler**: Create a `.styler.R` file in your project root
+- **lintr**: Create a `.lintr` file in your project root
+
+See their respective documentation:
+- [styler documentation](https://styler.r-lib.org/)
+- [lintr documentation](https://lintr.r-lib.org/)
+
+### Performance Notes
+
+- Code quality checks add minimal processing time (typically < 1 second per chunk)
+- Checks only run when parameters are TRUE (default: FALSE)
+- Suitable for interactive and automated workflows
+- For very large projects, consider selective conversion
+
+### Troubleshooting
+
+**Packages not found:**
+
+```{r eval=FALSE}
+install.packages("styler")  # For formatting
+install.packages("lintr")   # For linting
+```
+
+**Checks fail for specific chunks:**
+
+If code quality checks fail for a particular code chunk, the original code is displayed without a tabset, and a warning is logged. The conversion continues normally.
+
+## Special Features
+
+### Mermaid Diagrams
+
+`quartify` supports [Mermaid](https://mermaid-js.github.io/) diagrams in your R scripts. Use special comments to include diagrams in your documentation:
+
+```r
+# mermaid-start
+# graph TD
+#   A[Start] --> B{Is it working?}
+#   B -->|Yes| C[Great!]
+#   B -->|No| D[Debug]
+#   D --> A
+# mermaid-end
+```
+
+This renders as a flowchart in your Quarto document.
+
+### Callouts
+
+Create callouts in your R scripts using special comment syntax:
+
+```r
+# callout-note - Important Note
+# This is a note callout
+# It can span multiple lines
+
+# callout-warning - Be Careful
+# This is a warning callout
+
+# callout-tip - Pro Tip
+# This is a tip callout
+```
+
+Supported callout types: `note`, `warning`, `tip`, `important`, `caution`
+
+### RStudio Snippets
+
+Install useful code snippets for faster R script writing:
+
+```{r eval=FALSE}
+install_quartify_snippets()
+```
+
+After installation and restarting RStudio, you can use:
+
+- **`header`** + Tab: Insert document metadata template
+- **`callout`** + Tab: Insert callout template
+- **`mermaid`** + Tab: Insert Mermaid diagram template
+- **`tabset`** + Tab: Insert tabset template
+
+## Tips and Best Practices
+
+### Structuring Your Scripts
+
+1. **Start with structure**: Define your section headers first to create the document outline
+2. **Use consistent levels**: Follow a logical hierarchy (2 → 3 → 4, don't skip levels)
+3. **Add explanatory text**: Use regular comments to explain what your code does
+4. **Group related code**: Keep related operations together
+5. **Navigate easily**: In RStudio, use the document outline (Ctrl+Shift+O) to see your structure
+
+### Code Quality
+
+6. **Use code quality checks for teaching**: Enable `use_styler` and `use_lintr` for educational materials
+7. **Learn from styled code**: Review the "Styled Code" tabs to learn best practices
+8. **Fix issues incrementally**: Use lint feedback to improve code quality over time
+9. **Version control before apply_styler**: Always commit before using `apply_styler = TRUE`
+
+### Batch Conversion
+
+10. **Use Directory Mode for projects**: Convert entire project folders with the Create Book option
+11. **Exclude test files**: Use `exclude_pattern` to skip test scripts in batch conversion
+12. **Organize by subdirectories**: Leverage recursive conversion to maintain project structure
+13. **Set output directories**: Keep source R scripts separate from generated documentation
+
+### Documentation Workflow
+
+14. **Comment liberally**: More comments = better documentation
+15. **Use metadata**: Add Title, Author, Date, and Description at the top of scripts
+16. **Test incrementally**: Start with a small script to understand conversion behavior
+17. **Preview frequently**: Use `render_html = TRUE` and `open_html = TRUE` to see results immediately
+
+### CI/CD Integration
+
+18. **Automate documentation**: Use GitHub Actions or GitLab CI to generate docs on commit
+19. **Version control .R only**: Generate .qmd and .html files in CI/CD, not in your repository
+20. **Deploy to GitHub Pages**: Automatically publish documentation with each push
+
+## Next Steps
+
+- **Basic Usage**: See [Getting Started Guide](getting-started.html) for fundamentals
+- **French Version**: [Version française](advanced-features_FR.html)
+- **GitHub Repository**: [ddotta/quartify](https://github.com/ddotta/quartify)
+- **Report Issues**: [GitHub Issues](https://github.com/ddotta/quartify/issues)
+
+## Conclusion
+
+`quartify`'s advanced features enable sophisticated documentation workflows from code quality checks to automated book generation. Experiment with these features to find the best workflow for your projects!

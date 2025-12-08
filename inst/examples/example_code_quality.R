@@ -9,17 +9,17 @@
 library(dplyr)
 
 # Here we have some code with style issues
-x = 3  # Should use <- instead of =
+x = 3 # Should use <- instead of =
 y <- 2
-z<-10  # Missing spaces around <-
+z<-10 # Missing spaces around <-
 
 ## Data Analysis ====
 
 # Calculate statistics
-mean_value=mean(c(x,y,z))  # Missing spaces
+mean_value<-mean(c(x,y,z)) # Missing spaces
 
 # Create a vector with inconsistent spacing
-my_vector <- c( 1,2, 3,4 ,5)
+my_vector<-c(1,2,3,4,5)
 
 ## Visualization ====
 
@@ -28,7 +28,7 @@ my_vector <- c( 1,2, 3,4 ,5)
 # - Using = instead of <- for assignment
 # - Missing spaces around operators
 # - Inconsistent spacing in function calls
-# 
+#
 # Run with use_styler = TRUE to see the automatically styled version
 # Run with use_lintr = TRUE to see the linting issues
 

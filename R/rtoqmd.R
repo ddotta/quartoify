@@ -302,8 +302,9 @@ rtoqmd <- function(input_file, output_file = NULL,
     quality_check <- check_code_quality(code, use_styler, use_lintr, 
                                        chunk_id = paste(chunk_lines, collapse = "-"))
     
+    # If apply_styler is TRUE, don't create tabsets (source file already modified)
     # If there are style changes or lint issues, create a tabset
-    if (quality_check$has_style_changes || quality_check$has_lint_issues) {
+    if (!apply_styler && (quality_check$has_style_changes || quality_check$has_lint_issues)) {
       # Build tabset with line info in original code tab
       result <- character()
       result <- c(result, "::: {.panel-tabset}")
