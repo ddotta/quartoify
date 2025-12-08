@@ -1,22 +1,3 @@
-#' Launch Quartify Standalone Application
-#'
-#' @description
-#' Launches a Shiny application for converting R scripts to Quarto documents.
-#' Provides a user-friendly interface with options for single file or batch processing.
-#'
-#' @param launch.browser Logical, whether to launch browser (default: TRUE)
-#' @param port Integer, port number for the application (default: NULL for random port)
-#'
-#' @return Invisible NULL
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' quartify_app()
-#' }
-#'
-#' @importFrom shiny fluidPage tags div h2 h3 actionButton fluidRow column textInput selectInput checkboxInput conditionalPanel textOutput renderText reactiveVal observeEvent showNotification req stopApp runApp HTML br strong span hr verbatimTextOutput uiOutput renderUI
-#' @importFrom shinyFiles shinyFilesButton shinyFileChoose shinyFileSave shinySaveButton parseSavePath parseFilePaths shinyDirButton shinyDirChoose parseDirPath getVolumes
 quartify_app <- function(launch.browser = TRUE, port = NULL) {
   
   # Get resources for UI
@@ -57,7 +38,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     "FR"
   }
   
-  # Define UI
+  # Define UI (similar to add-in but using regular Shiny instead of miniUI)
   ui <- shiny::fluidPage(
     title = "Quartify - Convert R Scripts to Quarto",
     shiny::tags$head(
@@ -73,7 +54,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
           align-items: center;
         }
         .title-bar h2 { margin: 0; color: white; }
-        .lang-buttons { display: flex; gap: 10px; align-items: center; }
+        .lang-buttons { display: flex; gap: 10px; }
         .loader {
           position: fixed;
           top: 0;
@@ -120,31 +101,45 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         class = "lang-buttons",
         shiny::actionButton("lang_en", english_flag_html, class = "btn-sm"),
         shiny::actionButton("lang_fr", french_flag_html, class = "btn-sm"),
-        shiny::actionButton("quit_app", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>X</span>"), class = "btn-danger btn-sm", style = "margin-left: 10px;")
+        shiny::actionButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GENERATE \u25B6</span>"), class = "btn-primary"),
+        shiny::actionButton("quit_app", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>\u2715</span>"), class = "btn-danger btn-sm", style = "margin-left: 10px;")
       )
     ),
     
     # Loader
     shiny::div(id = "loader", class = "loader", shiny::div(class = "spinner")),
     
-    # Generate button at top
-    shiny::div(
-      style = "text-align: center; margin: 20px 0; padding: 15px 0; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6;",
-      logo_html,
-      shiny::br(),
-      shiny::actionButton("done", "GENERATE", class = "btn-primary btn-lg", style = "font-size: 16px; font-weight: bold; padding: 10px 40px; margin-top: 10px;")
-    ),
-    
     # Main content
     shiny::div(
       style = "max-width: 1200px; margin: 0 auto;",
+      
+      # Logo centered
+      shiny::div(
+        style = "text-align: center; margin-bottom: 30px;",
+        logo_html
+      ),
       
       # Mode selection
       shiny::fluidRow(
         shiny::column(12,
           shiny::div(
             style = "margin-bottom: 20px;",
-            shiny::uiOutput("mode_selector")
+            shiny::conditionalPanel(
+              condition = "output.current_lang == 'en'",
+              shiny::radioButtons("conversion_mode", 
+                                shiny::textOutput("label_mode", inline = TRUE),
+                                choices = c("One or more files" = "single", "Directory" = "directory"),
+                                selected = "single",
+                                inline = TRUE)
+            ),
+            shiny::conditionalPanel(
+              condition = "output.current_lang == 'fr'",
+              shiny::radioButtons("conversion_mode", 
+                                shiny::textOutput("label_mode", inline = TRUE),
+                                choices = c("Un ou plusieurs fichiers" = "single", "Repertoire" = "directory"),
+                                selected = "single",
+                                inline = TRUE)
+            )
           )
         )
       ),
@@ -158,66 +153,66 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
             shiny::div(
               style = "margin-bottom: 15px;",
               shiny::strong(shiny::textOutput("label_input_file")),
-              shiny::br(),
-              shiny::div(
-                style = "display: flex; align-items: center; margin-top: 5px;",
-                shiny::div(
-                  style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
-                  shiny::textOutput("input_file_display", inline = TRUE)
-                ),
-                shiny::div(
-                  style = "margin-left: 10px;",
-                  shinyFiles::shinyFilesButton("input_file_btn", "Browse", "Select R script(s)", multiple = TRUE, class = "btn-primary")
-                )
-              )
-            )
-          ),
-          shiny::column(6,
+            shiny::br(),
             shiny::div(
-              style = "margin-bottom: 15px;",
-              shiny::strong(shiny::textOutput("label_output_file")),
-              shiny::br(),
+              style = "display: flex; align-items: center; margin-top: 5px;",
               shiny::div(
-                style = "display: flex; align-items: center; margin-top: 5px;",
-                shiny::div(
-                  style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
-                  shiny::textOutput("output_file_display", inline = TRUE)
-                ),
-                shiny::div(
-                  style = "margin-left: 10px;",
-                  shinyFiles::shinySaveButton("output_file_btn", "Browse", "Save .qmd file", filetype = list(qmd = "qmd"), class = "btn-primary")
-                )
+                style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                shiny::textOutput("input_file_display", inline = TRUE)
+              ),
+              shiny::div(
+                style = "margin-left: 10px;",
+                shinyFiles::shinyFilesButton("input_file_btn", "Browse", "Select R script(s)", multiple = TRUE, class = "btn-primary")
               )
             )
           )
         ),
-        
-        # HTML output file
-        shiny::fluidRow(
-          shiny::column(12,
+        shiny::column(6,
+          shiny::div(
+            style = "margin-bottom: 15px;",
+            shiny::strong(shiny::textOutput("label_output_file")),
+            shiny::br(),
             shiny::div(
-              style = "margin-bottom: 15px;",
-              shiny::strong(shiny::textOutput("label_html_file")),
-              shiny::span(
-                style = "margin-left: 5px; font-size: 0.9em; color: #666;",
-                shiny::textOutput("label_html_file_optional", inline = TRUE)
-              ),
-              shiny::br(),
+              style = "display: flex; align-items: center; margin-top: 5px;",
               shiny::div(
-                style = "display: flex; align-items: center; margin-top: 5px;",
-                shiny::div(
-                  style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
-                  shiny::textOutput("html_file_display", inline = TRUE)
-                ),
-                shiny::div(
-                  style = "margin-left: 10px;",
-                  shinyFiles::shinySaveButton("html_file_btn", "Browse", "Save HTML file", filetype = list(html = "html"), class = "btn-primary")
-                )
+                style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                shiny::textOutput("output_file_display", inline = TRUE)
+              ),
+              shiny::div(
+                style = "margin-left: 10px;",
+                shinyFiles::shinySaveButton("output_file_btn", "Browse", "Save .qmd file", filetype = list(qmd = "qmd"), class = "btn-primary")
               )
             )
           )
         )
       ),
+      
+      # HTML output file
+      shiny::fluidRow(
+        shiny::column(12,
+          shiny::div(
+            style = "margin-bottom: 15px;",
+            shiny::strong(shiny::textOutput("label_html_file")),
+            shiny::span(
+              style = "margin-left: 5px; font-size: 0.9em; color: #666;",
+              shiny::textOutput("label_html_file_optional", inline = TRUE)
+            ),
+            shiny::br(),
+            shiny::div(
+              style = "display: flex; align-items: center; margin-top: 5px;",
+              shiny::div(
+                style = "flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+                shiny::textOutput("html_file_display", inline = TRUE)
+              ),
+              shiny::div(
+                style = "margin-left: 10px;",
+                shinyFiles::shinySaveButton("html_file_btn", "Browse", "Save HTML file", filetype = list(html = "html"), class = "btn-primary")
+              )
+            )
+          )
+        )
+      )
+      ),  # End of single file conditional panel
       
       # Directory selection (for directory mode)
       shiny::conditionalPanel(
@@ -299,13 +294,14 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       # Checkboxes
       shiny::uiOutput("ui_checkboxes"),
       
-      # Code quality checkboxes
       shiny::hr(),
+      
+      # Code Quality Checkboxes
       shiny::uiOutput("ui_code_quality")
     )
   )
   
-  # Define server
+  # Define server (reuse logic from add-in)
   server <- function(input, output, session) {
     
     # Detect language
@@ -325,26 +321,6 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     
     shiny::observeEvent(input$lang_en, { lang("en") })
     shiny::observeEvent(input$lang_fr, { lang("fr") })
-    
-    output$current_lang <- shiny::reactive({ lang() })
-    shiny::outputOptions(output, "current_lang", suspendWhenHidden = FALSE)
-    
-    # Mode selector UI
-    output$mode_selector <- shiny::renderUI({
-      if (lang() == "en") {
-        shiny::radioButtons("conversion_mode", 
-                          "Conversion mode:",
-                          choices = c("One or more files" = "single", "Directory" = "directory"),
-                          selected = "single",
-                          inline = TRUE)
-      } else {
-        shiny::radioButtons("conversion_mode", 
-                          "Mode de conversion :",
-                          choices = c("Un ou plusieurs fichiers" = "single", "Repertoire" = "directory"),
-                          selected = "single",
-                          inline = TRUE)
-      }
-    })
     
     input_file_path <- shiny::reactiveVal(NULL)
     output_file_path <- shiny::reactiveVal(NULL)
@@ -502,7 +478,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         open_html = "Ouvrir le fichier Html apres rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'editeur apres conversion",
         code_fold = "Replier les blocs de code par defaut",
-        number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont deja numerotees)",
+        number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont dej\u00E0 numerotees)",
         show_source_lines = "Afficher les numeros de ligne originaux dans les chunks",
         code_quality = "Verifications de la qualite du code :",
         use_styler = "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)",
@@ -523,8 +499,14 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
     output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
+    output$label_render <- shiny::renderText({ translations[[lang()]]$render })
+    output$label_open_html <- shiny::renderText({ translations[[lang()]]$open_html })
+    output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
+    output$label_code_fold <- shiny::renderText({ translations[[lang()]]$code_fold })
+    output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
+    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
     
-    # Render main checkboxes with dynamic labels
+    # Dynamic UI for checkboxes
     output$ui_checkboxes <- shiny::renderUI({
       trans <- translations[[lang()]]
       shiny::fluidRow(
@@ -547,14 +529,20 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       )
     })
     
-    # Render code quality checkboxes with dynamic labels
+    # Dynamic UI for code quality checkboxes
     output$ui_code_quality <- shiny::renderUI({
       trans <- translations[[lang()]]
       shiny::div(
-        shiny::h4(trans$code_quality, style = "color: #0073e6; margin-top: 15px;"),
-        shiny::checkboxInput("use_styler", trans$use_styler, value = FALSE),
-        shiny::checkboxInput("use_lintr", trans$use_lintr, value = FALSE),
-        shiny::checkboxInput("apply_styler", trans$apply_styler, value = FALSE)
+        shiny::h4(trans$code_quality, style = "color: #0073e6; margin-bottom: 15px;"),
+        shiny::fluidRow(
+          shiny::column(6,
+            shiny::checkboxInput("use_styler", trans$use_styler, value = FALSE),
+            shiny::checkboxInput("use_lintr", trans$use_lintr, value = FALSE)
+          ),
+          shiny::column(6,
+            shiny::checkboxInput("apply_styler", trans$apply_styler, value = FALSE)
+          )
+        )
       )
     })
     
@@ -600,9 +588,9 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       code_fold <- input$code_fold
       number_sections <- input$number_sections
       show_source_lines <- input$show_source_lines
-      use_styler <- if (!is.null(input$use_styler)) input$use_styler else FALSE
-      use_lintr <- if (!is.null(input$use_lintr)) input$use_lintr else FALSE
-      apply_styler <- if (!is.null(input$apply_styler)) input$apply_styler else FALSE
+      use_styler <- input$use_styler
+      use_lintr <- input$use_lintr
+      apply_styler <- input$apply_styler
       
       tryCatch({
         if (is_directory_mode) {
@@ -617,15 +605,12 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
             author = author,
             format = "html",
             theme = theme,
-            render_html = render,
+            render = render,
             output_dir = output_dir,
             create_book = create_book_val,
             code_fold = code_fold,
             number_sections = number_sections,
-            language = lang(),
-            use_styler = use_styler,
-            use_lintr = use_lintr,
-            apply_styler = apply_styler
+            language = lang()
           )
           
           # If rendering, wait for index.html to be created
@@ -649,8 +634,6 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
           
         } else {
           # Single file mode
-          input_file_final <- input_file_path()
-          output_file_final <- output_file_path()
           html_file_final <- html_file_path()
           
           rtoqmd(
@@ -660,7 +643,7 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
             author = author,
             format = "html",
             theme = theme,
-            render_html = render,
+            render = render,
             output_html_file = html_file_final,
             open_html = open_html && render,
             code_fold = code_fold,
@@ -680,9 +663,9 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         session$sendCustomMessage('toggleLoader', FALSE)
         
         success_msg <- if (lang() == "fr") {
-          "[OK] Conversion terminee avec succes !"
+          "\u2705 Conversion terminee avec succes !"
         } else {
-          "[OK] Conversion completed successfully!"
+          "\u2705 Conversion completed successfully!"
         }
         
         shiny::showNotification(
@@ -722,3 +705,8 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
   
   invisible()
 }
+
+#' Launch Quartify Web Application (for deployment)
+#'
+#' @description
+#' Web-friendly version of quartify_app() designed for deployment on web servers.

@@ -1,8 +1,3 @@
-#' Launch Quartify Web Application (for deployment)
-#'
-#' @description
-#' Web-friendly version of quartify_app() designed for deployment on web servers.
-#' Uses file upload/download instead of local file system access.
 #'
 #' @param launch.browser Logical, whether to launch browser (default: TRUE)
 #' @param port Integer, port number for the application (default: NULL for random port)
@@ -14,8 +9,6 @@
 #' \dontrun{
 #' quartify_app_web()
 #' }
-#' @importFrom shiny runApp stopApp observeEvent reactive req textInput checkboxInput actionButton renderText reactiveVal tags fluidPage fluidRow column div hr fileInput downloadButton downloadHandler uiOutput renderUI
-#' @importFrom base64enc base64encode
 quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
   
   # Get resources for UI (try multiple paths for compatibility)
@@ -151,17 +144,15 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
     # Loader
     shiny::div(id = "loader", class = "loader", shiny::div(class = "spinner")),
     
-    # Generate button
-    shiny::div(
-      style = "text-align: center; margin: 20px auto; padding: 15px 0; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6; max-width: 1200px;",
-      logo_html,
-      shiny::br(),
-      shiny::actionButton("generate", "GENERATE", class = "btn-primary btn-lg", style = "font-size: 16px; font-weight: bold; padding: 10px 40px; margin-top: 10px;")
-    ),
-    
     # Main content
     shiny::div(
       style = "max-width: 1200px; margin: 0 auto;",
+      
+      # Logo centered
+      shiny::div(
+        style = "text-align: center; margin-bottom: 30px;",
+        logo_html
+      ),
       
       # Mode selection
       shiny::fluidRow(
@@ -189,17 +180,49 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         )
       ),
       
-      # Batch file upload
+      # Batch file upload or directory selection
       shiny::conditionalPanel(
         condition = "input.conversion_mode == 'batch'",
         shiny::fluidRow(
           shiny::column(12,
             shiny::div(
               style = "margin-bottom: 20px;",
-              shiny::strong(shiny::textOutput("label_batch_upload")),
-              shiny::fileInput("input_files", NULL, accept = c(".R", ".r"), 
-                             multiple = TRUE,
-                             buttonLabel = shiny::textOutput("button_upload_batch", inline = TRUE))
+              shiny::strong(shiny::textOutput("label_batch_source")),
+              shiny::radioButtons("batch_source_type",
+                                NULL,
+                                choices = c("Upload files" = "files", "Select directory" = "directory"),
+                                selected = "files",
+                                inline = TRUE)
+            )
+          )
+        ),
+        # File upload option
+        shiny::conditionalPanel(
+          condition = "input.batch_source_type == 'files'",
+          shiny::fluidRow(
+            shiny::column(12,
+              shiny::div(
+                style = "margin-bottom: 20px;",
+                shiny::fileInput("input_files", NULL, accept = c(".R", ".r"), 
+                               multiple = TRUE,
+                               buttonLabel = shiny::textOutput("button_upload_batch", inline = TRUE))
+              )
+            )
+          )
+        ),
+        # Directory selection option
+        shiny::conditionalPanel(
+          condition = "input.batch_source_type == 'directory'",
+          shiny::fluidRow(
+            shiny::column(12,
+              shiny::div(
+                style = "margin-bottom: 20px;",
+                shinyFiles::shinyDirButton("input_directory", 
+                                          label = shiny::textOutput("button_select_directory", inline = TRUE),
+                                          title = "Select a directory containing R scripts"),
+                shiny::br(),
+                shiny::verbatimTextOutput("selected_directory", placeholder = TRUE)
+              )
             )
           )
         )
@@ -254,11 +277,7 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       shiny::hr(),
       
       # Checkboxes in 2 columns
-      shiny::uiOutput("ui_checkboxes"),
-      
-      # Code quality checkboxes
-      shiny::hr(),
-      shiny::uiOutput("ui_code_quality"),
+      shiny::uiOutput("ui_checkboxes_web"),
       
       # Book option (only visible in batch mode)
       shiny::conditionalPanel(
@@ -277,6 +296,13 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         )
       ),
       
+      # Generate button
+      shiny::div(
+        style = "text-align: center; margin: 30px 0;",
+        shiny::actionButton("generate", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GENERATE \u25B6</span>"), 
+                          class = "btn-primary btn-lg")
+      ),
+      
       # Download section (hidden until files are generated)
       shiny::uiOutput("download_section")
     )
@@ -292,10 +318,40 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       html_file = NULL,
       qmd_files = list(),
       html_files = list(),
-      book_dir = NULL,
       generated = FALSE,
-      batch_mode = FALSE
+      batch_mode = FALSE,
+      selected_dir = NULL
     )
+    
+    # Initialize directory chooser
+    volumes <- c(Home = path.expand("~"), shinyFiles::getVolumes()())
+    shinyFiles::shinyDirChoose(input, "input_directory", roots = volumes, session = session)
+    
+    # Display selected directory
+    shiny::observeEvent(input$input_directory, {
+      if (!is.integer(input$input_directory)) {
+        dir_path <- shinyFiles::parseDirPath(volumes, input$input_directory)
+        if (length(dir_path) > 0) {
+          rv$selected_dir <- as.character(dir_path)
+        }
+      }
+    })
+    
+    output$selected_directory <- shiny::renderText({
+      if (!is.null(rv$selected_dir)) {
+        if (rv$lang == "en") {
+          paste0("Selected: ", rv$selected_dir)
+        } else {
+          paste0("Selectionne : ", rv$selected_dir)
+        }
+      } else {
+        if (rv$lang == "en") {
+          "No directory selected"
+        } else {
+          "Aucun repertoire selectionne"
+        }
+      }
+    })
     
     # Language management
     shiny::observeEvent(input$lang_en, { rv$lang <- "en" })
@@ -331,8 +387,8 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       if (rv$lang == "en") "Upload Multiple R Scripts (.R)" else "Telecharger Plusieurs Scripts R (.R)"
     })
     
-    output$label_batch_upload <- shiny::renderText({
-      if (rv$lang == "en") "Upload Multiple R Scripts:" else "Telecharger Plusieurs Scripts R :"
+    output$label_batch_source <- shiny::renderText({
+      if (rv$lang == "en") "Batch Source:" else "Source du Batch :"
     })
     
     output$button_upload <- shiny::renderText({
@@ -341,6 +397,10 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
     
     output$button_upload_batch <- shiny::renderText({
       if (rv$lang == "en") "Browse..." else "Parcourir..."
+    })
+    
+    output$button_select_directory <- shiny::renderText({
+      if (rv$lang == "en") "Select Directory" else "Selectionner un Repertoire"
     })
     
     output$label_title <- shiny::renderText({
@@ -355,46 +415,53 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       if (rv$lang == "en") "HTML Theme" else "Theme HTML"
     })
     
-    # Render main checkboxes with dynamic labels
-    output$ui_checkboxes <- shiny::renderUI({
-      is_en <- rv$lang == "en"
-      shiny::fluidRow(
-        shiny::column(6,
-          shiny::checkboxInput("render_html", 
-            if (is_en) "Generate HTML" else "Generer le HTML", 
-            value = TRUE),
-          shiny::checkboxInput("number_sections", 
-            if (is_en) "Number sections automatically" else "Numeroter les sections automatiquement", 
-            value = TRUE),
-          shiny::checkboxInput("show_source_lines", 
-            if (is_en) "Show original line numbers" else "Afficher les numeros de ligne originaux", 
-            value = TRUE)
-        ),
-        shiny::column(6,
-          shiny::checkboxInput("code_fold", 
-            if (is_en) "Fold code blocks by default" else "Replier les blocs de code par defaut", 
-            value = FALSE)
-        )
-      )
+    output$label_render <- shiny::renderText({
+      if (rv$lang == "en") "Generate HTML" else "Generer le HTML"
     })
     
-    # Render code quality checkboxes with dynamic labels
-    output$ui_code_quality <- shiny::renderUI({
-      is_en <- rv$lang == "en"
-      shiny::div(
-        shiny::h4(
-          if (is_en) "Code Quality Checks:" else "Verifications de la qualite du code :",
-          style = "color: #0073e6; margin-top: 15px;"
-        ),
-        shiny::checkboxInput("use_styler", 
-          if (is_en) "Use styler formatting (shows styled version in tabs)" 
-          else "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)", 
-          value = FALSE),
-        shiny::checkboxInput("use_lintr", 
-          if (is_en) "Use lintr quality checks (shows issues in tabs)" 
-          else "Utiliser lintr pour la qualite du code (affiche les problemes dans des onglets)", 
-          value = FALSE)
-      )
+    output$label_code_fold <- shiny::renderText({
+      if (rv$lang == "en") "Fold code blocks by default" else "Replier les blocs de code par defaut"
+    })
+    
+    output$label_number_sections <- shiny::renderText({
+      if (rv$lang == "en") "Number sections automatically" else "Numeroter les sections automatiquement"
+    })
+    
+    output$label_show_source_lines <- shiny::renderText({
+      if (rv$lang == "en") "Show original line numbers" else "Afficher les numeros de ligne originaux"
+    })
+    
+    # Dynamic UI for checkboxes
+    output$ui_checkboxes_web <- shiny::renderUI({
+      if (rv$lang == "en") {
+        shiny::fluidRow(
+          shiny::column(6,
+            shiny::checkboxInput("render_html", "Generate HTML", value = TRUE),
+            shiny::checkboxInput("number_sections", "Number sections automatically", value = TRUE),
+            shiny::checkboxInput("show_source_lines", "Show original line numbers", value = TRUE)
+          ),
+          shiny::column(6,
+            shiny::checkboxInput("code_fold", "Fold code blocks by default", value = FALSE),
+            shiny::checkboxInput("use_styler", "Use styler formatting (shows styled version in tabs)", value = FALSE),
+            shiny::checkboxInput("use_lintr", "Use lintr quality checks (shows issues in tabs)", value = FALSE),
+            shiny::checkboxInput("apply_styler", "Apply styler to source file (modifies original)", value = FALSE)
+          )
+        )
+      } else {
+        shiny::fluidRow(
+          shiny::column(6,
+            shiny::checkboxInput("render_html", "Generer le HTML", value = TRUE),
+            shiny::checkboxInput("number_sections", "Numeroter les sections automatiquement", value = TRUE),
+            shiny::checkboxInput("show_source_lines", "Afficher les numeros de ligne originaux", value = TRUE)
+          ),
+          shiny::column(6,
+            shiny::checkboxInput("code_fold", "Replier les blocs de code par defaut", value = FALSE),
+            shiny::checkboxInput("use_styler", "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)", value = FALSE),
+            shiny::checkboxInput("use_lintr", "Utiliser lintr pour la qualite du code (affiche les problemes dans des onglets)", value = FALSE),
+            shiny::checkboxInput("apply_styler", "Appliquer styler au fichier source (modifie l'original)", value = FALSE)
+          )
+        )
+      }
     })
     
     output$label_create_book <- shiny::renderText({
@@ -416,10 +483,13 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       is_batch <- input$conversion_mode == "batch"
       
       if (is_batch) {
-        # Check if files are uploaded
-        if (is.null(input$input_files)) {
+        # Check if either files are uploaded or directory is selected
+        has_files <- !is.null(input$input_files)
+        has_directory <- !is.null(rv$selected_dir) && input$batch_source_type == "directory"
+        
+        if (!has_files && !has_directory) {
           shiny::showNotification(
-            if (rv$lang == "en") "Please upload R scripts" else "Veuillez telecharger des scripts R",
+            if (rv$lang == "en") "Please upload R scripts or select a directory" else "Veuillez telecharger des scripts R ou selectionner un repertoire",
             type = "error"
           )
           return()
@@ -451,13 +521,19 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
           temp_dir <- file.path(tempdir(), "quartify_batch")
           if (!dir.exists(temp_dir)) dir.create(temp_dir, recursive = TRUE)
           
-          # Copy uploaded files to temp directory
-          input_dir <- file.path(temp_dir, "input")
-          if (!dir.exists(input_dir)) dir.create(input_dir)
-          
-          for (i in seq_len(nrow(input$input_files))) {
-            file.copy(input$input_files$datapath[i], 
-                     file.path(input_dir, input$input_files$name[i]))
+          # Determine input source
+          if (input$batch_source_type == "directory" && !is.null(rv$selected_dir)) {
+            # Use selected directory directly
+            input_dir <- rv$selected_dir
+          } else {
+            # Copy uploaded files to temp directory
+            input_dir <- file.path(temp_dir, "input")
+            if (!dir.exists(input_dir)) dir.create(input_dir)
+            
+            for (i in seq_len(nrow(input$input_files))) {
+              file.copy(input$input_files$datapath[i], 
+                       file.path(input_dir, input$input_files$name[i]))
+            }
           }
           
           # Create output directory
@@ -469,68 +545,43 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
           
           rtoqmd_dir(
             dir_path = input_dir,
-            output_html_dir = NULL,  # Don't use output_html_dir to avoid auto-enabling book mode
+            output_html_dir = if (!create_book_opt && input$render_html) output_dir else NULL,
             title_prefix = if (title_val != "" && title_val != "My Analysis") paste0(title_val, " - ") else "",
             author = if (input$doc_author == "") "Your name" else input$doc_author,
             theme = theme_val,
-            render_html = input$render_html,
+            render = input$render_html,
             code_fold = input$code_fold,
             number_sections = input$number_sections,
             create_book = create_book_opt,
             book_title = title_val,
             output_dir = if (create_book_opt) output_dir else NULL,
-            language = rv$lang,
-            use_styler = if (!is.null(input$use_styler)) input$use_styler else FALSE,
-            use_lintr = if (!is.null(input$use_lintr)) input$use_lintr else FALSE,
-            apply_styler = FALSE  # Disabled for web version for security
+            language = rv$lang
           )
           
           # Collect generated files
           if (create_book_opt && input$render_html) {
-            # Book mode: collect QMD and all files from _book directory
-            if (!is.null(output_dir) && dir.exists(output_dir)) {
-              # If output_dir was specified, files are there
-              book_dir <- file.path(output_dir, "_book")
-              
-              if (dir.exists(book_dir)) {
-                # All files in _book subdirectory (recursive, with full structure)
-                rv$book_dir <- book_dir
-                rv$html_files <- list.files(book_dir, full.names = TRUE, recursive = TRUE, all.files = FALSE)
-              } else {
-                # All files directly in output_dir
-                rv$book_dir <- output_dir
-                rv$html_files <- list.files(output_dir, full.names = TRUE, recursive = TRUE, all.files = FALSE)
-              }
-              # QMD files might be in output_dir too
-              rv$qmd_files <- list.files(output_dir, pattern = "\\.qmd$", full.names = TRUE, recursive = TRUE)
-              # Also check input_dir for QMD files
-              rv$qmd_files <- c(rv$qmd_files, list.files(input_dir, pattern = "\\.qmd$", full.names = TRUE, recursive = TRUE))
+            # Book mode: collect from _book directory
+            book_dir <- file.path(input_dir, "_book")
+            rv$qmd_files <- list.files(input_dir, pattern = "\\.qmd$", full.names = TRUE, recursive = TRUE)
+            rv$html_files <- if (dir.exists(book_dir)) {
+              list.files(book_dir, pattern = "\\.html$", full.names = TRUE, recursive = TRUE)
             } else {
-              # Standard book mode in input_dir
-              book_dir <- file.path(input_dir, "_book")
-              rv$qmd_files <- list.files(input_dir, pattern = "\\.qmd$", full.names = TRUE, recursive = TRUE)
-              if (dir.exists(book_dir)) {
-                rv$book_dir <- book_dir
-                rv$html_files <- list.files(book_dir, full.names = TRUE, recursive = TRUE)
-              } else {
-                rv$book_dir <- NULL
-                rv$html_files <- list()
-              }
+              list()
             }
-            # Also include _quarto.yml if it exists
+            # Also include _quarto.yml
             quarto_yml <- file.path(input_dir, "_quarto.yml")
             if (file.exists(quarto_yml)) {
               rv$qmd_files <- c(rv$qmd_files, quarto_yml)
             }
-            # Remove duplicates
-            rv$qmd_files <- unique(rv$qmd_files)
           } else {
-            # Regular mode: collect from input_dir (HTML and QMD are in the same place)
-            rv$book_dir <- input_dir  # Set to input_dir for proper HTML collection
+            # Regular mode: collect from input_dir
             rv$qmd_files <- list.files(input_dir, pattern = "\\.qmd$", full.names = TRUE)
             rv$html_files <- if (input$render_html) {
-              # Get all HTML files including subdirectories and resources
-              list.files(input_dir, pattern = "\\.html$", full.names = TRUE, recursive = TRUE)
+              if (!is.null(output_dir) && dir.exists(output_dir)) {
+                list.files(output_dir, pattern = "\\.html$", full.names = TRUE)
+              } else {
+                list.files(input_dir, pattern = "\\.html$", full.names = TRUE)
+              }
             } else {
               list()
             }
@@ -549,14 +600,14 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
             title = title_val,
             author = if (input$doc_author == "") NULL else input$doc_author,
             theme = theme_val,
-            render_html = FALSE,  # We'll render separately
+            render = FALSE,  # We'll render separately
             code_fold = input$code_fold,
             number_sections = input$number_sections,
             show_source_lines = input$show_source_lines,
             lang = rv$lang,
             use_styler = if (!is.null(input$use_styler)) input$use_styler else FALSE,
             use_lintr = if (!is.null(input$use_lintr)) input$use_lintr else FALSE,
-            apply_styler = FALSE  # Disabled for web version for security
+            apply_styler = if (!is.null(input$apply_styler)) input$apply_styler else FALSE
           )
           
           rv$qmd_file <- qmd_path
@@ -582,15 +633,15 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         
         success_msg <- if (is_batch) {
           if (rv$lang == "en") {
-            sprintf("[OK] %d files generated successfully! Check the download section below.", 
+            sprintf("\u2714 %d files generated successfully! Check the download section below.", 
                    length(rv$qmd_files))
           } else {
-            sprintf("[OK] %d fichiers generes avec succes ! Consultez la section de telechargement ci-dessous.", 
+            sprintf("\u2714 %d fichiers generes avec succes ! Consultez la section de telechargement ci-dessous.", 
                    length(rv$qmd_files))
           }
         } else {
-          if (rv$lang == "en") "[OK] Files generated successfully! Check the download section below." 
-          else "[OK] Fichiers generes avec succes ! Consultez la section de telechargement ci-dessous."
+          if (rv$lang == "en") "\u2714 Files generated successfully! Check the download section below." 
+          else "\u2714 Fichiers generes avec succes ! Consultez la section de telechargement ci-dessous."
         }
         
         shiny::showNotification(
@@ -619,9 +670,9 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
           class = "download-section",
           shiny::h4(
             if (rv$lang == "en") {
-              sprintf("[OK] %d Files Ready for Download", length(rv$qmd_files))
+              sprintf("\u2714 %d Files Ready for Download", length(rv$qmd_files))
             } else {
-              sprintf("[OK] %d Fichiers Prets a Telecharger", length(rv$qmd_files))
+              sprintf("\u2714 %d Fichiers Pr\u00EAts \u00E0 Telecharger", length(rv$qmd_files))
             }
           ),
           shiny::p(
@@ -640,7 +691,7 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         # SINGLE MODE: Download individual files
         shiny::div(
           class = "download-section",
-          shiny::h4(if (rv$lang == "en") "[OK] Files Ready for Download" else "[OK] Fichiers Prets a Telecharger"),
+          shiny::h4(if (rv$lang == "en") "\u2714 Files Ready for Download" else "\u2714 Fichiers Pr\u00EAts \u00E0 Telecharger"),
           shiny::fluidRow(
             shiny::column(6,
               shiny::downloadButton("download_qmd", 
@@ -691,46 +742,10 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
         if (dir.exists(temp_zip_dir)) unlink(temp_zip_dir, recursive = TRUE)
         dir.create(temp_zip_dir)
         
-        # Copy QMD files (flat structure)
-        qmd_dir <- file.path(temp_zip_dir, "qmd")
-        dir.create(qmd_dir)
-        for (f in rv$qmd_files) {
-          if (file.exists(f)) {
-            file.copy(f, file.path(qmd_dir, basename(f)))
-          }
-        }
-        
-        # Copy HTML files with directory structure
-        if (length(rv$html_files) > 0) {
-          html_dir <- file.path(temp_zip_dir, "html")
-          dir.create(html_dir)
-          
-          if (!is.null(rv$book_dir) && dir.exists(rv$book_dir)) {
-            # Copy files preserving directory structure relative to book_dir
-            for (src_file in rv$html_files) {
-              if (!file.exists(src_file) || file.info(src_file)$isdir) next
-              
-              # Calculate relative path from book_dir
-              src_normalized <- gsub("\\\\", "/", normalizePath(src_file, winslash = "/"))
-              base_normalized <- gsub("\\\\", "/", normalizePath(rv$book_dir, winslash = "/"))
-              
-              rel_path <- sub(paste0("^", base_normalized, "/?"), "", src_normalized)
-              dest_file <- file.path(html_dir, rel_path)
-              
-              # Create subdirectory if needed
-              dest_dir <- dirname(dest_file)
-              if (!dir.exists(dest_dir)) dir.create(dest_dir, recursive = TRUE)
-              
-              file.copy(src_file, dest_file, overwrite = TRUE)
-            }
-          } else {
-            # Fallback: copy files flat (no structure)
-            for (f in rv$html_files) {
-              if (file.exists(f)) {
-                file.copy(f, file.path(html_dir, basename(f)), overwrite = TRUE)
-              }
-            }
-          }
+        # Copy all files to temp directory
+        all_files <- c(rv$qmd_files, rv$html_files)
+        for (f in all_files) {
+          file.copy(f, file.path(temp_zip_dir, basename(f)))
         }
         
         # Create ZIP

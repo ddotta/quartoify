@@ -16,7 +16,7 @@ rtoqmd_addin <- function() {
   input_path <- context$path
   
   # Check if the document has been saved
-  if (is.null(input_path) || length(input_path) == 0 || input_path == "") {
+  if (input_path == "") {
     rstudioapi::showDialog(
       title = "Unsaved Document",
       message = "Please save your R script before converting it to Quarto markdown."
@@ -80,10 +80,6 @@ rtoqmd_addin <- function() {
   ui <- miniUI::miniPage(
     shiny::tags$head(
       shiny::tags$style(shiny::HTML("
-        .gadget-title {
-          background-color: #0073e6 !important;
-          color: white !important;
-        }
         .loader {
           position: fixed;
           top: 0;
@@ -125,6 +121,7 @@ rtoqmd_addin <- function() {
     ),
     miniUI::gadgetTitleBar(
       "Convert R Script to Quarto",
+      left = miniUI::miniTitleBarCancelButton("cancel", "\u21a9"),
       right = shiny::div(
         style = "display: flex; align-items: center; gap: 10px;",
         shiny::actionButton(
@@ -138,23 +135,22 @@ rtoqmd_addin <- function() {
           french_flag_html,
           style = "padding: 5px 10px; font-size: 12px;",
           class = "btn-sm"
-        )
+        ),
+        miniUI::miniTitleBarButton("done", shiny::HTML("<span style='font-size: 16px; font-weight: bold;'>GENERATE \u25b6</span>"), primary = TRUE)
       )
     ),
     shiny::div(id = "loader", class = "loader", shiny::div(class = "spinner")),
     miniUI::miniContentPanel(
       shiny::fillCol(
         flex = c(NA, 1),
-        # Generate button
-        shiny::div(
-          style = "text-align: center; margin: 0; padding: 15px 0; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6;",
-          logo_html,
-          shiny::br(),
-          shiny::actionButton("done", "GENERATE", class = "btn-primary btn-lg", style = "font-size: 16px; font-weight: bold; padding: 10px 40px; margin-top: 10px;")
-        ),
         shiny::fillRow(
           shiny::div(
             style = "padding: 20px; overflow-y: auto;",
+            # Logo centered
+            shiny::div(
+              style = "text-align: center; margin-bottom: 20px;",
+              logo_html
+            ),
             # Mode selection
             shiny::fluidRow(
               shiny::column(12,
@@ -342,49 +338,11 @@ rtoqmd_addin <- function() {
             ),
             shiny::hr(),
             # Checkboxes in 2 columns
-            shiny::fluidRow(
-              shiny::column(6,
-                shiny::checkboxInput(
-                  "render",
-                  shiny::textOutput("label_render"),
-                  value = TRUE
-                ),
-                shiny::conditionalPanel(
-                  condition = "input.conversion_mode == 'single'",
-                  shiny::checkboxInput(
-                    "open_qmd",
-                    shiny::textOutput("label_open_qmd"),
-                    value = TRUE
-                  )
-                ),
-                shiny::checkboxInput(
-                  "number_sections",
-                  shiny::textOutput("label_number_sections"),
-                  value = TRUE
-                )
-              ),
-              shiny::column(6,
-                shiny::checkboxInput(
-                  "code_fold",
-                  shiny::textOutput("label_code_fold"),
-                  value = FALSE
-                ),
-                shiny::conditionalPanel(
-                  condition = "input.conversion_mode == 'single'",
-                  shiny::checkboxInput(
-                    "open_html",
-                    shiny::textOutput("label_open_html"),
-                    value = FALSE
-                  )
-                ),
-                shiny::checkboxInput(
-                  "show_source_lines",
-                  shiny::textOutput("label_show_source_lines"),
-                  value = TRUE
-                ),
-                shiny::uiOutput("ui_code_quality")
-              )
-            )
+            shiny::uiOutput("ui_checkboxes"),
+            
+            # Code quality checkboxes
+            shiny::hr(),
+            shiny::uiOutput("ui_code_quality")
           )
         )
       )
@@ -559,8 +517,8 @@ rtoqmd_addin <- function() {
         number_sections = "Number sections automatically (not needed if sections already numbered)",
         show_source_lines = "Show original line numbers in code chunks",
         code_quality = "Code Quality Checks:",
-        use_styler = "Use styler formatting (show differences in tabsets)",
-        use_lintr = "Use lintr quality checks (show issues in tabsets)",
+        use_styler = "Use styler formatting (shows styled version in tabs)",
+        use_lintr = "Use lintr quality checks (shows issues in tabs)",
         apply_styler = "Apply styler to source file (modifies original R file)"
       ),
       fr = list(
@@ -577,14 +535,14 @@ rtoqmd_addin <- function() {
         author = "Nom de l'auteur :",
         theme = "Theme HTML :",
         render = "Generer Html apres conversion",
-        open_html = "Ouvrir le fichier Html apr\\u00e8s rendu",
+        open_html = "Ouvrir le fichier Html apres rendu",
         open_qmd = "Ouvrir le fichier .qmd dans l'editeur apres conversion",
-        code_fold = "Replier les blocs de code par d\\u00e9faut",
-        number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont deja numerotees)",
+        code_fold = "Replier les blocs de code par defaut",
+        number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont dej\u00e0 numerotees)",
         show_source_lines = "Afficher les numeros de ligne originaux dans les chunks",
         code_quality = "Verifications de la qualite du code :",
-        use_styler = "Utiliser styler (afficher les differences dans les tabsets)",
-        use_lintr = "Utiliser lintr (afficher les problemes dans les tabsets)",
+        use_styler = "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)",
+        use_lintr = "Utiliser lintr pour la qualite du code (affiche les problemes dans des onglets)",
         apply_styler = "Appliquer styler au fichier source (modifie le fichier R original)"
       )
     )
@@ -618,9 +576,30 @@ rtoqmd_addin <- function() {
     output$label_html_file_optional <- shiny::renderText({ translations[[lang()]]$html_file_optional })
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
-    output$label_code_fold <- shiny::renderText({ translations[[lang()]]$code_fold })
-    output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
-    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
+    output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
+    
+    # Render main checkboxes with dynamic labels
+    output$ui_checkboxes <- shiny::renderUI({
+      trans <- translations[[lang()]]
+      shiny::fluidRow(
+        shiny::column(6,
+          shiny::checkboxInput("render", trans$render, value = TRUE),
+          shiny::conditionalPanel(
+            condition = "input.conversion_mode == 'single'",
+            shiny::checkboxInput("open_qmd", trans$open_qmd, value = TRUE)
+          ),
+          shiny::checkboxInput("number_sections", trans$number_sections, value = TRUE)
+        ),
+        shiny::column(6,
+          shiny::checkboxInput("code_fold", trans$code_fold, value = FALSE),
+          shiny::conditionalPanel(
+            condition = "input.conversion_mode == 'single'",
+            shiny::checkboxInput("open_html", trans$open_html, value = FALSE)
+          ),
+          shiny::checkboxInput("show_source_lines", trans$show_source_lines, value = TRUE)
+        )
+      )
+    })
     
     # Render code quality checkboxes with dynamic labels
     output$ui_code_quality <- shiny::renderUI({
@@ -632,10 +611,6 @@ rtoqmd_addin <- function() {
         shiny::checkboxInput("apply_styler", trans$apply_styler, value = FALSE)
       )
     })
-    
-    # When done button is pressedny::renderText({ translations[[lang()]]$code_fold })
-    output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
-    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
     
     # When done button is pressed
     shiny::observeEvent(input$done, {
@@ -657,6 +632,9 @@ rtoqmd_addin <- function() {
       code_fold <- input$code_fold
       number_sections <- input$number_sections
       show_source_lines <- input$show_source_lines
+      use_styler <- input$use_styler
+      use_lintr <- input$use_lintr
+      apply_styler <- input$apply_styler
       
       # Convert based on mode
       tryCatch({
@@ -672,15 +650,12 @@ rtoqmd_addin <- function() {
             author = author,
             format = "html",
             theme = theme,
-            render_html = render,
+            render = render,
             output_dir = output_dir,
             create_book = create_book_val,
             code_fold = code_fold,
             number_sections = number_sections,
-            language = lang(),
-            use_styler = input$use_styler,
-            use_lintr = input$use_lintr,
-            apply_styler = input$apply_styler
+            language = lang()
           )
           
           # If rendering, wait for index.html to be created
@@ -715,16 +690,16 @@ rtoqmd_addin <- function() {
             author = author,
             format = "html",
             theme = theme,
-            render_html = render,
+            render = render,
             output_html_file = html_file_final,
             open_html = open_html && render,
             code_fold = code_fold,
             number_sections = number_sections,
             lang = lang(),
             show_source_lines = show_source_lines,
-            use_styler = input$use_styler,
-            use_lintr = input$use_lintr,
-            apply_styler = input$apply_styler
+            use_styler = use_styler,
+            use_lintr = use_lintr,
+            apply_styler = apply_styler
           )
         }
         
@@ -738,9 +713,9 @@ rtoqmd_addin <- function() {
         
         # Show success message based on language
         success_msg <- if (lang() == "fr") {
-          "[OK] Conversion terminee avec succes !"
+          "\u2705 Conversion terminee avec succes !"
         } else {
-          "[OK] Conversion completed successfully!"
+          "\u2705 Conversion completed successfully!"
         }
         
         shiny::showNotification(
@@ -761,6 +736,10 @@ rtoqmd_addin <- function() {
       })
     })
     
+    # When cancel button is pressed
+    shiny::observeEvent(input$cancel, {
+      shiny::stopApp()
+    })
   }
   
   # Run the gadget
@@ -769,3 +748,29 @@ rtoqmd_addin <- function() {
   
   invisible()
 }
+
+#' Launch Quartify Shiny Interface
+#'
+#' Opens the Quartify conversion interface in your default web browser.
+#' This function provides the same interface as the RStudio add-in but works
+#' in any R environment including Positron, VS Code, RStudio, or command line.
+#' Unlike the add-in, this function requires you to manually select input files
+#' using the file browser in the interface.
+#'
+#' @param launch.browser Logical, whether to open in browser (default: TRUE).
+#'   Set to FALSE to run in RStudio Viewer pane if available.
+#' @param port The port to run the app on (default: random available port)
+#' @return Invisibly returns NULL when the app is closed
+#' @importFrom shiny runApp fluidPage titlePanel sidebarLayout sidebarPanel mainPanel
+#' @export
+#' @examples
+#' \dontrun{
+#' # Launch the Shiny app in browser (works in any IDE)
+#' quartify_app()
+#' 
+#' # Use in Positron or VS Code
+#' library(quartify)
+#' quartify_app()
+#' 
+#' # Specify a port
+#' quartify_app(port = 3838)

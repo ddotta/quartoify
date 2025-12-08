@@ -1,0 +1,466 @@
+---
+title: "Fonctionnalités avancées"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Fonctionnalités avancées}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+::: {.alert .alert-info}
+🇬🇧 **[English version available](advanced-features.html)** / **Version anglaise disponible**
+
+📖 **Voir aussi :** [Guide de démarrage](getting-started_FR.html) pour l'utilisation de base
+:::
+
+Cette vignette couvre les fonctionnalités avancées de `quartify`, notamment les options de personnalisation, le traitement par lots, les livres Quarto, l'intégration de la qualité du code et les fonctionnalités spéciales.
+
+## Options de personnalisation
+
+Vous pouvez personnaliser le document de sortie avec plusieurs paramètres :
+
+```{r eval=FALSE}
+library(quartify)
+
+rtoqmd(
+  input_file = "mon_script.R",
+  output_file = "mon_document.qmd",
+  title = "Mon rapport d'analyse",
+  author = "Votre nom",
+  format = "html",
+  theme = "cosmo",
+  render_html = TRUE,
+  open_html = TRUE,
+  code_fold = TRUE,
+  number_sections = TRUE,
+  show_source_lines = TRUE
+)
+```
+
+### Paramètres disponibles
+
+- **`input_file`** : Chemin vers votre script R
+- **`output_file`** : Chemin pour le document Quarto de sortie (optionnel)
+- **`title`** : Titre du document (par défaut : "My title")
+- **`author`** : Nom de l'auteur (par défaut : "Your name")
+- **`format`** : Format de sortie - toujours "html" (paramètre conservé pour la rétrocompatibilité)
+- **`theme`** : Thème HTML Quarto (par défaut : "cosmo")
+- **`render_html`** : Indique s'il faut générer le .qmd en HTML (par défaut : TRUE)
+- **`output_html_file`** : Chemin personnalisé pour la sortie HTML (optionnel)
+- **`open_html`** : Indique s'il faut ouvrir le fichier HTML après le rendu (par défaut : FALSE)
+- **`code_fold`** : Indique s'il faut replier les blocs de code par défaut (par défaut : FALSE)
+- **`number_sections`** : Indique s'il faut numéroter automatiquement les sections (par défaut : TRUE)
+- **`show_source_lines`** : Afficher les numéros de ligne originaux dans les chunks de code (par défaut : TRUE)
+- **`lang`** : Langue pour les éléments d'interface ("en" ou "fr", par défaut : "en")
+
+### Thèmes HTML
+
+`quartify` supporte plus de 25 thèmes Quarto pour la sortie HTML :
+
+**Thèmes clairs** : cosmo, flatly, litera, lumen, lux, materia, minty, morph, pulse, quartz, sandstone, simplex, sketchy, spacelab, united, yeti, zephyr
+
+**Thèmes sombres** : cyborg, darkly, slate, solar, superhero, vapor
+
+**Mixte** : cerulean (clair-sombre)
+
+Essayez différents thèmes pour trouver le look parfait :
+
+```{r eval=FALSE}
+# Moderne et épuré
+rtoqmd("script.R", theme = "cosmo")
+
+# Mode sombre
+rtoqmd("script.R", theme = "darkly")
+
+# Style académique
+rtoqmd("script.R", theme = "litera")
+```
+
+## Conversion par lots de répertoires
+
+### Utilisation de rtoqmd_dir()
+
+Convertissez tous les scripts R d'un répertoire (y compris les sous-répertoires) par programmation :
+
+```{r eval=FALSE}
+# Convertir tous les scripts R d'un répertoire
+rtoqmd_dir("chemin/vers/scripts")
+
+# Convertir et générer en HTML
+rtoqmd_dir("chemin/vers/scripts", render_html = TRUE)
+
+# Avec auteur personnalisé et préfixe de titre
+rtoqmd_dir("chemin/vers/scripts", 
+           author = "Votre nom",
+           title_prefix = "Projet : ")
+```
+
+### Via l'interface Shiny
+
+1. **Lancez l'addin RStudio** ou `quartify_app()`
+2. **Sélectionnez le mode "Répertoire"** dans l'interface
+3. **Choisissez le répertoire** contenant vos scripts R
+4. **Configurez les options** (auteur, thème, etc.)
+5. **Cliquez sur GENERATE**
+
+Tous les fichiers `.R` seront convertis en fichiers `.qmd` correspondants dans la même structure de répertoires.
+
+## Création de livres Quarto
+
+`quartify` peut créer automatiquement un livre Quarto à partir d'un répertoire de scripts R, en générant un fichier `_quarto.yml` avec table des matières.
+
+### Méthode 1 : Via l'interface Shiny
+
+1. Lancez l'addin ou `quartify_app()`
+2. Sélectionnez le mode "Répertoire"
+3. Choisissez votre répertoire de scripts
+4. **Cochez "Créer un livre Quarto"**
+5. Cliquez sur GENERATE
+
+### Méthode 2 : Par programmation
+
+```{r eval=FALSE}
+# Créer un livre Quarto avec table des matières
+rtoqmd_dir(
+  dir_path = "chemin/vers/scripts",
+  create_book = TRUE,
+  output_dir = "_book",  # Répertoire de sortie
+  render_html = TRUE,
+  author = "Votre nom"
+)
+```
+
+### Structure du livre
+
+Le livre généré inclut :
+
+- **`_quarto.yml`** : Configuration du livre avec table des matières automatique
+- **`index.qmd`** : Page d'accueil du livre
+- **Fichiers `.qmd`** : Un pour chaque script R, organisés par structure de répertoires
+- **Rendu HTML** : Si `render_html = TRUE`, génère le site web complet
+
+La table des matières respecte votre structure de répertoires et inclut des sections pour chaque sous-répertoire.
+
+## Intégration de la qualité du code
+
+`quartify` s'intègre avec `styler` et `lintr` pour aider à améliorer la qualité de votre code R. Cette fonctionnalité vous permet de :
+
+- **Visualiser les problèmes de style** avec des onglets comparant le code original et stylisé
+- **Voir les problèmes de qualité** détectés par lintr
+- **Appliquer automatiquement le formatage** à vos fichiers source
+
+### Installation
+
+Les packages de qualité du code sont optionnels. Installez-les uniquement si vous souhaitez utiliser ces fonctionnalités :
+
+```{r eval=FALSE}
+# Pour le formatage du code
+install.packages("styler")
+
+# Pour les vérifications de qualité
+install.packages("lintr")
+
+# Les deux
+install.packages(c("styler", "lintr"))
+```
+
+### Utilisation de base
+
+#### Via l'interface Shiny (addin ou app)
+
+1. **Lancez l'interface** : Utilisez l'addin RStudio ou `quartify_app()`
+2. **Sélectionnez votre script** : Choisissez le fichier R à convertir
+3. **Activez les vérifications de qualité** :
+   - ☑️ **Use styler** : Affiche une version formatée dans des onglets
+   - ☑️ **Use lintr** : Affiche les problèmes de qualité dans des onglets
+   - ☑️ **Apply styler** : Modifie le fichier R original avec le formatage styler
+4. **Cliquez sur GENERATE**
+
+#### Par programmation
+
+```{r eval=FALSE}
+library(quartify)
+
+# Avec vérifications styler et lintr (affiche les onglets)
+rtoqmd(
+  input_file = "mon_script.R",
+  use_styler = TRUE,
+  use_lintr = TRUE
+)
+
+# Appliquer styler au fichier source (modifie l'original)
+rtoqmd(
+  input_file = "mon_script.R",
+  use_styler = TRUE,
+  apply_styler = TRUE  # ATTENTION : Modifie le fichier R !
+)
+```
+
+### Fonctionnement
+
+Lorsque les vérifications de qualité du code sont activées :
+
+#### 1. Mode styler (use_styler = TRUE)
+
+Crée des onglets dans le document Quarto :
+
+```markdown
+::: {.panel-tabset}
+## Original Code
+```r
+# Votre code non formaté
+x=3;y<-5
+```
+
+## Styled Code
+```r
+# Code formaté par styler
+x <- 3
+y <- 5
+```
+:::
+```
+
+#### 2. Mode lintr (use_lintr = TRUE)
+
+Ajoute une section avec les problèmes détectés :
+
+```markdown
+::: {.callout-warning collapse="true"}
+## Code Quality Issues
+
+- Line 5: Use <-, not =, for assignment
+- Line 12: Lines should not be more than 80 characters
+- Line 23: Variable names should use snake_case
+:::
+```
+
+#### 3. Mode apply_styler (apply_styler = TRUE)
+
+⚠️ **IMPORTANT** : Ce mode **modifie votre fichier R original**.
+
+- Le fichier source est reformaté avec les règles de styler
+- Les onglets comparatifs ne sont PAS affichés (le code est déjà stylisé)
+- **Recommandation** : Utilisez le contrôle de version (git) avant d'utiliser cette option
+
+### Exemple de démonstration
+
+Essayez avec le fichier d'exemple fourni :
+
+```{r eval=FALSE}
+# Obtenir le chemin du fichier d'exemple
+example_file <- system.file("examples", "example_code_quality.R", 
+                           package = "quartify")
+
+# Convertir avec vérifications de qualité
+rtoqmd(
+  input_file = example_file,
+  output_file = "example_with_quality.qmd",
+  use_styler = TRUE,
+  use_lintr = TRUE,
+  render_html = TRUE,
+  open_html = TRUE
+)
+```
+
+Le document HTML généré affichera :
+- Des onglets montrant le code original vs stylisé
+- Une section avertissement avec les problèmes de qualité détectés
+- Tout cela dans un format propre et navigable
+
+### Avantages
+
+1. **Amélioration de la qualité du code** :
+   - Identifie automatiquement les problèmes de style
+   - Suggère les meilleures pratiques
+   - Aide à maintenir la cohérence
+
+2. **Documentation pédagogique** :
+   - Montre les différences avant/après
+   - Explique les problèmes de qualité
+   - Utile pour l'enseignement et la révision de code
+
+3. **Intégration transparente** :
+   - Fonctionne avec votre workflow existant
+   - Génération de documentation automatique
+   - Aucune configuration supplémentaire nécessaire
+
+### Configuration
+
+Les vérifications de qualité utilisent les configurations par défaut de styler et lintr. Pour personnaliser :
+
+#### Styler
+
+Créez un fichier `.Rprofile` dans votre projet :
+
+```{r eval=FALSE}
+# .Rprofile
+options(
+  styler.addins_style_transformer = "styler::tidyverse_style()"
+)
+```
+
+#### Lintr
+
+Créez un fichier `.lintr` dans votre projet :
+
+```
+linters: with_defaults(
+  line_length_linter(120),
+  object_name_linter = NULL
+)
+```
+
+### Dépannage
+
+**Problème** : "styler package not found"
+**Solution** : Installez styler avec `install.packages("styler")`
+
+**Problème** : "lintr package not found"
+**Solution** : Installez lintr avec `install.packages("lintr")`
+
+**Problème** : apply_styler ne modifie pas le fichier
+**Solution** : Vérifiez les permissions du fichier et que le fichier n'est pas en lecture seule
+
+**Problème** : Trop de problèmes lintr affichés
+**Solution** : Personnalisez votre configuration `.lintr` pour désactiver les linters spécifiques
+
+## Fonctionnalités spéciales
+
+### Diagrammes Mermaid
+
+Créez des diagrammes de flux directement dans vos scripts R en utilisant des blocs de commentaires :
+
+```{r eval=FALSE}
+#| Diagramme de processus
+#|
+#| ```{mermaid}
+#| flowchart LR
+#|   A[Données brutes] --> B[Nettoyage]
+#|   B --> C[Analyse]
+#|   C --> D[Visualisation]
+#|   D --> E[Rapport]
+#| ```
+```
+
+Après conversion, cela génère un vrai diagramme Mermaid dans votre document Quarto.
+
+### Callouts (Encarts)
+
+Créez des boîtes d'information, d'avertissement ou de note :
+
+```{r eval=FALSE}
+#| ::: {.callout-note}
+#| Ceci est une note importante
+#| :::
+
+#| ::: {.callout-warning}
+#| Attention : ceci peut prendre du temps
+#| :::
+
+#| ::: {.callout-tip}
+#| Astuce : utilisez la mise en cache pour de meilleurs performances
+#| :::
+```
+
+Types disponibles : `note`, `warning`, `important`, `tip`, `caution`
+
+### Snippets de code inline
+
+Incluez de petits extraits de code R inline dans vos commentaires :
+
+```{r eval=FALSE}
+#| Le dataset contient `r nrow(data)` observations.
+```
+
+Cela sera évalué et le résultat sera inséré dans le texte.
+
+## Conseils et bonnes pratiques
+
+### Organisation des scripts
+
+1. **Commencez par des métadonnées** :
+```{r eval=FALSE}
+#' ---
+#' title: "Mon analyse"
+#' author: "Votre nom"
+#' date: "`r Sys.Date()`"
+#' ---
+```
+
+2. **Utilisez des sections claires** :
+```{r eval=FALSE}
+#' # Section principale
+#'
+#' ## Sous-section
+```
+
+3. **Commentez abondamment** :
+```{r eval=FALSE}
+#' Cette fonction calcule...
+#' 
+#' @param x Un vecteur numérique
+#' @return La moyenne de x
+ma_fonction <- function(x) {
+  mean(x, na.rm = TRUE)
+}
+```
+
+### Workflow recommandé
+
+1. **Écrivez votre analyse** dans un script R normal
+2. **Ajoutez des commentaires** pour documenter votre pensée
+3. **Utilisez des sections** pour organiser le contenu
+4. **Convertissez avec quartify** quand vous êtes prêt
+5. **Affinez** le document Quarto si nécessaire
+6. **Partagez** le HTML résultant
+
+### Pour les projets plus larges
+
+- Utilisez le **mode répertoire** pour traiter plusieurs scripts
+- Créez un **livre Quarto** pour une navigation intégrée
+- Utilisez **Git** pour le contrôle de version
+- Activez les **vérifications de qualité du code** pour maintenir la cohérence
+
+### Optimisation des performances
+
+Pour les scripts volumineux :
+
+```{r eval=FALSE}
+# Désactivez le rendu pendant le développement
+rtoqmd("script.R", render_html = FALSE)
+
+# Activez la mise en cache Quarto dans vos scripts
+#| cache: true
+
+# Utilisez code_fold pour masquer les longs blocs de code
+rtoqmd("script.R", code_fold = TRUE)
+```
+
+## Ressources supplémentaires
+
+- **Documentation Quarto** : <https://quarto.org/>
+- **Guide styler** : <https://styler.r-lib.org/>
+- **Documentation lintr** : <https://lintr.r-lib.org/>
+- **Référence Mermaid** : <https://mermaid.js.org/>
+
+## Obtenir de l'aide
+
+Si vous rencontrez des problèmes :
+
+1. **Vérifiez la documentation** : Commencez par le [guide de démarrage](getting-started_FR.html)
+2. **Issues GitHub** : <https://github.com/ddotta/quartify/issues>
+3. **Exemples** : Utilisez `system.file("examples", package = "quartify")`
+
+---
+
+::: {.alert .alert-success}
+💡 **Astuce** : Toutes ces fonctionnalités sont accessibles à la fois via l'interface Shiny et par programmation. Choisissez la méthode qui convient le mieux à votre workflow !
+:::

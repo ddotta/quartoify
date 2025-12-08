@@ -1,0 +1,184 @@
+---
+title: "Code Quality Example"
+author: "quartify"
+date: "2025-12-08"
+description: "This example demonstrates styler and lintr integration"
+format:
+  html:
+    embed-resources: true
+    code-fold: false
+    number-sections: true
+toc: true
+toc-title: Sommaire
+toc-depth: 4
+toc-location: left
+execute: 
+  eval: false
+  echo: true
+output:
+  html_document:
+  output-file: example_code_quality.html
+---
+
+## Data Preparation
+
+Load packages
+
+```{r}
+# Lignes 9
+library(dplyr)
+```
+
+Here we have some code with style issues
+
+::: {.panel-tabset}
+
+## Original Code
+
+```{r}
+# Lignes 12-14
+x = 3 # Should use <- instead of =
+y <- 2
+z<-10 # Missing spaces around <-
+```
+
+## Styled Code
+
+```{r}
+# Lignes 12-14
+x <- 3 # Should use <- instead of =
+y <- 2
+z <- 10 # Missing spaces around <-
+```
+
+## Lint Issues
+
+- Line 1: Use one of <-, <<- for assignment, not =.
+- Line 3: Put spaces around all infix operators.
+
+:::
+
+## Data Analysis
+
+Calculate statistics
+
+::: {.panel-tabset}
+
+## Original Code
+
+```{r}
+# Lignes 19
+mean_value<-mean(c(x,y,z)) # Missing spaces
+```
+
+## Styled Code
+
+```{r}
+# Lignes 19
+mean_value <- mean(c(x, y, z)) # Missing spaces
+```
+
+## Lint Issues
+
+- Line 1: Put spaces around all infix operators.
+- Line 1: Put a space after a comma.
+- Line 1: Put a space after a comma.
+
+:::
+
+Create a vector with inconsistent spacing
+
+::: {.panel-tabset}
+
+## Original Code
+
+```{r}
+# Lignes 22
+my_vector<-c(1,2,3,4,5)
+```
+
+## Styled Code
+
+```{r}
+# Lignes 22
+my_vector <- c(1, 2, 3, 4, 5)
+```
+
+## Lint Issues
+
+- Line 1: Put spaces around all infix operators.
+- Line 1: Put a space after a comma.
+- Line 1: Put a space after a comma.
+- Line 1: Put a space after a comma.
+- Line 1: Put a space after a comma.
+
+:::
+
+## Visualization
+
+::: {.callout-note title="Style Issues"}
+This script intentionally contains several style issues:
+- Using = instead of <- for assignment
+- Missing spaces around operators
+- Inconsistent spacing in function calls
+
+Run with use_styler = TRUE to see the automatically styled version
+Run with use_lintr = TRUE to see the linting issues
+:::
+
+Plot data
+
+::: {.panel-tabset}
+
+## Original Code
+
+```{r}
+# Lignes 36
+plot(my_vector,main="My Plot",xlab="Index",ylab="Value")
+```
+
+## Styled Code
+
+```{r}
+# Lignes 36
+plot(my_vector, main = "My Plot", xlab = "Index", ylab = "Value")
+```
+
+## Lint Issues
+
+- Line 1: Put a space after a comma.
+- Line 1: Put spaces around all infix operators.
+- Line 1: Put a space after a comma.
+- Line 1: Put spaces around all infix operators.
+- Line 1: Put a space after a comma.
+- Line 1: Put spaces around all infix operators.
+
+:::
+
+## Results
+
+Print results
+
+::: {.panel-tabset}
+
+## Original Code
+
+```{r}
+# Lignes 41
+cat("Mean value:",mean_value,"\n")
+```
+
+## Styled Code
+
+```{r}
+# Lignes 41
+cat("Mean value:", mean_value, "\n")
+```
+
+## Lint Issues
+
+- Line 1: Put a space after a comma.
+- Line 1: Put a space after a comma.
+
+:::
+
