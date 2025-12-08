@@ -11,7 +11,7 @@ rtoqmd(
   author = "Your name",
   format = "html",
   theme = NULL,
-  render = TRUE,
+  render_html = TRUE,
   output_html_file = NULL,
   open_html = FALSE,
   code_fold = FALSE,
@@ -19,7 +19,8 @@ rtoqmd(
   lang = "en",
   show_source_lines = TRUE,
   use_styler = FALSE,
-  use_lintr = FALSE
+  use_lintr = FALSE,
+  apply_styler = FALSE
 )
 }
 \arguments{
@@ -35,11 +36,11 @@ rtoqmd(
 
 \item{theme}{Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html} for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")}
 
-\item{render}{Logical, whether to render the .qmd file to HTML after creation (default: TRUE)}
+\item{render_html}{Logical, whether to render the .qmd file to HTML after creation (default: TRUE)}
 
 \item{output_html_file}{Path to the output HTML file (optional, defaults to same name as .qmd file with .html extension)}
 
-\item{open_html}{Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)}
+\item{open_html}{Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render_html = TRUE)}
 
 \item{code_fold}{Logical, whether to fold code blocks in HTML output (default: FALSE)}
 
@@ -52,6 +53,8 @@ rtoqmd(
 \item{use_styler}{Logical, whether to apply styler code formatting and show differences in tabsets (default: FALSE). Requires the styler package to be installed.}
 
 \item{use_lintr}{Logical, whether to run lintr code quality checks and display issues in tabsets (default: FALSE). Requires the lintr package to be installed.}
+
+\item{apply_styler}{Logical, whether to apply styler formatting directly to the source R script file (default: FALSE). If TRUE, the input file will be modified with styled code. Requires use_styler = TRUE to take effect.}
 }
 \value{
 Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
@@ -147,7 +150,7 @@ example_file <- system.file("examples", "example.R", package = "quartify")
 rtoqmd(example_file, "output.qmd")
 
 # Convert only, without rendering
-rtoqmd(example_file, "output.qmd", render = FALSE)
+rtoqmd(example_file, "output.qmd", render_html = FALSE)
 
 # Example with metadata in the R script:
 # Create a script with metadata

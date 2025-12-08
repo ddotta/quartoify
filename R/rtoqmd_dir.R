@@ -19,7 +19,7 @@
 #' @param author Author name for all documents (default: "Your name")
 #' @param format Output format - always "html" (parameter kept for backward compatibility)
 #' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html}
-#' @param render Logical, whether to render the .qmd files after creation (default: FALSE)
+#' @param render_html Logical, whether to render the .qmd files to HTML after creation (default: FALSE)
 #' @param output_html_dir Directory path for HTML output files (optional, defaults to same directory as .qmd files)
 #' @param open_html Logical, whether to open the HTML files in browser after rendering (default: FALSE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
@@ -33,6 +33,7 @@
 #' @param language Language for the documentation ("en" or "fr", default: "en")
 #' @param use_styler Logical, whether to apply styler code formatting and show differences in tabsets (default: FALSE). Requires the styler package to be installed.
 #' @param use_lintr Logical, whether to run lintr code quality checks and display issues in tabsets (default: FALSE). Requires the lintr package to be installed.
+#' @param apply_styler Logical, whether to apply styler formatting directly to the source R script files (default: FALSE). If TRUE, all input files will be modified with styled code. Requires use_styler = TRUE to take effect.
 #' @returns Invisibly returns a data frame with conversion results (file paths and status)
 #' @note Existing .qmd and .html files will be automatically overwritten during generation to ensure fresh output.
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_warning cli_alert_danger cli_h1 cli_h2
@@ -44,13 +45,13 @@
 #' rtoqmd_dir("path/to/scripts")
 #' 
 #' # Convert and render all scripts
-#' rtoqmd_dir("path/to/scripts", render = TRUE)
+#' rtoqmd_dir("path/to/scripts", render_html = TRUE)
 #' 
 #' # Create a Quarto book with automatic navigation
 #' rtoqmd_dir(
 #'   dir_path = "path/to/scripts",
 #'   output_html_dir = "path/to/scripts/documentation",
-#'   render = TRUE,
+#'   render_html = TRUE,
 #'   author = "Your Name",
 #'   book_title = "My R Scripts Documentation",
 #'   open_html = TRUE
@@ -60,7 +61,7 @@
 #' rtoqmd_dir(
 #'   dir_path = "path/to/scripts",
 #'   output_html_dir = "path/to/scripts/documentation",
-#'   render = TRUE,
+#'   render_html = TRUE,
 #'   author = "Votre Nom",
 #'   book_title = "Documentation des Scripts R",
 #'   language = "fr"
@@ -84,7 +85,7 @@
 #'   rtoqmd_dir(
 #'     dir_path = example_dir,
 #'     output_html_dir = file.path(example_dir, "documentation"),
-#'     render = TRUE,
+#'     render_html = TRUE,
 #'     open_html = TRUE
 #'   )
 #' }
@@ -94,7 +95,7 @@ rtoqmd_dir <- function(dir_path,
                        author = "Your name",
                        format = "html",
                        theme = NULL,
-                       render = FALSE,
+                       render_html = FALSE,
                        output_html_dir = NULL,
                        open_html = TRUE,
                        code_fold = FALSE,
@@ -107,7 +108,8 @@ rtoqmd_dir <- function(dir_path,
                        output_dir = NULL,
                        language = "en",
                        use_styler = FALSE,
-                       use_lintr = FALSE) {
+                       use_lintr = FALSE,
+                       apply_styler = FALSE) {
   
   # Check if directory exists
   if (!dir.exists(dir_path)) {
@@ -118,9 +120,9 @@ rtoqmd_dir <- function(dir_path,
   # Get absolute path
   dir_path <- normalizePath(dir_path, winslash = "/")
   
-  # Auto-enable book creation if output_html_dir is specified and render is TRUE
+  # Auto-enable book creation if output_html_dir is specified and render_html is TRUE
   if (is.null(create_book)) {
-    create_book <- !is.null(output_html_dir) && render
+    create_book <- !is.null(output_html_dir) && render_html
   }
   
   cli::cli_h1("Converting R Scripts to Quarto Markdown")
@@ -247,7 +249,7 @@ rtoqmd_dir <- function(dir_path,
     
     # Convert the file
     # Skip rendering individual files if creating a book (book will render all files)
-    render_individual <- render && !create_book
+    render_individual <- render_html && !create_book
     
     tryCatch({
       rtoqmd(
@@ -263,7 +265,8 @@ rtoqmd_dir <- function(dir_path,
         code_fold = code_fold,
         number_sections = number_sections,
         use_styler = use_styler,
-        use_lintr = use_lintr
+        use_lintr = use_lintr,
+        apply_styler = apply_styler
       )
       
       results$status[i] <- "success"
@@ -449,7 +452,7 @@ rtoqmd_dir <- function(dir_path,
     cli::cli_alert_success("Created: {.file {quarto_yml_path}}")
     
     # Render book if requested
-    if (render) {
+    if (render_html) {
       cli::cli_alert_info("Rendering Quarto book...")
       tryCatch({
         old_wd <- getwd()

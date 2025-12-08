@@ -297,24 +297,11 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       shiny::hr(),
       
       # Checkboxes
-      shiny::fluidRow(
-        shiny::column(6,
-          shiny::checkboxInput("render", shiny::textOutput("label_render"), value = TRUE),
-          shiny::conditionalPanel(
-            condition = "input.conversion_mode == 'single'",
-            shiny::checkboxInput("open_qmd", shiny::textOutput("label_open_qmd"), value = FALSE)
-          ),
-          shiny::checkboxInput("number_sections", shiny::textOutput("label_number_sections"), value = TRUE)
-        ),
-        shiny::column(6,
-          shiny::checkboxInput("code_fold", shiny::textOutput("label_code_fold"), value = FALSE),
-          shiny::conditionalPanel(
-            condition = "input.conversion_mode == 'single'",
-            shiny::checkboxInput("open_html", shiny::textOutput("label_open_html"), value = FALSE)
-          ),
-          shiny::checkboxInput("show_source_lines", shiny::textOutput("label_show_source_lines"), value = TRUE)
-        )
-      )
+      shiny::uiOutput("ui_checkboxes"),
+      
+      # Code quality checkboxes
+      shiny::hr(),
+      shiny::uiOutput("ui_code_quality")
     )
   )
   
@@ -492,7 +479,11 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         open_qmd = "Open .qmd file in editor after conversion",
         code_fold = "Fold code blocks by default",
         number_sections = "Number sections automatically (not needed if sections already numbered)",
-        show_source_lines = "Show original line numbers in code chunks"
+        show_source_lines = "Show original line numbers in code chunks",
+        code_quality = "Code Quality Checks:",
+        use_styler = "Use styler formatting (shows styled version in tabs)",
+        use_lintr = "Use lintr quality checks (shows issues in tabs)",
+        apply_styler = "Apply styler to source file (modifies original R file)"
       ),
       fr = list(
         mode = "Mode de conversion :",
@@ -512,7 +503,11 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
         open_qmd = "Ouvrir le fichier .qmd dans l'editeur apres conversion",
         code_fold = "Replier les blocs de code par defaut",
         number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont deja numerotees)",
-        show_source_lines = "Afficher les numeros de ligne originaux dans les chunks"
+        show_source_lines = "Afficher les numeros de ligne originaux dans les chunks",
+        code_quality = "Verifications de la qualite du code :",
+        use_styler = "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)",
+        use_lintr = "Utiliser lintr pour la qualite du code (affiche les problemes dans des onglets)",
+        apply_styler = "Appliquer styler au fichier source (modifie le fichier R original)"
       )
     )
     
@@ -528,12 +523,40 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
     output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
-    output$label_render <- shiny::renderText({ translations[[lang()]]$render })
-    output$label_open_html <- shiny::renderText({ translations[[lang()]]$open_html })
-    output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
-    output$label_code_fold <- shiny::renderText({ translations[[lang()]]$code_fold })
-    output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
-    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
+    
+    # Render main checkboxes with dynamic labels
+    output$ui_checkboxes <- shiny::renderUI({
+      trans <- translations[[lang()]]
+      shiny::fluidRow(
+        shiny::column(6,
+          shiny::checkboxInput("render", trans$render, value = TRUE),
+          shiny::conditionalPanel(
+            condition = "input.conversion_mode == 'single'",
+            shiny::checkboxInput("open_qmd", trans$open_qmd, value = FALSE)
+          ),
+          shiny::checkboxInput("number_sections", trans$number_sections, value = TRUE)
+        ),
+        shiny::column(6,
+          shiny::checkboxInput("code_fold", trans$code_fold, value = FALSE),
+          shiny::conditionalPanel(
+            condition = "input.conversion_mode == 'single'",
+            shiny::checkboxInput("open_html", trans$open_html, value = FALSE)
+          ),
+          shiny::checkboxInput("show_source_lines", trans$show_source_lines, value = TRUE)
+        )
+      )
+    })
+    
+    # Render code quality checkboxes with dynamic labels
+    output$ui_code_quality <- shiny::renderUI({
+      trans <- translations[[lang()]]
+      shiny::div(
+        shiny::h4(trans$code_quality, style = "color: #0073e6; margin-top: 15px;"),
+        shiny::checkboxInput("use_styler", trans$use_styler, value = FALSE),
+        shiny::checkboxInput("use_lintr", trans$use_lintr, value = FALSE),
+        shiny::checkboxInput("apply_styler", trans$apply_styler, value = FALSE)
+      )
+    })
     
     shiny::observeEvent(input$done, {
       
@@ -577,6 +600,9 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
       code_fold <- input$code_fold
       number_sections <- input$number_sections
       show_source_lines <- input$show_source_lines
+      use_styler <- if (!is.null(input$use_styler)) input$use_styler else FALSE
+      use_lintr <- if (!is.null(input$use_lintr)) input$use_lintr else FALSE
+      apply_styler <- if (!is.null(input$apply_styler)) input$apply_styler else FALSE
       
       tryCatch({
         if (is_directory_mode) {
@@ -591,12 +617,15 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
             author = author,
             format = "html",
             theme = theme,
-            render = render,
+            render_html = render,
             output_dir = output_dir,
             create_book = create_book_val,
             code_fold = code_fold,
             number_sections = number_sections,
-            language = lang()
+            language = lang(),
+            use_styler = use_styler,
+            use_lintr = use_lintr,
+            apply_styler = apply_styler
           )
           
           # If rendering, wait for index.html to be created
@@ -631,13 +660,16 @@ quartify_app <- function(launch.browser = TRUE, port = NULL) {
             author = author,
             format = "html",
             theme = theme,
-            render = render,
+            render_html = render,
             output_html_file = html_file_final,
             open_html = open_html && render,
             code_fold = code_fold,
             number_sections = number_sections,
             lang = lang(),
-            show_source_lines = show_source_lines
+            show_source_lines = show_source_lines,
+            use_styler = use_styler,
+            use_lintr = use_lintr,
+            apply_styler = apply_styler
           )
           
           if (open_qmd && file.exists(output_file_final)) {

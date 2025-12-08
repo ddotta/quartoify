@@ -254,16 +254,11 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       shiny::hr(),
       
       # Checkboxes in 2 columns
-      shiny::fluidRow(
-        shiny::column(6,
-          shiny::checkboxInput("render_html", shiny::textOutput("label_render"), value = TRUE),
-          shiny::checkboxInput("number_sections", shiny::textOutput("label_number_sections"), value = TRUE),
-          shiny::checkboxInput("show_source_lines", shiny::textOutput("label_show_source_lines"), value = TRUE)
-        ),
-        shiny::column(6,
-          shiny::checkboxInput("code_fold", shiny::textOutput("label_code_fold"), value = FALSE)
-        )
-      ),
+      shiny::uiOutput("ui_checkboxes"),
+      
+      # Code quality checkboxes
+      shiny::hr(),
+      shiny::uiOutput("ui_code_quality"),
       
       # Book option (only visible in batch mode)
       shiny::conditionalPanel(
@@ -360,20 +355,46 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
       if (rv$lang == "en") "HTML Theme" else "Theme HTML"
     })
     
-    output$label_render <- shiny::renderText({
-      if (rv$lang == "en") "Generate HTML" else "Generer le HTML"
+    # Render main checkboxes with dynamic labels
+    output$ui_checkboxes <- shiny::renderUI({
+      is_en <- rv$lang == "en"
+      shiny::fluidRow(
+        shiny::column(6,
+          shiny::checkboxInput("render_html", 
+            if (is_en) "Generate HTML" else "Generer le HTML", 
+            value = TRUE),
+          shiny::checkboxInput("number_sections", 
+            if (is_en) "Number sections automatically" else "Numeroter les sections automatiquement", 
+            value = TRUE),
+          shiny::checkboxInput("show_source_lines", 
+            if (is_en) "Show original line numbers" else "Afficher les numeros de ligne originaux", 
+            value = TRUE)
+        ),
+        shiny::column(6,
+          shiny::checkboxInput("code_fold", 
+            if (is_en) "Fold code blocks by default" else "Replier les blocs de code par defaut", 
+            value = FALSE)
+        )
+      )
     })
     
-    output$label_code_fold <- shiny::renderText({
-      if (rv$lang == "en") "Fold code blocks by default" else "Replier les blocs de code par d\\u00E9faut"
-    })
-    
-    output$label_number_sections <- shiny::renderText({
-      if (rv$lang == "en") "Number sections automatically" else "Numeroter les sections automatiquement"
-    })
-    
-    output$label_show_source_lines <- shiny::renderText({
-      if (rv$lang == "en") "Show original line numbers" else "Afficher les numeros de ligne originaux"
+    # Render code quality checkboxes with dynamic labels
+    output$ui_code_quality <- shiny::renderUI({
+      is_en <- rv$lang == "en"
+      shiny::div(
+        shiny::h4(
+          if (is_en) "Code Quality Checks:" else "Verifications de la qualite du code :",
+          style = "color: #0073e6; margin-top: 15px;"
+        ),
+        shiny::checkboxInput("use_styler", 
+          if (is_en) "Use styler formatting (shows styled version in tabs)" 
+          else "Utiliser styler pour le formatage (affiche la version stylisee dans des onglets)", 
+          value = FALSE),
+        shiny::checkboxInput("use_lintr", 
+          if (is_en) "Use lintr quality checks (shows issues in tabs)" 
+          else "Utiliser lintr pour la qualite du code (affiche les problemes dans des onglets)", 
+          value = FALSE)
+      )
     })
     
     output$label_create_book <- shiny::renderText({
@@ -452,13 +473,16 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
             title_prefix = if (title_val != "" && title_val != "My Analysis") paste0(title_val, " - ") else "",
             author = if (input$doc_author == "") "Your name" else input$doc_author,
             theme = theme_val,
-            render = input$render_html,
+            render_html = input$render_html,
             code_fold = input$code_fold,
             number_sections = input$number_sections,
             create_book = create_book_opt,
             book_title = title_val,
             output_dir = if (create_book_opt) output_dir else NULL,
-            language = rv$lang
+            language = rv$lang,
+            use_styler = if (!is.null(input$use_styler)) input$use_styler else FALSE,
+            use_lintr = if (!is.null(input$use_lintr)) input$use_lintr else FALSE,
+            apply_styler = FALSE  # Disabled for web version for security
           )
           
           # Collect generated files
@@ -525,11 +549,14 @@ quartify_app_web <- function(launch.browser = TRUE, port = NULL) {
             title = title_val,
             author = if (input$doc_author == "") NULL else input$doc_author,
             theme = theme_val,
-            render = FALSE,  # We'll render separately
+            render_html = FALSE,  # We'll render separately
             code_fold = input$code_fold,
             number_sections = input$number_sections,
             show_source_lines = input$show_source_lines,
-            lang = rv$lang
+            lang = rv$lang,
+            use_styler = if (!is.null(input$use_styler)) input$use_styler else FALSE,
+            use_lintr = if (!is.null(input$use_lintr)) input$use_lintr else FALSE,
+            apply_styler = FALSE  # Disabled for web version for security
           )
           
           rv$qmd_file <- qmd_path

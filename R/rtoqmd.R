@@ -78,15 +78,16 @@
 #' @param author Author name (default: "Your name"). Can be overridden by \code{# Author :} or \code{# Auteur :} in the script
 #' @param format Output format - always "html" (parameter kept for backward compatibility)
 #' @param theme Quarto theme for HTML output (default: NULL uses Quarto's default). See \url{https://quarto.org/docs/output-formats/html-themes.html} for available themes (e.g., "cosmo", "flatly", "darkly", "solar", "united")
-#' @param render Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
+#' @param render_html Logical, whether to render the .qmd file to HTML after creation (default: TRUE)
 #' @param output_html_file Path to the output HTML file (optional, defaults to same name as .qmd file with .html extension)
-#' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render = TRUE)
+#' @param open_html Logical, whether to open the HTML file in browser after rendering (default: FALSE, only used if render_html = TRUE)
 #' @param code_fold Logical, whether to fold code blocks in HTML output (default: FALSE)
 #' @param number_sections Logical, whether to number sections automatically in the output (default: TRUE)
 #' @param lang Language for interface elements like table of contents title - "en" or "fr" (default: "en")
 #' @param show_source_lines Logical, whether to add comments indicating original line numbers from the source R script at the beginning of each code chunk (default: TRUE). This helps maintain traceability between the documentation and the source code.
 #' @param use_styler Logical, whether to apply styler code formatting and show differences in tabsets (default: FALSE). Requires the styler package to be installed.
 #' @param use_lintr Logical, whether to run lintr code quality checks and display issues in tabsets (default: FALSE). Requires the lintr package to be installed.
+#' @param apply_styler Logical, whether to apply styler formatting directly to the source R script file (default: FALSE). If TRUE, the input file will be modified with styled code. Requires use_styler = TRUE to take effect.
 #' @returns Invisibly returns NULL. Creates a .qmd file and optionally renders it to HTML.
 #' @importFrom utils browseURL
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_danger cli_alert_warning
@@ -100,7 +101,7 @@
 #' rtoqmd(example_file, "output.qmd")
 #' 
 #' # Convert only, without rendering
-#' rtoqmd(example_file, "output.qmd", render = FALSE)
+#' rtoqmd(example_file, "output.qmd", render_html = FALSE)
 #' 
 #' # Example with metadata in the R script:
 #' # Create a script with metadata
@@ -142,7 +143,7 @@ rtoqmd <- function(input_file, output_file = NULL,
                    author = "Your name",
                    format = "html",
                    theme = NULL,
-                   render = TRUE,
+                   render_html = TRUE,
                    output_html_file = NULL,
                    open_html = FALSE,
                    code_fold = FALSE,
@@ -150,12 +151,30 @@ rtoqmd <- function(input_file, output_file = NULL,
                    lang = "en",
                    show_source_lines = TRUE,
                    use_styler = FALSE,
-                   use_lintr = FALSE) {
+                   use_lintr = FALSE,
+                   apply_styler = FALSE) {
   
   # Check if input file exists
   if (!file.exists(input_file)) {
     cli::cli_alert_danger("Input file does not exist: {.file {input_file}}")
     stop("Input file does not exist: ", input_file, call. = FALSE)
+  }
+  
+  # Apply styler to the source file if requested
+  if (apply_styler && use_styler) {
+    if (requireNamespace("styler", quietly = TRUE)) {
+      cli::cli_alert_info("Applying styler to source file: {.file {input_file}}")
+      tryCatch({
+        styler::style_file(input_file)
+        cli::cli_alert_success("Source file styled successfully")
+      }, error = function(e) {
+        cli::cli_alert_warning("Failed to style source file: {e$message}")
+      })
+    } else {
+      cli::cli_alert_warning("styler package not available. Install it with: install.packages('styler')")
+    }
+  } else if (apply_styler && !use_styler) {
+    cli::cli_alert_warning("apply_styler requires use_styler = TRUE to take effect")
   }
   
   # Set output file if not provided
@@ -804,7 +823,7 @@ rtoqmd <- function(input_file, output_file = NULL,
   cli::cli_alert_success("Quarto markdown file created: {.file {output_file}}")
   
   # Render to HTML if requested
-  if (render) {
+  if (render_html) {
     cat("Rendering Quarto document to HTML...\n")
     
     # Check if quarto is available

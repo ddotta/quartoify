@@ -381,7 +381,8 @@ rtoqmd_addin <- function() {
                   "show_source_lines",
                   shiny::textOutput("label_show_source_lines"),
                   value = TRUE
-                )
+                ),
+                shiny::uiOutput("ui_code_quality")
               )
             )
           )
@@ -556,7 +557,11 @@ rtoqmd_addin <- function() {
         open_qmd = "Open .qmd file in editor after conversion",
         code_fold = "Fold code blocks by default",
         number_sections = "Number sections automatically (not needed if sections already numbered)",
-        show_source_lines = "Show original line numbers in code chunks"
+        show_source_lines = "Show original line numbers in code chunks",
+        code_quality = "Code Quality Checks:",
+        use_styler = "Use styler formatting (show differences in tabsets)",
+        use_lintr = "Use lintr quality checks (show issues in tabsets)",
+        apply_styler = "Apply styler to source file (modifies original R file)"
       ),
       fr = list(
         mode = "Mode de conversion :",
@@ -576,7 +581,11 @@ rtoqmd_addin <- function() {
         open_qmd = "Ouvrir le fichier .qmd dans l'editeur apres conversion",
         code_fold = "Replier les blocs de code par d\\u00e9faut",
         number_sections = "Numeroter les sections automatiquement (pas utile si vos sections sont deja numerotees)",
-        show_source_lines = "Afficher les numeros de ligne originaux dans les chunks"
+        show_source_lines = "Afficher les numeros de ligne originaux dans les chunks",
+        code_quality = "Verifications de la qualite du code :",
+        use_styler = "Utiliser styler (afficher les differences dans les tabsets)",
+        use_lintr = "Utiliser lintr (afficher les problemes dans les tabsets)",
+        apply_styler = "Appliquer styler au fichier source (modifie le fichier R original)"
       )
     )
     
@@ -609,11 +618,22 @@ rtoqmd_addin <- function() {
     output$label_html_file_optional <- shiny::renderText({ translations[[lang()]]$html_file_optional })
     output$label_title <- shiny::renderText({ translations[[lang()]]$title })
     output$label_author <- shiny::renderText({ translations[[lang()]]$author })
-    output$label_theme <- shiny::renderText({ translations[[lang()]]$theme })
-    output$label_render <- shiny::renderText({ translations[[lang()]]$render })
-    output$label_open_html <- shiny::renderText({ translations[[lang()]]$open_html })
-    output$label_open_qmd <- shiny::renderText({ translations[[lang()]]$open_qmd })
     output$label_code_fold <- shiny::renderText({ translations[[lang()]]$code_fold })
+    output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
+    output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
+    
+    # Render code quality checkboxes with dynamic labels
+    output$ui_code_quality <- shiny::renderUI({
+      trans <- translations[[lang()]]
+      shiny::div(
+        shiny::h4(trans$code_quality, style = "color: #0073e6; margin-top: 15px;"),
+        shiny::checkboxInput("use_styler", trans$use_styler, value = FALSE),
+        shiny::checkboxInput("use_lintr", trans$use_lintr, value = FALSE),
+        shiny::checkboxInput("apply_styler", trans$apply_styler, value = FALSE)
+      )
+    })
+    
+    # When done button is pressedny::renderText({ translations[[lang()]]$code_fold })
     output$label_number_sections <- shiny::renderText({ translations[[lang()]]$number_sections })
     output$label_show_source_lines <- shiny::renderText({ translations[[lang()]]$show_source_lines })
     
@@ -652,12 +672,15 @@ rtoqmd_addin <- function() {
             author = author,
             format = "html",
             theme = theme,
-            render = render,
+            render_html = render,
             output_dir = output_dir,
             create_book = create_book_val,
             code_fold = code_fold,
             number_sections = number_sections,
-            language = lang()
+            language = lang(),
+            use_styler = input$use_styler,
+            use_lintr = input$use_lintr,
+            apply_styler = input$apply_styler
           )
           
           # If rendering, wait for index.html to be created
@@ -692,13 +715,16 @@ rtoqmd_addin <- function() {
             author = author,
             format = "html",
             theme = theme,
-            render = render,
+            render_html = render,
             output_html_file = html_file_final,
             open_html = open_html && render,
             code_fold = code_fold,
             number_sections = number_sections,
             lang = lang(),
-            show_source_lines = show_source_lines
+            show_source_lines = show_source_lines,
+            use_styler = input$use_styler,
+            use_lintr = input$use_lintr,
+            apply_styler = input$apply_styler
           )
         }
         

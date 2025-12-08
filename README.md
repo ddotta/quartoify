@@ -49,6 +49,7 @@ If you have a working R script that contains comments, you may want to generate 
 - **Automatic HTML rendering**: Optionally renders the .qmd file to HTML and opens it in your browser
 - **Customizable themes**: Choose from 25+ Quarto themes to customize the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from the R script in code chunks for traceability
+- **Code quality integration**: Optional integration with [styler](https://styler.r-lib.org/) and [lintr](https://lintr.r-lib.org/) to show code formatting suggestions and quality issues in interactive tabsets
 - **Output directory customization**: Specify custom output directories for book generation (defaults to `_book`)
 - **Web deployment ready**: Includes `quartify_app_web()` for deploying on web servers with file upload/download capabilities
 
@@ -189,6 +190,52 @@ rtoqmd_dir("path/to/scripts",
            author = "Data Team",
            exclude_pattern = "test_.*\\.R$")
 ```
+
+## Code Quality Integration
+
+`quartify` optionally integrates with **styler** and **lintr** to help you improve code quality:
+
+### Features
+
+- **`use_styler`**: Shows formatted code according to the [tidyverse style guide](https://style.tidyverse.org/)
+- **`use_lintr`**: Identifies code quality issues and potential problems
+- **`apply_styler`**: Directly applies styling to your original R script (⚠️ modifies source file)
+
+When quality issues are detected, `quartify` creates **interactive tabsets** in the HTML output with:
+- **Original Code**: Your original code
+- **Styled Code**: Formatted version (if `use_styler = TRUE` and changes detected)
+- **Lint Issues**: Quality warnings (if `use_lintr = TRUE` and issues found)
+
+### Installation
+
+These packages are optional and only needed if you want to use code quality features:
+
+```r
+install.packages(c("styler", "lintr"))
+```
+
+### Examples
+
+```r
+# Show styling suggestions in tabs
+rtoqmd("my_script.R", "output.qmd", 
+       use_styler = TRUE)
+
+# Show both styling and lint issues
+rtoqmd("my_script.R", "output.qmd",
+       use_styler = TRUE,
+       use_lintr = TRUE)
+
+# Apply styling directly to source file (⚠️ modifies original)
+rtoqmd("my_script.R", "output.qmd",
+       apply_styler = TRUE)
+```
+
+### In Shiny Apps
+
+All three Shiny applications (`rtoqmd_addin()`, `quartify_app()`, and `quartify_app_web()`) include checkboxes for these options in the interface.
+
+📖 **For detailed information**, see the [Code Quality Guide](inst/examples/CODE_QUALITY_README.md) and the [package vignettes](https://ddotta.github.io/quartify/).
 
 ## Source R script format
 

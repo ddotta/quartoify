@@ -1194,6 +1194,76 @@ rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
 6. **Keyboard shortcut**: Use `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (Mac) to comment/uncomment lines quickly</span>
 :::
 
+## Code Quality Integration
+
+quartify integrates with `styler` and `lintr` to provide automated code quality checks and formatting in your documentation.
+
+### Using styler
+
+The `use_styler` parameter automatically formats your code according to the tidyverse style guide:
+
+```{r eval=FALSE}
+# Create a script with style issues
+temp_script <- tempfile(fileext = ".R")
+writeLines(c(
+  "x = 3  # Should use <- instead of =",
+  "y<-2   # Missing spaces",
+  "z <- mean(c(1,2,3))  # Missing spaces in function call"
+), temp_script)
+
+# Convert with styler
+rtoqmd(temp_script, "styled_output.qmd", use_styler = TRUE)
+```
+
+The generated document will include tabsets showing:
+- **Original Code**: Your code as written
+- **Styled Code**: The tidyverse-formatted version
+
+### Using lintr
+
+The `use_lintr` parameter runs code quality checks:
+
+```{r eval=FALSE}
+# Convert with both styler and lintr
+rtoqmd(temp_script, "quality_output.qmd", 
+       use_styler = TRUE, 
+       use_lintr = TRUE)
+```
+
+The tabsets will include:
+- **Original Code**: Your code
+- **Styled Code**: Formatted version
+- **Lint Issues**: List of style violations and suggestions
+
+### Applying styler to source files
+
+Use `apply_styler = TRUE` to modify your source R script directly:
+
+```{r eval=FALSE}
+# This will modify the original R file
+rtoqmd("my_script.R", "output.qmd", 
+       use_styler = TRUE, 
+       apply_styler = TRUE)
+```
+
+::: {.alert .alert-warning}
+**Warning:** `apply_styler = TRUE` modifies your original R script file. Consider using version control or backups before using this option.
+:::
+
+### Example Output
+
+Try the included example:
+
+```{r eval=FALSE}
+example_file <- system.file("examples", "example_code_quality.R", 
+                           package = "quartify")
+rtoqmd(example_file, "quality_demo.qmd", 
+       use_styler = TRUE, 
+       use_lintr = TRUE,
+       render_html = TRUE,
+       open_html = TRUE)
+```
+
 ## Tips and Best Practices
 
 1. **Start with structure**: Define your section headers first to create the document outline
@@ -1203,6 +1273,7 @@ rtoqmd(tabset_file, render = TRUE, open_html = TRUE)
 5. **Test incrementally**: Start with a small script to see how the conversion works
 6. **Navigate easily**: In RStudio, use the document outline (Ctrl+Shift+O) to see your structure
 7. **Comment liberally**: More comments = better documentation in the final Quarto document
+8. **Use code quality checks**: Enable `use_styler` and `use_lintr` for teaching materials or code reviews
 
 ## Conclusion
 
