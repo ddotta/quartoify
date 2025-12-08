@@ -68,7 +68,9 @@ The output files are created in the same directories as the input files.</p>
 <span>  create_book <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  book_title <span class="op">=</span> <span class="st">"R Scripts Documentation"</span>,</span>
 <span>  output_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  language <span class="op">=</span> <span class="st">"en"</span></span>
+<span>  language <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span>  use_styler <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  use_lintr <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -142,6 +144,14 @@ The output files are created in the same directories as the input files.</p>
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
 <dd><p>Language for the documentation ("en" or "fr", default: "en")</p></dd>
+
+
+<dt id="arg-use-styler">use_styler<a class="anchor" aria-label="anchor" href="#arg-use-styler"></a></dt>
+<dd><p>Logical, whether to apply styler code formatting and show differences in tabsets (default: FALSE). Requires the styler package to be installed.</p></dd>
+
+
+<dt id="arg-use-lintr">use_lintr<a class="anchor" aria-label="anchor" href="#arg-use-lintr"></a></dt>
+<dd><p>Logical, whether to run lintr code quality checks and display issues in tabsets (default: FALSE). Requires the lintr package to be installed.</p></dd>
 
 </dl></div>
     <div class="section level2">

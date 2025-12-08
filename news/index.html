@@ -43,6 +43,18 @@
 <div class="section level3">
 <h3 id="new-features-0-0-8">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-0-8"></a></h3>
 <ul><li>
+<strong>Code Quality Integration</strong>: New <code>use_styler</code> and <code>use_lintr</code> parameters for code quality checks:
+<ul><li>
+<code>use_styler</code>: Automatically format code using styler and show differences in tabsets</li>
+<li>
+<code>use_lintr</code>: Run lintr quality checks and display issues in tabsets</li>
+<li>Available in both <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> and <code><a href="../reference/rtoqmd_dir.html">rtoqmd_dir()</a></code> functions</li>
+<li>Tabsets show Original Code, Styled Code (if changes), and Lint Issues (if found)</li>
+<li>Only creates tabsets when there are actual issues or changes to report</li>
+<li>Example file: <code>inst/examples/example_code_quality.R</code>
+</li>
+</ul></li>
+<li>
 <strong>RStudio Snippets Installation</strong>: New <code><a href="../reference/install_quartify_snippets.html">install_quartify_snippets()</a></code> function to automatically install useful snippets:
 <ul><li>
 <code>header</code>: R script header template with Title, Author, Date, Description</li>

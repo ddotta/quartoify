@@ -23,7 +23,9 @@ rtoqmd(
   code_fold = FALSE,
   number_sections = TRUE,
   lang = "en",
-  show_source_lines = TRUE
+  show_source_lines = TRUE,
+  use_styler = FALSE,
+  use_lintr = FALSE
 )
 ```
 
@@ -95,6 +97,18 @@ rtoqmd(
   the source R script at the beginning of each code chunk (default:
   TRUE). This helps maintain traceability between the documentation and
   the source code.
+
+- use_styler:
+
+  Logical, whether to apply styler code formatting and show differences
+  in tabsets (default: FALSE). Requires the styler package to be
+  installed.
+
+- use_lintr:
+
+  Logical, whether to run lintr code quality checks and display issues
+  in tabsets (default: FALSE). Requires the lintr package to be
+  installed.
 
 ## Value
 
@@ -212,5 +226,23 @@ writeLines(c(
 
 # Convert - metadata will override function parameters
 rtoqmd(script_with_metadata, "output_with_metadata.qmd")
+
+# Example with code quality checks (requires styler and lintr packages)
+script_with_style_issues <- tempfile(fileext = ".R")
+writeLines(c(
+  "# Script with style issues",
+  "",
+  "x = 3  # Should use <- instead of =",
+  "y <- 2",
+  "",
+  "z <- 10"
+), script_with_style_issues)
+
+# Convert with styler formatting
+rtoqmd(script_with_style_issues, "output_styled.qmd", use_styler = TRUE)
+
+# Convert with both styler and lintr
+rtoqmd(script_with_style_issues, "output_quality.qmd", 
+       use_styler = TRUE, use_lintr = TRUE)
 } # }
 ```
