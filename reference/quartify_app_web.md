@@ -1,13 +1,13 @@
-# Launch Quartify Web Application (for deployment)
+# Launch Quartify Web Application
 
-Web-friendly version of quartify_app() designed for deployment on web
-servers. Uses file upload/download instead of local file system access.
+Web-deployable Shiny application with file upload/download capabilities
+for converting R scripts to Quarto markdown documents. Suitable for
+deployment on Shiny Server, ShinyApps.io, or other web hosting
+platforms.
 
 ## Usage
 
 ``` r
-quartify_app_web(launch.browser = TRUE, port = NULL)
-
 quartify_app_web(launch.browser = TRUE, port = NULL)
 ```
 
@@ -24,16 +24,11 @@ quartify_app_web(launch.browser = TRUE, port = NULL)
 
 ## Value
 
-Invisible NULL
-
-Invisible NULL
+No return value, called for side effects (launches a Shiny application).
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-quartify_app_web()
-} # }
 if (FALSE) { # \dontrun{
 quartify_app_web()
 } # }

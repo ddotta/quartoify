@@ -18,6 +18,25 @@ reconnaît la syntaxe standard des sections de code RStudio (`####`,
 `====`, `----`) pour créer des structures de navigation correctement
 indentées.
 
+### Différences avec knitr::spin() et les render-scripts de Quarto
+
+[knitr::spin()](https://yihui.org/knitr/demo/stitch/#spin) et la
+fonctionnalité [render-scripts de
+Quarto](https://quarto.org/docs/computations/render-scripts.html)
+permettent déjà de rendre des scripts R, mais reposent tous deux sur
+l’insertion de structure Markdown directement dans les commentaires
+(`#'`, titres, options de chunks, etc.).
+
+**quartify adopte une philosophie différente** : il n’impose aucune
+syntaxe Markdown dans les commentaires et fonctionne sur des scripts R
+totalement standards. Les commentaires restent des commentaires, le code
+reste du code.
+
+L’objectif est de conserver des scripts propres et habituels, tout en
+les rendant convertibles en .qmd — et, lorsque plusieurs scripts sont
+sélectionnés, de pouvoir les assembler automatiquement en un book Quarto
+structuré sans aucune réécriture du code source.
+
 ### Cas d’usage
 
 Si vous avez un script R fonctionnel qui contient des commentaires, vous
@@ -59,6 +78,15 @@ affichable. Ceci est particulièrement utile pour :
   personnaliser l’apparence de vos documents HTML
 - **Numéros de ligne source** : Affichage optionnel des numéros de ligne
   originaux du script R dans les chunks de code pour la traçabilité
+- **Intégration qualité du code** : Intégration optionnelle avec
+  [styler](https://styler.r-lib.org/) et
+  [lintr](https://lintr.r-lib.org/) pour afficher les suggestions de
+  formatage et les problèmes de qualité dans des onglets interactifs
+- **Support des snippets RStudio** : Insertion rapide de métadonnées et
+  de structure via des snippets de code personnalisables
+- **Fonctionnalités spéciales** : Support des diagrammes Mermaid, des
+  callouts (note, tip, warning, etc.), et des tabsets pour organiser le
+  contenu
 - **Personnalisation du répertoire de sortie** : Spécifiez des
   répertoires de sortie personnalisés pour la génération de livres (par
   défaut `_book`)
@@ -214,6 +242,70 @@ rtoqmd_dir("chemin/vers/scripts",
            author = "Équipe Data",
            exclude_pattern = "test_.*\\.R$")
 ```
+
+## Intégration de la qualité du code
+
+`quartify` s’intègre optionnellement avec **styler** et **lintr** pour
+vous aider à améliorer la qualité du code :
+
+### Fonctionnalités
+
+- **`use_styler`** : Affiche le code formaté selon le [guide de style
+  tidyverse](https://style.tidyverse.org/)
+- **`use_lintr`** : Identifie les problèmes de qualité du code et les
+  problèmes potentiels
+- **`apply_styler`** : Applique directement le formatage à votre script
+  R original (⚠️ modifie le fichier source)
+
+Lorsque des problèmes de qualité sont détectés, `quartify` crée des
+**onglets interactifs** dans la sortie HTML avec : - **Code Original** :
+Votre code original - **Code Stylisé** : Version formatée (si
+`use_styler = TRUE` et des changements détectés) - **Problèmes Lint** :
+Avertissements de qualité (si `use_lintr = TRUE` et des problèmes
+trouvés)
+
+### Installation
+
+Ces packages sont optionnels et nécessaires uniquement si vous souhaitez
+utiliser les fonctionnalités de qualité du code :
+
+``` r
+install.packages(c("styler", "lintr"))
+```
+
+### Exemples
+
+``` r
+# Afficher les suggestions de formatage dans des onglets
+rtoqmd("mon_script.R", "sortie.qmd", 
+       use_styler = TRUE)
+
+# Afficher à la fois le formatage et les problèmes lint
+rtoqmd("mon_script.R", "sortie.qmd",
+       use_styler = TRUE,
+       use_lintr = TRUE)
+
+# Appliquer le formatage directement au fichier source (⚠️ modifie l'original)
+rtoqmd("mon_script.R", "sortie.qmd",
+       apply_styler = TRUE)
+```
+
+### Dans les applications Shiny
+
+Les trois applications Shiny
+([`rtoqmd_addin()`](https://ddotta.github.io/quartify/reference/rtoqmd_addin.md),
+[`quartify_app()`](https://ddotta.github.io/quartify/reference/quartify_app.md),
+et
+[`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md))
+incluent des cases à cocher pour ces options dans l’interface.
+
+📖 **Pour des informations détaillées**, consultez : - [Guide de qualité
+du
+code](https://ddotta.github.io/quartify/inst/examples/CODE_QUALITY_README.md) -
+[Vignette Fonctionnalités
+avancées](https://ddotta.github.io/quartify/articles/advanced-features_FR.html) -
+Guide complet avec exemples - [Vignettes du
+package](https://ddotta.github.io/quartify/)
 
 ## Format du script R source
 

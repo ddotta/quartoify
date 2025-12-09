@@ -41,7 +41,7 @@ The output files are created in the same directories as the input files."></head
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Convert All R Scripts in a Directory to Quarto Markdown</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.8/R/rtoqmd_dir.R" class="external-link"><code>R/rtoqmd_dir.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/R/rtoqmd_dir.R" class="external-link"><code>R/rtoqmd_dir.R</code></a></small>
       <div class="d-none name"><code>rtoqmd_dir.Rd</code></div>
     </div>
 
@@ -180,12 +180,16 @@ The output files are created in the same directories as the input files.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Convert all R scripts in a directory</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span><span class="st">"path/to/scripts"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Convert and render all scripts</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span><span class="st">"path/to/scripts"</span>, render_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a Quarto book with automatic navigation</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span></span></span>
@@ -196,6 +200,8 @@ The output files are created in the same directories as the input files.</p>
 <span class="r-in"><span>  book_title <span class="op">=</span> <span class="st">"My R Scripts Documentation"</span>,</span></span>
 <span class="r-in"><span>  open_html <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a Quarto book in French</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span></span></span>
@@ -206,18 +212,26 @@ The output files are created in the same directories as the input files.</p>
 <span class="r-in"><span>  book_title <span class="op">=</span> <span class="st">"Documentation des Scripts R"</span>,</span></span>
 <span class="r-in"><span>  language <span class="op">=</span> <span class="st">"fr"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Convert with custom author and title prefix</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span><span class="st">"path/to/scripts"</span>, </span></span>
 <span class="r-in"><span>           title_prefix <span class="op">=</span> <span class="st">"Analysis: "</span>,</span></span>
 <span class="r-in"><span>           author <span class="op">=</span> <span class="st">"Data Team"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Exclude certain files (e.g., test files)</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span><span class="st">"path/to/scripts"</span>, </span></span>
 <span class="r-in"><span>           exclude_pattern <span class="op">=</span> <span class="st">"test_.*\\.R$"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Non-recursive (only current directory)</span></span></span>
 <span class="r-in"><span><span class="fu">rtoqmd_dir</span><span class="op">(</span><span class="st">"path/to/scripts"</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Directory does not exist: <span style="color: #0000BB;">path/to/scripts</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Directory does not exist: path/to/scripts</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Reproducible example with sample scripts</span></span></span>
 <span class="r-in"><span><span class="va">example_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"book_example"</span>, package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span></span></span>
@@ -229,7 +243,29 @@ The output files are created in the same directories as the input files.</p>
 <span class="r-in"><span>    open_html <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Converting R Scripts to Quarto Markdown</span> <span style="color: #00BBBB;">─────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Searching directory: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Recursive: TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 3 R scripts to convert</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Converting files...</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Quarto markdown file created: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example/analysis/visualization.qmd</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Quarto markdown file created: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example/script1.qmd</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Quarto markdown file created: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example/script2.qmd</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Conversion Summary</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully converted: 3 files</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Creating Quarto Book</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Created: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example/index.qmd</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Created: <span style="color: #0000BB;">/home/runner/work/_temp/Library/quartify/examples/book_example/_quarto.yml</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Rendering Quarto book...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Failed to render book: Quarto command-line tools path not found! </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

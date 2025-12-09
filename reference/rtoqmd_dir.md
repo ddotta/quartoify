@@ -158,12 +158,16 @@ generation to ensure fresh output.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Convert all R scripts in a directory
 rtoqmd_dir("path/to/scripts")
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Convert and render all scripts
 rtoqmd_dir("path/to/scripts", render_html = TRUE)
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Create a Quarto book with automatic navigation
 rtoqmd_dir(
@@ -174,6 +178,8 @@ rtoqmd_dir(
   book_title = "My R Scripts Documentation",
   open_html = TRUE
 )
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Create a Quarto book in French
 rtoqmd_dir(
@@ -184,18 +190,26 @@ rtoqmd_dir(
   book_title = "Documentation des Scripts R",
   language = "fr"
 )
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Convert with custom author and title prefix
 rtoqmd_dir("path/to/scripts", 
            title_prefix = "Analysis: ",
            author = "Data Team")
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Exclude certain files (e.g., test files)
 rtoqmd_dir("path/to/scripts", 
            exclude_pattern = "test_.*\\.R$")
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Non-recursive (only current directory)
 rtoqmd_dir("path/to/scripts", recursive = FALSE)
+#> ✖ Directory does not exist: path/to/scripts
+#> Error: Directory does not exist: path/to/scripts
 
 # Reproducible example with sample scripts
 example_dir <- system.file("examples", "book_example", package = "quartify")
@@ -207,5 +221,27 @@ if (example_dir != "") {
     open_html = TRUE
   )
 }
-} # }
+#> 
+#> ── Converting R Scripts to Quarto Markdown ─────────────────────────────────────
+#> ℹ Searching directory: /home/runner/work/_temp/Library/quartify/examples/book_example
+#> ℹ Recursive: TRUE
+#> ✔ Found 3 R scripts to convert
+#> 
+#> ── Converting files... ──
+#> 
+#> ✔ Quarto markdown file created: /home/runner/work/_temp/Library/quartify/examples/book_example/analysis/visualization.qmd
+#> ✔ Quarto markdown file created: /home/runner/work/_temp/Library/quartify/examples/book_example/script1.qmd
+#> ✔ Quarto markdown file created: /home/runner/work/_temp/Library/quartify/examples/book_example/script2.qmd
+#> 
+#> ── Conversion Summary ──
+#> 
+#> ✔ Successfully converted: 3 files
+#> 
+#> ── Creating Quarto Book ──
+#> 
+#> ✔ Created: /home/runner/work/_temp/Library/quartify/examples/book_example/index.qmd
+#> ✔ Created: /home/runner/work/_temp/Library/quartify/examples/book_example/_quarto.yml
+#> ℹ Rendering Quarto book...
+#> ✖ Failed to render book: Quarto command-line tools path not found! 
+# }
 ```

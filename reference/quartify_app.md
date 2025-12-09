@@ -1,10 +1,8 @@
-# Launch Quartify Shiny Interface
+# Launch Quartify Standalone Application
 
-Opens the Quartify conversion interface in your default web browser.
-This function provides the same interface as the RStudio add-in but
-works in any R environment including Positron, VS Code, RStudio, or
-command line. Unlike the add-in, this function requires you to manually
-select input files using the file browser in the interface.
+Standalone Shiny application for converting R scripts to Quarto markdown
+documents. Works in any R environment (RStudio, Positron, VS Code, etc.)
+without requiring the RStudio API.
 
 ## Usage
 
@@ -16,16 +14,16 @@ quartify_app(launch.browser = TRUE, port = NULL)
 
 - launch.browser:
 
-  Logical, whether to open in browser (default: TRUE). Set to FALSE to
-  run in RStudio Viewer pane if available.
+  Logical, whether to launch browser (default: TRUE)
 
 - port:
 
-  The port to run the app on (default: random available port)
+  Integer, port number for the application (default: NULL for random
+  port)
 
 ## Value
 
-Invisibly returns NULL when the app is closed
+No return value, called for side effects (launches a Shiny application).
 
 ## Examples
 

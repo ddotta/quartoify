@@ -68,6 +68,13 @@
 <p><code>quartify</code> is an R package that automatically converts R scripts into Quarto markdown documents (.qmd).</p>
 <p>The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through <a href="https://docs.posit.co/ide/user/ide/guide/code/code-sections.html" class="external-link">RStudio code sections</a>. It recognizes the standard RStudio code section syntax (<code>####</code>, <code>====</code>, <code>----</code>) to create properly indented navigation structures.</p>
 <div class="section level3">
+<h3 id="differences-with-knitrspin-and-quarto-render-scripts">Differences with knitr::spin() and Quarto render-scripts<a class="anchor" aria-label="anchor" href="#differences-with-knitrspin-and-quarto-render-scripts"></a>
+</h3>
+<p><a href="https://yihui.org/knitr/demo/stitch/#spin" class="external-link">knitr::spin()</a> and Quarto’s <a href="https://quarto.org/docs/computations/render-scripts.html" class="external-link">render-scripts feature</a> both allow rendering R scripts, but they require inserting Markdown structure directly into comments (<code>#'</code>, headers, chunk options, etc.).</p>
+<p><strong>quartify takes a different philosophy</strong>: it imposes no Markdown syntax in comments and works on completely standard R scripts. Comments remain comments, code remains code.</p>
+<p>The goal is to keep clean, conventional scripts while making them convertible to .qmd — and when multiple scripts are selected, to automatically assemble them into a structured Quarto book without any source code rewriting.</p>
+</div>
+<div class="section level3">
 <h3 id="use-cases">Use Cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
 </h3>
 <p>If you have a working R script that contains comments, you may want to generate a Quarto document from this script that will allow you to automatically produce displayable HTML documentation. This is particularly useful for:</p>
@@ -112,6 +119,10 @@
 <strong>Source line numbers</strong>: Optionally display original line numbers from the R script in code chunks for traceability</li>
 <li>
 <strong>Code quality integration</strong>: Optional integration with <a href="https://styler.r-lib.org/" class="external-link">styler</a> and <a href="https://lintr.r-lib.org/" class="external-link">lintr</a> to show code formatting suggestions and quality issues in interactive tabsets</li>
+<li>
+<strong>RStudio snippets support</strong>: Quick metadata and structure insertion using customizable code snippets</li>
+<li>
+<strong>Special features</strong>: Support for Mermaid diagrams, callouts (note, tip, warning, etc.), and tabsets for organizing content</li>
 <li>
 <strong>Output directory customization</strong>: Specify custom output directories for book generation (defaults to <code>_book</code>)</li>
 <li>
@@ -299,7 +310,7 @@
 <h3 id="in-shiny-apps">In Shiny Apps<a class="anchor" aria-label="anchor" href="#in-shiny-apps"></a>
 </h3>
 <p>All three Shiny applications (<code><a href="reference/rtoqmd_addin.html">rtoqmd_addin()</a></code>, <code><a href="reference/quartify_app.html">quartify_app()</a></code>, and <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code>) include checkboxes for these options in the interface.</p>
-<p>📖 <strong>For detailed information</strong>, see the <a href="inst/examples/CODE_QUALITY_README.html">Code Quality Guide</a> and the <a href="https://ddotta.github.io/quartify/">package vignettes</a>.</p>
+<p>📖 <strong>For detailed information</strong>, see: - <a href="inst/examples/CODE_QUALITY_README.html">Code Quality Guide</a> - <a href="https://ddotta.github.io/quartify/articles/advanced-features.html">Advanced Features Vignette</a> - Complete guide with examples - <a href="https://ddotta.github.io/quartify/">Package vignettes</a></p>
 </div>
 </div>
 <div class="section level2">
