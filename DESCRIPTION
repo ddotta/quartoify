@@ -5,7 +5,7 @@ Version: 0.0.8
 Authors@R: c(
     person("Damien", "Dotta", , "damien.dotta@live.fr", role = c("aut", "cre", "cph"))
     )
-Description: Converts R scripts (.R) into Quarto markdown documents (.qmd) with
+Description: Converts R scripts (.R) into 'Quarto' markdown documents (.qmd) with
     automatic formatting. Recognizes 'RStudio' code sections, preserves comments as
     narrative text, extracts metadata from special comments, and provides both
     programmatic functions and an interactive 'RStudio' add-in for easy conversion.

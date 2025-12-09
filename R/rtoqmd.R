@@ -93,15 +93,16 @@
 #' @importFrom cli cli_alert_success cli_alert_info cli_alert_danger cli_alert_warning
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Use example file included in package
 #' example_file <- system.file("examples", "example.R", package = "quartify")
 #' 
-#' # Convert and render to HTML
-#' rtoqmd(example_file, "output.qmd")
+#' # Convert and render to HTML (output in temp directory)
+#' output_qmd <- file.path(tempdir(), "output.qmd")
+#' rtoqmd(example_file, output_qmd)
 #' 
 #' # Convert only, without rendering
-#' rtoqmd(example_file, "output.qmd", render_html = FALSE)
+#' rtoqmd(example_file, output_qmd, render_html = FALSE)
 #' 
 #' # Example with metadata in the R script:
 #' # Create a script with metadata
@@ -117,7 +118,8 @@
 #' ), script_with_metadata)
 #' 
 #' # Convert - metadata will override function parameters
-#' rtoqmd(script_with_metadata, "output_with_metadata.qmd")
+#' output_meta <- file.path(tempdir(), "output_with_metadata.qmd")
+#' rtoqmd(script_with_metadata, output_meta)
 #' 
 #' # Example with code quality checks (requires styler and lintr packages)
 #' script_with_style_issues <- tempfile(fileext = ".R")
@@ -131,10 +133,12 @@
 #' ), script_with_style_issues)
 #' 
 #' # Convert with styler formatting
-#' rtoqmd(script_with_style_issues, "output_styled.qmd", use_styler = TRUE)
+#' output_styled <- file.path(tempdir(), "output_styled.qmd")
+#' rtoqmd(script_with_style_issues, output_styled, use_styler = TRUE)
 #' 
 #' # Convert with both styler and lintr
-#' rtoqmd(script_with_style_issues, "output_quality.qmd", 
+#' output_quality <- file.path(tempdir(), "output_quality.qmd")
+#' rtoqmd(script_with_style_issues, output_quality, 
 #'        use_styler = TRUE, use_lintr = TRUE)
 #' }
 
@@ -825,7 +829,7 @@ rtoqmd <- function(input_file, output_file = NULL,
   
   # Render to HTML if requested
   if (render_html) {
-    cat("Rendering Quarto document to HTML...\n")
+    message("Rendering Quarto document to HTML...")
     
     # Check if quarto is available
     quarto_available <- tryCatch({
@@ -918,7 +922,7 @@ rtoqmd <- function(input_file, output_file = NULL,
         cli::cli_alert_info("Command: quarto {paste(render_args, collapse = ' ')}")
         if (length(result) > 0) {
           cli::cli_alert_info("Output:")
-          cat(paste(result, collapse = "\n"), "\n")
+          message(paste(result, collapse = "\n"))
         }
         return(invisible(NULL))
       }

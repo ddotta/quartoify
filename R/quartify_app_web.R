@@ -1,8 +1,13 @@
+#' Launch Quartify Web Application
+#'
+#' Web-deployable Shiny application with file upload/download capabilities
+#' for converting R scripts to Quarto markdown documents. Suitable for deployment
+#' on Shiny Server, ShinyApps.io, or other web hosting platforms.
 #'
 #' @param launch.browser Logical, whether to launch browser (default: TRUE)
 #' @param port Integer, port number for the application (default: NULL for random port)
 #'
-#' @return Invisible NULL
+#' @return No return value, called for side effects (launches a Shiny application).
 #' @export
 #'
 #' @examples

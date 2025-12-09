@@ -91,7 +91,7 @@ See \code{\link{rtoqmd}} for details on callout syntax and metadata detection.
 Existing .qmd and .html files will be automatically overwritten during generation to ensure fresh output.
 }
 \examples{
-\dontrun{
+\donttest{
 # Convert all R scripts in a directory
 rtoqmd_dir("path/to/scripts")
 

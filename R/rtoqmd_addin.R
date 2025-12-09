@@ -3,6 +3,8 @@
 #' RStudio add-in that converts the currently active R script in the editor
 #' to a Quarto markdown document. Uses a Shiny interface for parameter input.
 #'
+#' @return No return value, called for side effects (launches an interactive Shiny gadget).
+#'
 #' @importFrom shiny runGadget stopApp observeEvent reactive req textInput checkboxInput actionButton renderText reactiveVal tags
 #' @importFrom miniUI miniPage gadgetTitleBar miniContentPanel miniTitleBarButton miniTitleBarCancelButton
 #' @importFrom base64enc base64encode

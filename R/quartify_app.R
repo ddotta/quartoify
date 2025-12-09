@@ -1,3 +1,27 @@
+#' Launch Quartify Standalone Application
+#'
+#' Standalone Shiny application for converting R scripts to Quarto markdown documents.
+#' Works in any R environment (RStudio, Positron, VS Code, etc.) without requiring
+#' the RStudio API.
+#'
+#' @param launch.browser Logical, whether to launch browser (default: TRUE)
+#' @param port Integer, port number for the application (default: NULL for random port)
+#'
+#' @return No return value, called for side effects (launches a Shiny application).
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Launch the Shiny app in browser (works in any IDE)
+#' quartify_app()
+#' 
+#' # Use in Positron or VS Code
+#' library(quartify)
+#' quartify_app()
+#' 
+#' # Specify a port
+#' quartify_app(port = 3838)
+#' }
 quartify_app <- function(launch.browser = TRUE, port = NULL) {
   
   # Get resources for UI
