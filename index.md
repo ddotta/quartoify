@@ -104,13 +104,16 @@ devtools::install_github("ddotta/quartify")
 
 ### **→ <https://quartify.lab.sspcloud.fr/> ←**
 
-The web version allows you to: - ✅ Upload **one or multiple R scripts**
-directly from your computer **OR select a directory** containing R
-scripts for batch conversion - ✅ **Create Quarto Books** automatically
-from multiple files with navigation structure - ✅ Configure conversion
-options (title, author, theme, book creation, etc.) - ✅ Download
-generated .qmd and .html files (or .zip archive for batch mode) - ✅ No
-R installation required!
+The web version allows you to:  
+- ✅ Upload **one or multiple R scripts** directly from your computer
+**OR select a directory** containing R scripts for batch conversion  
+- ✅ **Create Quarto Books** automatically from multiple files with
+navigation structure  
+- ✅ Configure conversion options (title, author, theme, book creation,
+etc.)  
+- ✅ Download generated .qmd and .html files (or .zip archive for batch
+mode)  
+- ✅ No R installation required!
 
 ------------------------------------------------------------------------
 
@@ -126,14 +129,17 @@ library(quartify)
 quartify_app()  # Opens in your default web browser
 ```
 
-This launches a browser-based interface where you can: - Convert **one
-or multiple files** OR an entire **directory** of R scripts - **Create
-Quarto Books** with automatic navigation (enabled by default for
-directories) - Select custom **output directory** for book generation -
-Select input files/directories using a file browser - Choose output file
-location for individual files - Customize document title, author, and
-theme - Toggle rendering and display options - Switch between
-English/French interface
+This launches a browser-based interface where you can:  
+- Convert **one or multiple files** OR an entire **directory** of R
+scripts  
+- **Create Quarto Books** with automatic navigation (enabled by default
+for directories)  
+- Select custom **output directory** for book generation  
+- Select input files/directories using a file browser  
+- Choose output file location for individual files  
+- Customize document title, author, and theme  
+- Toggle rendering and display options  
+- Switch between English/French interface
 
 **Perfect for users of Positron, VS Code, or any IDE that supports R!**
 
@@ -142,7 +148,8 @@ English/French interface
 If you use RStudio, you can also access the same interface through:
 
 1.  Open your R script in RStudio
-2.  Go to **Addins** menu → **Convert R Script to Quarto**
+2.  Go to **Addins** menu → **Quartify** → **Convert R Script to
+    Quarto**
 3.  A dialog window will appear with the same options as the standalone
     app
 4.  Click **GENERATE** to convert your script
@@ -288,12 +295,13 @@ and
 [`quartify_app_web()`](https://ddotta.github.io/quartify/reference/quartify_app_web.md))
 include checkboxes for these options in the interface.
 
-📖 **For detailed information**, see: - [Code Quality
-Guide](https://ddotta.github.io/quartify/inst/examples/CODE_QUALITY_README.md) -
-[Advanced Features
+📖 **For detailed information**, see:  
+- [Code Quality
+Guide](https://ddotta.github.io/quartify/inst/examples/CODE_QUALITY_README.md)  
+- [Advanced Features
 Vignette](https://ddotta.github.io/quartify/articles/advanced-features.html) -
-Complete guide with examples - [Package
-vignettes](https://ddotta.github.io/quartify/)
+Complete guide with examples  
+- [Package vignettes](https://ddotta.github.io/quartify/)
 
 ## Source R script format
 
@@ -350,8 +358,10 @@ at the beginning:
 - **Date**: `# Date : YYYY-MM-DD`
 - **Description**: `# Description : Your description`
 
-**💡 RStudio Snippet:** Create a snippet for quick metadata insertion
-(Tools \> Edit Code Snippets \> R):
+**💡 RStudio Snippet:** Use
+[`install_quartify_snippets()`](https://ddotta.github.io/quartify/reference/install_quartify_snippets.md)
+function to install quartify’s snippets or create a snippet for quick
+metadata insertion (Tools \> Edit Code Snippets \> R):
 
     snippet header
         # Title : ${1}

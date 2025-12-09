@@ -215,13 +215,13 @@ example_file <- system.file("examples", "example.R", package = "quartify")
 # Convert and render to HTML (output in temp directory)
 output_qmd <- file.path(tempdir(), "output.qmd")
 rtoqmd(example_file, output_qmd)
-#> ✔ Quarto markdown file created: /tmp/Rtmp0kYP91/output.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpmJgVxg/output.qmd
 #> Rendering Quarto document to HTML...
-#> ✔ HTML file created: /tmp/Rtmp0kYP91/output.html
+#> ✔ HTML file created: /tmp/RtmpmJgVxg/output.html
 
 # Convert only, without rendering
 rtoqmd(example_file, output_qmd, render_html = FALSE)
-#> ✔ Quarto markdown file created: /tmp/Rtmp0kYP91/output.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpmJgVxg/output.qmd
 
 # Example with metadata in the R script:
 # Create a script with metadata
@@ -239,9 +239,9 @@ writeLines(c(
 # Convert - metadata will override function parameters
 output_meta <- file.path(tempdir(), "output_with_metadata.qmd")
 rtoqmd(script_with_metadata, output_meta)
-#> ✔ Quarto markdown file created: /tmp/Rtmp0kYP91/output_with_metadata.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpmJgVxg/output_with_metadata.qmd
 #> Rendering Quarto document to HTML...
-#> ✔ HTML file created: /tmp/Rtmp0kYP91/output_with_metadata.html
+#> ✔ HTML file created: /tmp/RtmpmJgVxg/output_with_metadata.html
 
 # Example with code quality checks (requires styler and lintr packages)
 script_with_style_issues <- tempfile(fileext = ".R")
@@ -257,16 +257,16 @@ writeLines(c(
 # Convert with styler formatting
 output_styled <- file.path(tempdir(), "output_styled.qmd")
 rtoqmd(script_with_style_issues, output_styled, use_styler = TRUE)
-#> ✔ Quarto markdown file created: /tmp/Rtmp0kYP91/output_styled.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpmJgVxg/output_styled.qmd
 #> Rendering Quarto document to HTML...
-#> ✔ HTML file created: /tmp/Rtmp0kYP91/output_styled.html
+#> ✔ HTML file created: /tmp/RtmpmJgVxg/output_styled.html
 
 # Convert with both styler and lintr
 output_quality <- file.path(tempdir(), "output_quality.qmd")
 rtoqmd(script_with_style_issues, output_quality, 
        use_styler = TRUE, use_lintr = TRUE)
-#> ✔ Quarto markdown file created: /tmp/Rtmp0kYP91/output_quality.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpmJgVxg/output_quality.qmd
 #> Rendering Quarto document to HTML...
-#> ✔ HTML file created: /tmp/Rtmp0kYP91/output_quality.html
+#> ✔ HTML file created: /tmp/RtmpmJgVxg/output_quality.html
 # }
 ```

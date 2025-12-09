@@ -22,7 +22,6 @@ demandez peut-être en quoi `quartify` diffère :
 |------------------------------|---------------------------|-------------------------------|
 | **Format de sortie**         | R Markdown (.Rmd)         | Quarto (.qmd)                 |
 | **Syntaxe texte**            | `#'` pour markdown        | `#` (commentaires R naturels) |
-| **Options de chunk**         | Préfixe `#+`              | Sections de code RStudio      |
 | **Fonctionnalités modernes** | Limité à R Markdown       | Toutes les capacités Quarto   |
 | **Encadrés**                 | HTML/CSS manuel           | Callouts Quarto natifs        |
 | **Diagrammes**               | Outils externes           | Support Mermaid natif         |
@@ -31,8 +30,7 @@ demandez peut-être en quoi `quartify` diffère :
 **Pourquoi choisir quartify ?**
 
 1.  **Écosystème Quarto Moderne** : Bénéficiez des fonctionnalités de
-    nouvelle génération de Quarto (callouts, tabsets, références
-    croisées, Observable JS, etc.)
+    nouvelle génération de Quarto (callouts, tabsets, etc.)
 2.  **Scripts R Plus Propres** : Utilisez des commentaires R naturels
     sans syntaxe spéciale `#'` ou `#+` - vos scripts restent lisibles
     comme du code R autonome
@@ -69,8 +67,10 @@ rtoqmd("mon_script.R", "mon_document.qmd", render = FALSE)
 
 Par défaut,
 [`rtoqmd()`](https://ddotta.github.io/quartify/reference/rtoqmd.md) va
-: 1. Créer le fichier .qmd 2. Le générer en HTML avec Quarto 3. Ouvrir
-le fichier HTML dans votre navigateur (si `open_html = TRUE`)
+:  
+1. Créer le fichier .qmd  
+2. Le générer en HTML avec Quarto  
+3. Ouvrir le fichier HTML dans votre navigateur (si `open_html = TRUE`)
 
 ### Emplacement des fichiers de sortie
 
@@ -278,8 +278,9 @@ L’application autonome peut être déployée pour un accès en équipe :
 
 ``` r
 # Exécuter sur un port spécifique accessible à votre réseau
-shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"), 
-              host = "0.0.0.0", port = 3838)
+shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"),
+  host = "0.0.0.0", port = 3838
+)
 ```
 
 **RStudio Connect / Shiny Server :** Déployer comme une application
@@ -631,7 +632,7 @@ Cela sera rendu comme :
 
 ```` markdown
 ``` r
-iris %>% 
+iris %>%
   # Sélectionner une colonne
   select(Species)
 ```
@@ -776,7 +777,7 @@ Counting the number of observations by species
 
 
 ``` r
-iris |> 
+iris |>
   count(Species)
 ```
 
@@ -786,7 +787,7 @@ Filter the data.frame on Species "setosa"
 
 
 ``` r
-iris |> 
+iris |>
   filter(Species == "setosa")
 ```
 
@@ -796,7 +797,7 @@ Select column Species
 
 
 ``` r
-iris %>% 
+iris %>%
   # Select a column
   select(Species)
 ```
@@ -933,8 +934,9 @@ Pour les environnements sans accès direct au système de fichiers :
 quartify_app_web()
 ```
 
-En mode batch, vous pouvez : - **Télécharger plusieurs fichiers R** en
-même temps - **Sélectionner un répertoire** contenant vos scripts R
+En mode batch, vous pouvez :  
+- **Télécharger plusieurs fichiers R** en même temps  
+- **Sélectionner un répertoire** contenant vos scripts R
 
 L’interface convertira tous les fichiers et fournira une archive .zip
 téléchargeable.
@@ -954,13 +956,15 @@ rtoqmd_dir("chemin/vers/scripts")
 rtoqmd_dir("chemin/vers/scripts", render = TRUE)
 
 # Avec auteur personnalisé et préfixe de titre
-rtoqmd_dir("chemin/vers/scripts", 
-           title_prefix = "Analyse : ",
-           author = "Équipe Data")
+rtoqmd_dir("chemin/vers/scripts",
+  title_prefix = "Analyse : ",
+  author = "Équipe Data"
+)
 
 # Exclure certains fichiers (ex : fichiers de test)
-rtoqmd_dir("chemin/vers/scripts", 
-           exclude_pattern = "test_.*\\.R$")
+rtoqmd_dir("chemin/vers/scripts",
+  exclude_pattern = "test_.*\\.R$"
+)
 
 # Non récursif (seulement le répertoire courant)
 rtoqmd_dir("chemin/vers/scripts", recursive = FALSE)
@@ -1482,9 +1486,10 @@ Le paramètre `use_lintr` effectue des vérifications de qualité du code :
 
 ``` r
 # Convertir avec styler et lintr
-rtoqmd(temp_script, "sortie_qualite.qmd", 
-       use_styler = TRUE, 
-       use_lintr = TRUE)
+rtoqmd(temp_script, "sortie_qualite.qmd",
+  use_styler = TRUE,
+  use_lintr = TRUE
+)
 ```
 
 Les tabsets incluront : - **Original Code** : Votre code - **Styled
@@ -1498,9 +1503,10 @@ source :
 
 ``` r
 # Ceci modifiera le fichier R original
-rtoqmd("mon_script.R", "sortie.qmd", 
-       use_styler = TRUE, 
-       apply_styler = TRUE)
+rtoqmd("mon_script.R", "sortie.qmd",
+  use_styler = TRUE,
+  apply_styler = TRUE
+)
 ```
 
 **Attention :** `apply_styler = TRUE` modifie votre fichier de script R
@@ -1512,13 +1518,15 @@ avant d’utiliser cette option.
 Essayez l’exemple inclus :
 
 ``` r
-fichier_exemple <- system.file("examples", "example_code_quality.R", 
-                              package = "quartify")
-rtoqmd(fichier_exemple, "demo_qualite.qmd", 
-       use_styler = TRUE, 
-       use_lintr = TRUE,
-       render_html = TRUE,
-       open_html = TRUE)
+fichier_exemple <- system.file("examples", "example_code_quality.R",
+  package = "quartify"
+)
+rtoqmd(fichier_exemple, "demo_qualite.qmd",
+  use_styler = TRUE,
+  use_lintr = TRUE,
+  render_html = TRUE,
+  open_html = TRUE
+)
 ```
 
 ## Conseils et bonnes pratiques

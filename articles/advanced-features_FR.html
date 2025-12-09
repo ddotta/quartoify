@@ -63,7 +63,7 @@
       <h1>Fonctionnalités avancées</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.9/vignettes/advanced-features_FR.Rmd" class="external-link"><code>vignettes/advanced-features_FR.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/vignettes/advanced-features_FR.Rmd" class="external-link"><code>vignettes/advanced-features_FR.Rmd</code></a></small>
       <div class="d-none name"><code>advanced-features_FR.Rmd</code></div>
     </div>
 
@@ -269,227 +269,295 @@ inclut des sections pour chaque sous-répertoire.</p>
 <div class="section level2">
 <h2 id="intégration-de-la-qualité-du-code">Intégration de la qualité du code<a class="anchor" aria-label="anchor" href="#int%C3%A9gration-de-la-qualit%C3%A9-du-code"></a>
 </h2>
-<p><code>quartify</code> s’intègre avec <code>styler</code> et
-<code>lintr</code> pour aider à améliorer la qualité de votre code R.
-Cette fonctionnalité vous permet de :</p>
+<p><code>quartify</code> s’intègre avec <strong>styler</strong> et
+<strong>lintr</strong> pour fournir des vérifications automatiques de la
+qualité du code et des suggestions de formatage directement dans votre
+documentation générée. Ceci est particulièrement utile pour :</p>
 <ul>
 <li>
-<strong>Visualiser les problèmes de style</strong> avec des onglets
-comparant le code original et stylisé</li>
+<strong>Matériel pédagogique</strong> : Montrez aux étudiants à la
+fois le code original et le code correctement formaté</li>
 <li>
-<strong>Voir les problèmes de qualité</strong> détectés par
-lintr</li>
+<strong>Revue de code</strong> : Identifiez automatiquement les
+problèmes de style dans la documentation</li>
 <li>
-<strong>Appliquer automatiquement le formatage</strong> à vos
-fichiers source</li>
+<strong>Meilleures pratiques</strong> : Apprenez le guide de style
+tidyverse par l’exemple</li>
+<li>
+<strong>Contrôle qualité</strong> : Assurez un style de code
+cohérent dans tous les projets</li>
 </ul>
+<div class="section level3">
+<h3 id="aperçu-des-fonctionnalités">Aperçu des fonctionnalités<a class="anchor" aria-label="anchor" href="#aper%C3%A7u-des-fonctionnalit%C3%A9s"></a>
+</h3>
+<ul>
+<li>
+<strong><code>use_styler = TRUE</code></strong> : Affiche le code
+formaté selon le <a href="https://style.tidyverse.org/" class="external-link">guide de style
+tidyverse</a>
+</li>
+<li>
+<strong><code>use_lintr = TRUE</code></strong> : Identifie les
+problèmes de qualité du code et les problèmes potentiels</li>
+<li>
+<strong><code>apply_styler = TRUE</code></strong> : Applique
+directement le formatage à votre script R original (⚠️ modifie le
+fichier source)</li>
+</ul>
+<p>Lorsque des problèmes de qualité sont détectés, <code>quartify</code>
+crée des <strong>tabsets interactifs</strong> dans la sortie HTML avec
+:</p>
+<ul>
+<li>
+<strong>Code original</strong> : Votre code tel qu’écrit</li>
+<li>
+<strong>Code stylisé</strong> : Version formatée (affiché uniquement
+si des changements sont nécessaires)</li>
+<li>
+<strong>Problèmes Lint</strong> : Avertissements de qualité (affiché
+uniquement si des problèmes sont trouvés)</li>
+</ul>
+<p><strong>Tabsets intelligents</strong> : Les tabsets ne sont créés que
+lorsque nécessaire. S’il n’y a pas de changements de style ou de
+problèmes lint, vous obtenez un chunk de code régulier (pas de
+tabset).</p>
+</div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>Les packages de qualité du code sont optionnels. Installez-les
-uniquement si vous souhaitez utiliser ces fonctionnalités :</p>
+<p>Les fonctionnalités de qualité du code nécessitent des dépendances
+optionnelles :</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Pour le formatage du code</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"styler"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Pour les vérifications de qualité</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"lintr"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Les deux</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"styler"</span>, <span class="st">"lintr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"styler"</span>, <span class="st">"lintr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Ces packages ne sont chargés que lorsque vous utilisez les
+fonctionnalités de qualité du code.</p>
 </div>
 <div class="section level3">
 <h3 id="utilisation-de-base">Utilisation de base<a class="anchor" aria-label="anchor" href="#utilisation-de-base"></a>
 </h3>
 <div class="section level4">
-<h4 id="via-linterface-shiny-addin-ou-app">Via l’interface Shiny (addin ou app)<a class="anchor" aria-label="anchor" href="#via-linterface-shiny-addin-ou-app"></a>
-</h4>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Lancez l’interface</strong> : Utilisez l’addin RStudio ou
-<code><a href="../reference/quartify_app.html">quartify_app()</a></code>
-</li>
-<li>
-<strong>Sélectionnez votre script</strong> : Choisissez le fichier R
-à convertir</li>
-<li>
-<strong>Activez les vérifications de qualité</strong> :
-<ul>
-<li>☑️ <strong>Use styler</strong> : Affiche une version formatée dans
-des onglets</li>
-<li>☑️ <strong>Use lintr</strong> : Affiche les problèmes de qualité
-dans des onglets</li>
-<li>☑️ <strong>Apply styler</strong> : Modifie le fichier R original
-avec le formatage styler</li>
-</ul>
-</li>
-<li><strong>Cliquez sur GENERATE</strong></li>
-</ol>
-</div>
-<div class="section level4">
-<h4 id="par-programmation">Par programmation<a class="anchor" aria-label="anchor" href="#par-programmation"></a>
+<h4 id="afficher-les-suggestions-de-style">Afficher les suggestions de style<a class="anchor" aria-label="anchor" href="#afficher-les-suggestions-de-style"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Avec vérifications styler et lintr (affiche les onglets)</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span></span>
-<span>  input_file <span class="op">=</span> <span class="st">"mon_script.R"</span>,</span>
-<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  use_lintr <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Appliquer styler au fichier source (modifie l'original)</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span></span>
-<span>  input_file <span class="op">=</span> <span class="st">"mon_script.R"</span>,</span>
-<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  apply_styler <span class="op">=</span> <span class="cn">TRUE</span>  <span class="co"># ATTENTION : Modifie le fichier R !</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Afficher le code stylisé dans des tabsets</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"script.R"</span>, <span class="st">"output.qmd"</span>, </span>
+<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       render_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Cela génère des tabsets montrant à la fois le code original et le
+code stylisé côte à côte.</p>
+</div>
+<div class="section level4">
+<h4 id="afficher-les-problèmes-lint">Afficher les problèmes Lint<a class="anchor" aria-label="anchor" href="#afficher-les-probl%C3%A8mes-lint"></a>
+</h4>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Afficher les problèmes de qualité du code</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"script.R"</span>, <span class="st">"output.qmd"</span>, </span>
+<span>       use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       render_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Cela ajoute un onglet “Problèmes Lint” avec des retours de qualité
+détaillés.</p>
+</div>
+<div class="section level4">
+<h4 id="vérifications-de-qualité-combinées">Vérifications de qualité combinées<a class="anchor" aria-label="anchor" href="#v%C3%A9rifications-de-qualit%C3%A9-combin%C3%A9es"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Afficher à la fois le style et les problèmes lint</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"script.R"</span>, <span class="st">"output.qmd"</span>,</span>
+<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       render_html <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       open_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Cela crée des rapports de qualité complets avec trois onglets : 1.
+Code original 2. Code stylisé 3. Problèmes Lint</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="fonctionnement">Fonctionnement<a class="anchor" aria-label="anchor" href="#fonctionnement"></a>
+<h3 id="application-de-styles-aux-fichiers-sources">Application de styles aux fichiers sources<a class="anchor" aria-label="anchor" href="#application-de-styles-aux-fichiers-sources"></a>
 </h3>
-<p>Lorsque les vérifications de qualité du code sont activées :</p>
-<div class="section level4">
-<h4 id="mode-styler-use_styler-true">1. Mode styler (use_styler = TRUE)<a class="anchor" aria-label="anchor" href="#mode-styler-use_styler-true"></a>
-</h4>
-<p>Crée des onglets dans le document Quarto :</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>::: {.panel-tabset}</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">## Original Code</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Votre code non formaté</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>x<span class="ot">=</span><span class="dv">3</span>;y<span class="ot">&lt;-</span><span class="dv">5</span></span></code></pre></div>
+<div class="alert alert-warning">
+<p><strong>⚠️ Avertissement</strong> : <code>apply_styler = TRUE</code>
+<strong>modifie votre fichier de script R original</strong>. Utilisez
+toujours le contrôle de version ou créez des sauvegardes avant
+d’utiliser cette option.</p>
 </div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="styled-code">Styled Code<a class="anchor" aria-label="anchor" href="#styled-code"></a>
-</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Code formaté par styler</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></code></pre></div>
-<p>:::</p>
-<pre><code>
-#### 2. Mode lintr (use_lintr = TRUE)
-
-Ajoute une section avec les problèmes détectés :
-
-```markdown
-::: {.callout-warning collapse="true"}
-## Code Quality Issues
-
-- Line 5: Use &lt;-, not =, for assignment
-- Line 12: Lines should not be more than 80 characters
-- Line 23: Variable names should use snake_case
-:::</code></pre>
-<div class="section level4">
-<h4 id="mode-apply_styler-apply_styler-true">3. Mode apply_styler (apply_styler = TRUE)<a class="anchor" aria-label="anchor" href="#mode-apply_styler-apply_styler-true"></a>
-</h4>
-<p>⚠️ <strong>IMPORTANT</strong> : Ce mode <strong>modifie votre fichier
-R original</strong>.</p>
-<ul>
-<li>Le fichier source est reformaté avec les règles de styler</li>
-<li>Les onglets comparatifs ne sont PAS affichés (le code est déjà
-stylisé)</li>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Appliquer le style directement au fichier source</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"output.qmd"</span>,</span>
+<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       apply_styler <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Important</strong> : Quand <code>apply_styler = TRUE</code>
+:</p>
+<ol style="list-style-type: decimal">
+<li>Votre fichier R source est modifié avant la conversion</li>
+<li>Aucun tabset n’est créé (le source est déjà stylisé)</li>
 <li>
-<strong>Recommandation</strong> : Utilisez le contrôle de version
-(git) avant d’utiliser cette option</li>
+<code>use_styler</code> doit également être TRUE</li>
+<li>La conversion utilise le fichier source stylisé</li>
+</ol>
+<p>Ceci est utile pour :</p>
+<ul>
+<li>Nettoyer le code avant de le valider dans le contrôle de
+version</li>
+<li>Formater plusieurs scripts par lots</li>
+<li>Préparer le code pour publication ou enseignement</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="exemple-de-démonstration">Exemple de démonstration<a class="anchor" aria-label="anchor" href="#exemple-de-d%C3%A9monstration"></a>
+<h3 id="exemple-avec-qualité-du-code">Exemple avec qualité du code<a class="anchor" aria-label="anchor" href="#exemple-avec-qualit%C3%A9-du-code"></a>
 </h3>
-<p>Essayez avec le fichier d’exemple fourni :</p>
+<p>Essayez l’exemple inclus qui démontre les fonctionnalités de qualité
+du code :</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Obtenir le chemin du fichier d'exemple</span></span>
+<code class="sourceCode R"><span><span class="co"># Localiser le fichier d'exemple</span></span>
 <span><span class="va">example_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"example_code_quality.R"</span>, </span>
 <span>                           package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Convertir avec vérifications de qualité</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span></span>
-<span>  input_file <span class="op">=</span> <span class="va">example_file</span>,</span>
-<span>  output_file <span class="op">=</span> <span class="st">"example_with_quality.qmd"</span>,</span>
-<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  render_html <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  open_html <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Le document HTML généré affichera : - Des onglets montrant le code
-original vs stylisé - Une section avertissement avec les problèmes de
-qualité détectés - Tout cela dans un format propre et navigable</p>
+<span><span class="co"># Voir le contenu du fichier pour voir les problèmes de style intentionnels</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/file.show.html" class="external-link">file.show</a></span><span class="op">(</span><span class="va">example_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convertir avec les deux vérifications</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">example_file</span>, <span class="st">"quality_demo.qmd"</span>, </span>
+<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>       use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       render_html <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       open_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Le fichier d’exemple inclut des problèmes de style intentionnels
+:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Voici du code avec des problèmes de style</span></span>
+<span><span class="va">x</span> <span class="op">=</span> <span class="fl">3</span>  <span class="co"># Devrait utiliser &lt;- au lieu de =</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">z</span><span class="op">&lt;-</span><span class="fl">10</span>  <span class="co"># Espaces manquants autour de &lt;-</span></span>
+<span></span>
+<span><span class="co"># Calculer des statistiques</span></span>
+<span><span class="va">mean_value</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="co"># Espaces manquants</span></span>
+<span></span>
+<span><span class="co"># Créer un vecteur avec espacement incohérent</span></span>
+<span><span class="va">my_vector</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="avantages">Avantages<a class="anchor" aria-label="anchor" href="#avantages"></a>
+<h3 id="exemple-de-sortie">Exemple de sortie<a class="anchor" aria-label="anchor" href="#exemple-de-sortie"></a>
+</h3>
+<p>Étant donné du code avec des problèmes de style :</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">=</span> <span class="fl">3</span>  <span class="co"># Devrait utiliser &lt;- au lieu de =</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">z</span><span class="op">&lt;-</span><span class="fl">10</span>  <span class="co"># Espaces manquants</span></span></code></pre></div>
+<p>Avec <code>use_styler = TRUE</code> et <code>use_lintr = TRUE</code>,
+vous verrez un tabset :</p>
+<p><strong>Onglet Code original :</strong></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">=</span> <span class="fl">3</span>  <span class="co"># Devrait utiliser &lt;- au lieu de =</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">z</span><span class="op">&lt;-</span><span class="fl">10</span>  <span class="co"># Espaces manquants</span></span></code></pre></div>
+<p><strong>Onglet Code stylisé :</strong></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">3</span> <span class="co"># Devrait utiliser &lt;- au lieu de =</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fl">10</span> <span class="co"># Espaces manquants</span></span></code></pre></div>
+<p><strong>Onglet Problèmes Lint :</strong> - Ligne 1 : Utilisez
+<code>&lt;-</code> ou <code>&lt;&lt;-</code> pour l’affectation, pas
+<code>=</code>. - Ligne 3 : Mettez des espaces autour de tous les
+opérateurs infixes.</p>
+</div>
+<div class="section level3">
+<h3 id="traitement-par-lots-avec-vérifications-de-qualité">Traitement par lots avec vérifications de qualité<a class="anchor" aria-label="anchor" href="#traitement-par-lots-avec-v%C3%A9rifications-de-qualit%C3%A9"></a>
+</h3>
+<p>Appliquez des vérifications de qualité du code à des répertoires
+entiers :</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Convertir un répertoire avec vérifications de qualité</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span></span>
+<span>  dir_path <span class="op">=</span> <span class="st">"mes_scripts/"</span>,</span>
+<span>  output_html_dir <span class="op">=</span> <span class="st">"documentation/"</span>,</span>
+<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  render_html <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Cela applique les vérifications de qualité du code à chaque script R
+du répertoire.</p>
+</div>
+<div class="section level3">
+<h3 id="utilisation-dans-les-applications-shiny">Utilisation dans les applications Shiny<a class="anchor" aria-label="anchor" href="#utilisation-dans-les-applications-shiny"></a>
+</h3>
+<p>Les trois applications Shiny (<code><a href="../reference/rtoqmd_addin.html">rtoqmd_addin()</a></code>,
+<code><a href="../reference/quartify_app.html">quartify_app()</a></code>, et <code><a href="../reference/quartify_app_web.html">quartify_app_web()</a></code>)
+incluent des cases à cocher pour les options de qualité du code :</p>
+<ul>
+<li>☑️ <strong>Use styler formatting</strong> (affiche la version
+stylisée dans les onglets)</li>
+<li>☑️ <strong>Use lintr quality checks</strong> (affiche les problèmes
+dans les onglets)</li>
+<li>☑️ <strong>Apply styler to source file</strong> (modifie le fichier
+R original) - <em>Non disponible dans la version web</em>
+</li>
+</ul>
+<p>Cochez simplement les options souhaitées avant de cliquer sur
+GENERATE.</p>
+</div>
+<div class="section level3">
+<h3 id="avantages-de-lintégration-de-la-qualité-du-code">Avantages de l’intégration de la qualité du code<a class="anchor" aria-label="anchor" href="#avantages-de-lint%C3%A9gration-de-la-qualit%C3%A9-du-code"></a>
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Amélioration de la qualité du code</strong> :
-<ul>
-<li>Identifie automatiquement les problèmes de style</li>
-<li>Suggère les meilleures pratiques</li>
-<li>Aide à maintenir la cohérence</li>
-</ul>
-</li>
+<strong>Apprendre par l’exemple</strong> : Voyez le style de codage
+R approprié à côté de votre code</li>
 <li>
-<strong>Documentation pédagogique</strong> :
-<ul>
-<li>Montre les différences avant/après</li>
-<li>Explique les problèmes de qualité</li>
-<li>Utile pour l’enseignement et la révision de code</li>
-</ul>
-</li>
+<strong>Revue de code</strong> : Retour de qualité automatique sans
+revue manuelle</li>
 <li>
-<strong>Intégration transparente</strong> :
-<ul>
-<li>Fonctionne avec votre workflow existant</li>
-<li>Génération de documentation automatique</li>
-<li>Aucune configuration supplémentaire nécessaire</li>
-</ul>
-</li>
+<strong>Outil pédagogique</strong> : Parfait pour le matériel
+éducatif et les tutoriels</li>
+<li>
+<strong>Documentation</strong> : Générez du code propre et bien
+stylisé dans la documentation</li>
+<li>
+<strong>Meilleures pratiques</strong> : Appliquez automatiquement le
+guide de style tidyverse</li>
+<li>
+<strong>Cohérence</strong> : Maintenez un style de code uniforme
+dans tous les projets</li>
 </ol>
 </div>
 <div class="section level3">
 <h3 id="configuration">Configuration<a class="anchor" aria-label="anchor" href="#configuration"></a>
 </h3>
-<p>Les vérifications de qualité utilisent les configurations par défaut
-de styler et lintr. Pour personnaliser :</p>
-<div class="section level4">
-<h4 id="styler">Styler<a class="anchor" aria-label="anchor" href="#styler"></a>
-</h4>
-<p>Créez un fichier <code>.Rprofile</code> dans votre projet :</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># .Rprofile</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
-<span>  styler.addins_style_transformer <span class="op">=</span> <span class="st">"styler::tidyverse_style()"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<p>styler et lintr utilisent tous deux leurs configurations par défaut.
+Pour des paramètres personnalisés :</p>
+<ul>
+<li>
+<strong>styler</strong> : Créez un fichier <code>.styler.R</code> à
+la racine de votre projet</li>
+<li>
+<strong>lintr</strong> : Créez un fichier <code>.lintr</code> à la
+racine de votre projet</li>
+</ul>
+<p>Voir leur documentation respective : - <a href="https://styler.r-lib.org/" class="external-link">Documentation styler</a> - <a href="https://lintr.r-lib.org/" class="external-link">Documentation lintr</a></p>
 </div>
-<div class="section level4">
-<h4 id="lintr">Lintr<a class="anchor" aria-label="anchor" href="#lintr"></a>
-</h4>
-<p>Créez un fichier <code>.lintr</code> dans votre projet :</p>
-<pre><code><span><span class="va">linters</span><span class="op">:</span> <span class="fu">with_defaults</span><span class="op">(</span></span>
-<span>  <span class="fu">line_length_linter</span><span class="op">(</span><span class="fl">120</span><span class="op">)</span>,</span>
-<span>  object_name_linter <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre>
-</div>
+<div class="section level3">
+<h3 id="notes-de-performance">Notes de performance<a class="anchor" aria-label="anchor" href="#notes-de-performance"></a>
+</h3>
+<ul>
+<li>Les vérifications de qualité du code ajoutent un temps de traitement
+minimal (typiquement &lt; 1 seconde par chunk)</li>
+<li>Les vérifications ne s’exécutent que lorsque les paramètres sont
+TRUE (par défaut : FALSE)</li>
+<li>Convient aux workflows interactifs et automatisés</li>
+<li>Pour les très grands projets, envisagez la conversion sélective</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="dépannage">Dépannage<a class="anchor" aria-label="anchor" href="#d%C3%A9pannage"></a>
 </h3>
-<p><strong>Problème</strong> : “styler package not found”
-<strong>Solution</strong> : Installez styler avec
-<code>install.packages("styler")</code></p>
-<p><strong>Problème</strong> : “lintr package not found”
-<strong>Solution</strong> : Installez lintr avec
-<code>install.packages("lintr")</code></p>
-<p><strong>Problème</strong> : apply_styler ne modifie pas le fichier
-<strong>Solution</strong> : Vérifiez les permissions du fichier et que
-le fichier n’est pas en lecture seule</p>
-<p><strong>Problème</strong> : Trop de problèmes lintr affichés
-<strong>Solution</strong> : Personnalisez votre configuration
-<code>.lintr</code> pour désactiver les linters spécifiques</p>
+<p><strong>Packages non trouvés :</strong></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"styler"</span><span class="op">)</span>  <span class="co"># Pour le formatage</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"lintr"</span><span class="op">)</span>   <span class="co"># Pour le linting</span></span></code></pre></div>
+<p><strong>Les vérifications échouent pour des chunks spécifiques
+:</strong></p>
+<p>Si les vérifications de qualité du code échouent pour un chunk de
+code particulier, le code original est affiché sans tabset, et un
+avertissement est enregistré. La conversion continue normalement.</p>
 </div>
 </div>
 <div class="section level2">
@@ -498,169 +566,188 @@ le fichier n’est pas en lecture seule</p>
 <div class="section level3">
 <h3 id="diagrammes-mermaid">Diagrammes Mermaid<a class="anchor" aria-label="anchor" href="#diagrammes-mermaid"></a>
 </h3>
-<p>Créez des diagrammes de flux directement dans vos scripts R en
-utilisant des blocs de commentaires :</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#|</span></span>
-<span><span class="co">#| ```{mermaid}</span></span>
-<span><span class="co">#| flowchart LR</span></span>
-<span><span class="co">#|   A[Données brutes] --&gt; B[Nettoyage]</span></span>
-<span><span class="co">#|   B --&gt; C[Analyse]</span></span>
-<span><span class="co">#|   C --&gt; D[Visualisation]</span></span>
-<span><span class="co">#|   D --&gt; E[Rapport]</span></span>
-<span><span class="co">#| ```</span></span></code></pre></div>
-<p>Après conversion, cela génère un vrai diagramme Mermaid dans votre
-document Quarto.</p>
+<p><code>quartify</code> supporte les diagrammes <a href="https://mermaid-js.github.io/" class="external-link">Mermaid</a> dans vos scripts R.
+Utilisez des commentaires spéciaux pour inclure des diagrammes dans
+votre documentation :</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># mermaid-start</span></span>
+<span><span class="co"># graph TD</span></span>
+<span><span class="co">#   A[Début] --&gt; B{Ça fonctionne ?}</span></span>
+<span><span class="co">#   B --&gt;|Oui| C[Super !]</span></span>
+<span><span class="co">#   B --&gt;|Non| D[Déboguer]</span></span>
+<span><span class="co">#   D --&gt; A</span></span>
+<span><span class="co"># mermaid-end</span></span></code></pre></div>
+<p>Cela s’affiche comme un organigramme dans votre document Quarto.</p>
 </div>
 <div class="section level3">
-<h3 id="callouts-encarts">Callouts (Encarts)<a class="anchor" aria-label="anchor" href="#callouts-encarts"></a>
+<h3 id="callouts">Callouts<a class="anchor" aria-label="anchor" href="#callouts"></a>
 </h3>
-<p>Créez des boîtes d’information, d’avertissement ou de note :</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#| ::: {.callout-warning}</span></span>
-<span><span class="co">#| Attention : ceci peut prendre du temps</span></span>
-<span><span class="co">#| :::</span></span>
+<p>Créez des callouts dans vos scripts R en utilisant une syntaxe de
+commentaire spéciale :</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># callout-note - Note importante</span></span>
+<span><span class="co"># Ceci est un callout de note</span></span>
+<span><span class="co"># Il peut s'étendre sur plusieurs lignes</span></span>
 <span></span>
-<span><span class="co">#| ::: {.callout-tip}</span></span>
-<span><span class="co">#| Astuce : utilisez la mise en cache pour de meilleurs performances</span></span>
-<span><span class="co">#| :::</span></span></code></pre></div>
-<p>Types disponibles : <code>note</code>, <code>warning</code>,
-<code>important</code>, <code>tip</code>, <code>caution</code></p>
+<span><span class="co"># callout-warning - Soyez prudent</span></span>
+<span><span class="co"># Ceci est un callout d'avertissement</span></span>
+<span></span>
+<span><span class="co"># callout-tip - Conseil de pro</span></span>
+<span><span class="co"># Ceci est un callout de conseil</span></span></code></pre></div>
+<p>Types de callout supportés : <code>note</code>, <code>warning</code>,
+<code>tip</code>, <code>important</code>, <code>caution</code></p>
 </div>
 <div class="section level3">
-<h3 id="snippets-de-code-inline">Snippets de code inline<a class="anchor" aria-label="anchor" href="#snippets-de-code-inline"></a>
+<h3 id="snippets-rstudio">Snippets RStudio<a class="anchor" aria-label="anchor" href="#snippets-rstudio"></a>
 </h3>
-<p>Incluez de petits extraits de code R inline dans vos commentaires
+<p>Installez des snippets de code utiles pour une écriture de script R
+plus rapide :</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/install_quartify_snippets.html">install_quartify_snippets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Après installation et redémarrage de RStudio, vous pouvez utiliser
 :</p>
-<p>Cela sera évalué et le résultat sera inséré dans le texte.</p>
+<ul>
+<li>
+<strong><code>header</code></strong> + Tab : Insérer un modèle de
+métadonnées de document</li>
+<li>
+<strong><code>callout</code></strong> + Tab : Insérer un modèle de
+callout</li>
+<li>
+<strong><code>mermaid</code></strong> + Tab : Insérer un modèle de
+diagramme Mermaid</li>
+<li>
+<strong><code>tabset</code></strong> + Tab : Insérer un modèle de
+tabset</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
 <h2 id="conseils-et-bonnes-pratiques">Conseils et bonnes pratiques<a class="anchor" aria-label="anchor" href="#conseils-et-bonnes-pratiques"></a>
 </h2>
 <div class="section level3">
-<h3 id="organisation-des-scripts">Organisation des scripts<a class="anchor" aria-label="anchor" href="#organisation-des-scripts"></a>
+<h3 id="structuration-de-vos-scripts">Structuration de vos scripts<a class="anchor" aria-label="anchor" href="#structuration-de-vos-scripts"></a>
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Commencez par des métadonnées</strong> :</li>
-</ol>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' ---</span></span>
-<span><span class="co">#' title: "Mon analyse"</span></span>
-<span><span class="co">#' author: "Votre nom"</span></span>
-<span><span class="co">#' date: "`r Sys.Date()`"</span></span>
-<span><span class="co">#' ---</span></span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
+<strong>Commencez par la structure</strong> : Définissez d’abord vos
+en-têtes de section pour créer le plan du document</li>
 <li>
-<strong>Utilisez des sections claires</strong> :</li>
-</ol>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' # Section principale</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' ## Sous-section</span></span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
+<strong>Utilisez des niveaux cohérents</strong> : Suivez une
+hiérarchie logique (2 → 3 → 4, ne sautez pas de niveaux)</li>
 <li>
-<strong>Commentez abondamment</strong> :</li>
-</ol>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Cette fonction calcule...</span></span>
-<span><span class="co">#' </span></span>
-<span><span class="co">#' @param x Un vecteur numérique</span></span>
-<span><span class="co">#' @return La moyenne de x</span></span>
-<span><span class="va">ma_fonction</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="workflow-recommandé">Workflow recommandé<a class="anchor" aria-label="anchor" href="#workflow-recommand%C3%A9"></a>
-</h3>
-<ol style="list-style-type: decimal">
+<strong>Ajoutez du texte explicatif</strong> : Utilisez des
+commentaires réguliers pour expliquer ce que fait votre code</li>
 <li>
-<strong>Écrivez votre analyse</strong> dans un script R normal</li>
+<strong>Groupez le code connexe</strong> : Gardez les opérations
+liées ensemble</li>
 <li>
-<strong>Ajoutez des commentaires</strong> pour documenter votre
-pensée</li>
-<li>
-<strong>Utilisez des sections</strong> pour organiser le
-contenu</li>
-<li>
-<strong>Convertissez avec quartify</strong> quand vous êtes
-prêt</li>
-<li>
-<strong>Affinez</strong> le document Quarto si nécessaire</li>
-<li>
-<strong>Partagez</strong> le HTML résultant</li>
+<strong>Naviguez facilement</strong> : Dans RStudio, utilisez le
+plan du document (Ctrl+Shift+O) pour voir votre structure</li>
 </ol>
 </div>
 <div class="section level3">
-<h3 id="pour-les-projets-plus-larges">Pour les projets plus larges<a class="anchor" aria-label="anchor" href="#pour-les-projets-plus-larges"></a>
+<h3 id="qualité-du-code">Qualité du code<a class="anchor" aria-label="anchor" href="#qualit%C3%A9-du-code"></a>
 </h3>
-<ul>
-<li>Utilisez le <strong>mode répertoire</strong> pour traiter plusieurs
-scripts</li>
-<li>Créez un <strong>livre Quarto</strong> pour une navigation
-intégrée</li>
-<li>Utilisez <strong>Git</strong> pour le contrôle de version</li>
-<li>Activez les <strong>vérifications de qualité du code</strong> pour
-maintenir la cohérence</li>
-</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>
+<strong>Utilisez les vérifications de qualité du code pour
+l’enseignement</strong> : Activez <code>use_styler</code> et
+<code>use_lintr</code> pour le matériel éducatif</li>
+<li>
+<strong>Apprenez du code stylisé</strong> : Examinez les onglets
+“Code stylisé” pour apprendre les meilleures pratiques</li>
+<li>
+<strong>Corrigez les problèmes de manière incrémentale</strong> :
+Utilisez les retours lint pour améliorer progressivement la qualité du
+code</li>
+<li>
+<strong>Contrôle de version avant apply_styler</strong> : Validez
+toujours avant d’utiliser <code>apply_styler = TRUE</code>
+</li>
+</ol>
 </div>
 <div class="section level3">
-<h3 id="optimisation-des-performances">Optimisation des performances<a class="anchor" aria-label="anchor" href="#optimisation-des-performances"></a>
+<h3 id="conversion-par-lots">Conversion par lots<a class="anchor" aria-label="anchor" href="#conversion-par-lots"></a>
 </h3>
-<p>Pour les scripts volumineux :</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Désactivez le rendu pendant le développement</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"script.R"</span>, render_html <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Activez la mise en cache Quarto dans vos scripts</span></span>
-<span><span class="co">#| cache: true</span></span>
-<span></span>
-<span><span class="co"># Utilisez code_fold pour masquer les longs blocs de code</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"script.R"</span>, code_fold <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<ol start="10" style="list-style-type: decimal">
+<li>
+<strong>Utilisez le mode Répertoire pour les projets</strong> :
+Convertissez des dossiers de projet entiers avec l’option Créer un
+livre</li>
+<li>
+<strong>Excluez les fichiers de test</strong> : Utilisez
+<code>exclude_pattern</code> pour ignorer les scripts de test dans la
+conversion par lots</li>
+<li>
+<strong>Organisez par sous-répertoires</strong> : Tirez parti de la
+conversion récursive pour maintenir la structure du projet</li>
+<li>
+<strong>Définissez les répertoires de sortie</strong> : Gardez les
+scripts R sources séparés de la documentation générée</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="workflow-de-documentation">Workflow de documentation<a class="anchor" aria-label="anchor" href="#workflow-de-documentation"></a>
+</h3>
+<ol start="14" style="list-style-type: decimal">
+<li>
+<strong>Commentez librement</strong> : Plus de commentaires =
+meilleure documentation</li>
+<li>
+<strong>Utilisez les métadonnées</strong> : Ajoutez Titre, Auteur,
+Date et Description en haut des scripts</li>
+<li>
+<strong>Testez de manière incrémentale</strong> : Commencez avec un
+petit script pour comprendre le comportement de conversion</li>
+<li>
+<strong>Prévisualisez fréquemment</strong> : Utilisez
+<code>render_html = TRUE</code> et <code>open_html = TRUE</code> pour
+voir les résultats immédiatement</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="intégration-cicd">Intégration CI/CD<a class="anchor" aria-label="anchor" href="#int%C3%A9gration-cicd"></a>
+</h3>
+<ol start="18" style="list-style-type: decimal">
+<li>
+<strong>Automatisez la documentation</strong> : Utilisez GitHub
+Actions ou GitLab CI pour générer la documentation lors des
+validations</li>
+<li>
+<strong>Contrôle de version .R uniquement</strong> : Générez les
+fichiers .qmd et .html dans CI/CD, pas dans votre dépôt</li>
+<li>
+<strong>Déployez sur GitHub Pages</strong> : Publiez automatiquement
+la documentation à chaque push</li>
+</ol>
 </div>
 </div>
 <div class="section level2">
-<h2 id="ressources-supplémentaires">Ressources supplémentaires<a class="anchor" aria-label="anchor" href="#ressources-suppl%C3%A9mentaires"></a>
+<h2 id="prochaines-étapes">Prochaines étapes<a class="anchor" aria-label="anchor" href="#prochaines-%C3%A9tapes"></a>
 </h2>
 <ul>
 <li>
-<strong>Documentation Quarto</strong> : <a href="https://quarto.org/" class="external-link uri">https://quarto.org/</a>
+<strong>Utilisation de base</strong> : Voir <a href="getting-started_FR.html">Guide de démarrage</a> pour les
+fondamentaux</li>
+<li>
+<strong>Version anglaise</strong> : <a href="advanced-features.html">English version</a>
 </li>
 <li>
-<strong>Guide styler</strong> : <a href="https://styler.r-lib.org/" class="external-link uri">https://styler.r-lib.org/</a>
+<strong>Dépôt GitHub</strong> : <a href="https://github.com/ddotta/quartify" class="external-link">ddotta/quartify</a>
 </li>
 <li>
-<strong>Documentation lintr</strong> : <a href="https://lintr.r-lib.org/" class="external-link uri">https://lintr.r-lib.org/</a>
-</li>
-<li>
-<strong>Référence Mermaid</strong> : <a href="https://mermaid.js.org/" class="external-link uri">https://mermaid.js.org/</a>
+<strong>Signaler des problèmes</strong> : <a href="https://github.com/ddotta/quartify/issues" class="external-link">GitHub Issues</a>
 </li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="obtenir-de-laide">Obtenir de l’aide<a class="anchor" aria-label="anchor" href="#obtenir-de-laide"></a>
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>Si vous rencontrez des problèmes :</p>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Vérifiez la documentation</strong> : Commencez par le <a href="getting-started_FR.html">guide de démarrage</a>
-</li>
-<li>
-<strong>Issues GitHub</strong> : <a href="https://github.com/ddotta/quartify/issues" class="external-link uri">https://github.com/ddotta/quartify/issues</a>
-</li>
-<li>
-<strong>Exemples</strong> : Utilisez
-<code>system.file("examples", package = "quartify")</code>
-</li>
-</ol>
-<hr>
-<div class="alert alert-success">
-<p>💡 <strong>Astuce</strong> : Toutes ces fonctionnalités sont
-accessibles à la fois via l’interface Shiny et par programmation.
-Choisissez la méthode qui convient le mieux à votre workflow !</p>
-</div>
+<p>Les fonctionnalités avancées de <code>quartify</code> permettent des
+workflows de documentation sophistiqués, des vérifications de qualité du
+code à la génération automatique de livres. Expérimentez avec ces
+fonctionnalités pour trouver le meilleur workflow pour vos projets !</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

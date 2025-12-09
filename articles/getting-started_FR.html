@@ -63,7 +63,7 @@
       <h1>Démarrage avec quartify</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/v0.0.9/vignettes/getting-started_FR.Rmd" class="external-link"><code>vignettes/getting-started_FR.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ddotta/quartify/blob/main/vignettes/getting-started_FR.Rmd" class="external-link"><code>vignettes/getting-started_FR.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started_FR.Rmd</code></div>
     </div>
 
@@ -112,27 +112,21 @@ vous vous demandez peut-être en quoi <code>quartify</code> diffère :</p>
 <code>#</code> (commentaires R naturels)</td>
 </tr>
 <tr class="odd">
-<td><strong>Options de chunk</strong></td>
-<td>Préfixe <code>#+</code>
-</td>
-<td>Sections de code RStudio</td>
-</tr>
-<tr class="even">
 <td><strong>Fonctionnalités modernes</strong></td>
 <td>Limité à R Markdown</td>
 <td>Toutes les capacités Quarto</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Encadrés</strong></td>
 <td>HTML/CSS manuel</td>
 <td>Callouts Quarto natifs</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Diagrammes</strong></td>
 <td>Outils externes</td>
 <td>Support Mermaid natif</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Thèmes</strong></td>
 <td>Thèmes R Markdown limités</td>
 <td>25+ thèmes Quarto modernes</td>
@@ -144,7 +138,7 @@ vous vous demandez peut-être en quoi <code>quartify</code> diffère :</p>
 <li>
 <strong>Écosystème Quarto Moderne</strong> : Bénéficiez des
 fonctionnalités de nouvelle génération de Quarto (callouts, tabsets,
-références croisées, Observable JS, etc.)</li>
+etc.)</li>
 <li>
 <strong>Scripts R Plus Propres</strong> : Utilisez des commentaires
 R naturels sans syntaxe spéciale <code>#'</code> ou <code>#+</code> -
@@ -180,9 +174,11 @@ exemple simple :</p>
 <span></span>
 <span><span class="co"># Convertir seulement, sans générer le HTML</span></span>
 <span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"mon_document.qmd"</span>, render <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>Par défaut, <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> va : 1. Créer le fichier .qmd 2. Le
-générer en HTML avec Quarto 3. Ouvrir le fichier HTML dans votre
-navigateur (si <code>open_html = TRUE</code>)</p>
+<p>Par défaut, <code><a href="../reference/rtoqmd.html">rtoqmd()</a></code> va :<br>
+1. Créer le fichier .qmd<br>
+2. Le générer en HTML avec Quarto<br>
+3. Ouvrir le fichier HTML dans votre navigateur (si
+<code>open_html = TRUE</code>)</p>
 <div class="section level3">
 <h3 id="emplacement-des-fichiers-de-sortie">Emplacement des fichiers de sortie<a class="anchor" aria-label="anchor" href="#emplacement-des-fichiers-de-sortie"></a>
 </h3>
@@ -501,8 +497,9 @@ GENERATE en évidence et mise en page intuitive</li>
 <p><strong>Réseau Local :</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Exécuter sur un port spécifique accessible à votre réseau</span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"quartify_app"</span>, package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span>, </span>
-<span>              host <span class="op">=</span> <span class="st">"0.0.0.0"</span>, port <span class="op">=</span> <span class="fl">3838</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"quartify_app"</span>, package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span>,</span>
+<span>  host <span class="op">=</span> <span class="st">"0.0.0.0"</span>, port <span class="op">=</span> <span class="fl">3838</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><strong>RStudio Connect / Shiny Server :</strong> Déployer comme une
 application Shiny standard pour un accès à l’échelle de
 l’entreprise.</p>
@@ -862,7 +859,7 @@ chunk de code R :</p>
 <p>Cela sera rendu comme :</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a></span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="co"># Sélectionner une colonne</span></span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">select</span>(Species)</span>
 <span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
@@ -1023,7 +1020,7 @@ automatiquement (par défaut : TRUE)</li>
 <span id="cb27-33"><a href="#cb27-33" tabindex="-1"></a></span>
 <span id="cb27-34"><a href="#cb27-34" tabindex="-1"></a></span>
 <span id="cb27-35"><a href="#cb27-35" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb27-36"><a href="#cb27-36" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb27-36"><a href="#cb27-36" tabindex="-1"></a>iris <span class="sc">|&gt;</span></span>
 <span id="cb27-37"><a href="#cb27-37" tabindex="-1"></a>  <span class="fu">count</span>(Species)</span>
 <span id="cb27-38"><a href="#cb27-38" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-39"><a href="#cb27-39" tabindex="-1"></a></span>
@@ -1033,7 +1030,7 @@ automatiquement (par défaut : TRUE)</li>
 <span id="cb27-43"><a href="#cb27-43" tabindex="-1"></a></span>
 <span id="cb27-44"><a href="#cb27-44" tabindex="-1"></a></span>
 <span id="cb27-45"><a href="#cb27-45" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb27-46"><a href="#cb27-46" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb27-46"><a href="#cb27-46" tabindex="-1"></a>iris <span class="sc">|&gt;</span></span>
 <span id="cb27-47"><a href="#cb27-47" tabindex="-1"></a>  <span class="fu">filter</span>(Species <span class="sc">==</span> <span class="st">"setosa"</span>)</span>
 <span id="cb27-48"><a href="#cb27-48" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-49"><a href="#cb27-49" tabindex="-1"></a></span>
@@ -1043,7 +1040,7 @@ automatiquement (par défaut : TRUE)</li>
 <span id="cb27-53"><a href="#cb27-53" tabindex="-1"></a></span>
 <span id="cb27-54"><a href="#cb27-54" tabindex="-1"></a></span>
 <span id="cb27-55"><a href="#cb27-55" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb27-56"><a href="#cb27-56" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb27-56"><a href="#cb27-56" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
 <span id="cb27-57"><a href="#cb27-57" tabindex="-1"></a>  <span class="co"># Select a column</span></span>
 <span id="cb27-58"><a href="#cb27-58" tabindex="-1"></a>  <span class="fu">select</span>(Species)</span>
 <span id="cb27-59"><a href="#cb27-59" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
@@ -1187,9 +1184,10 @@ voulez les fichiers .qmd)</li>
 :</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/quartify_app_web.html">quartify_app_web</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>En mode batch, vous pouvez : - <strong>Télécharger plusieurs fichiers
-R</strong> en même temps - <strong>Sélectionner un répertoire</strong>
-contenant vos scripts R</p>
+<p>En mode batch, vous pouvez :<br>
+- <strong>Télécharger plusieurs fichiers R</strong> en même temps<br>
+- <strong>Sélectionner un répertoire</strong> contenant vos scripts
+R</p>
 <p>L’interface convertira tous les fichiers et fournira une archive .zip
 téléchargeable.</p>
 </div>
@@ -1207,13 +1205,15 @@ sous-répertoires) de manière programmatique, utilisez
 <span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>, render <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Avec auteur personnalisé et préfixe de titre</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>, </span>
-<span>           title_prefix <span class="op">=</span> <span class="st">"Analyse : "</span>,</span>
-<span>           author <span class="op">=</span> <span class="st">"Équipe Data"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>,</span>
+<span>  title_prefix <span class="op">=</span> <span class="st">"Analyse : "</span>,</span>
+<span>  author <span class="op">=</span> <span class="st">"Équipe Data"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Exclure certains fichiers (ex : fichiers de test)</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>, </span>
-<span>           exclude_pattern <span class="op">=</span> <span class="st">"test_.*\\.R$"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>,</span>
+<span>  exclude_pattern <span class="op">=</span> <span class="st">"test_.*\\.R$"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Non récursif (seulement le répertoire courant)</span></span>
 <span><span class="fu"><a href="../reference/rtoqmd_dir.html">rtoqmd_dir</a></span><span class="op">(</span><span class="st">"chemin/vers/scripts"</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -1825,9 +1825,10 @@ La version formatée selon tidyverse</p>
 qualité du code :</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convertir avec styler et lintr</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">temp_script</span>, <span class="st">"sortie_qualite.qmd"</span>, </span>
-<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>       use_lintr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">temp_script</span>, <span class="st">"sortie_qualite.qmd"</span>,</span>
+<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_lintr <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Les tabsets incluront : - <strong>Original Code</strong> : Votre code
 - <strong>Styled Code</strong> : Version formatée - <strong>Lint
 Issues</strong> : Liste des violations de style et suggestions</p>
@@ -1839,9 +1840,10 @@ Issues</strong> : Liste des violations de style et suggestions</p>
 votre script R source :</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ceci modifiera le fichier R original</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"sortie.qmd"</span>, </span>
-<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>       apply_styler <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="st">"mon_script.R"</span>, <span class="st">"sortie.qmd"</span>,</span>
+<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apply_styler <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="alert alert-warning">
 <p><strong>Attention :</strong> <code>apply_styler = TRUE</code> modifie
 votre fichier de script R original. Considérez utiliser un contrôle de
@@ -1853,13 +1855,15 @@ version ou des sauvegardes avant d’utiliser cette option.</p>
 </h3>
 <p>Essayez l’exemple inclus :</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fichier_exemple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"example_code_quality.R"</span>, </span>
-<span>                              package <span class="op">=</span> <span class="st">"quartify"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">fichier_exemple</span>, <span class="st">"demo_qualite.qmd"</span>, </span>
-<span>       use_styler <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>       use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>       render_html <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>       open_html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fichier_exemple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"example_code_quality.R"</span>,</span>
+<span>  package <span class="op">=</span> <span class="st">"quartify"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rtoqmd.html">rtoqmd</a></span><span class="op">(</span><span class="va">fichier_exemple</span>, <span class="st">"demo_qualite.qmd"</span>,</span>
+<span>  use_styler <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_lintr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  render_html <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  open_html <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

@@ -151,7 +151,12 @@
 <h3 id="id_-httpsquartifylabsspcloudfr-">
 <strong>→ <a href="https://quartify.lab.sspcloud.fr/" class="external-link">https://quartify.lab.sspcloud.fr/</a> ←</strong><a class="anchor" aria-label="anchor" href="#id_-httpsquartifylabsspcloudfr-"></a>
 </h3>
-<p>The web version allows you to: - ✅ Upload <strong>one or multiple R scripts</strong> directly from your computer <strong>OR select a directory</strong> containing R scripts for batch conversion - ✅ <strong>Create Quarto Books</strong> automatically from multiple files with navigation structure - ✅ Configure conversion options (title, author, theme, book creation, etc.) - ✅ Download generated .qmd and .html files (or .zip archive for batch mode) - ✅ No R installation required!</p>
+<p>The web version allows you to:<br>
+- ✅ Upload <strong>one or multiple R scripts</strong> directly from your computer <strong>OR select a directory</strong> containing R scripts for batch conversion<br>
+- ✅ <strong>Create Quarto Books</strong> automatically from multiple files with navigation structure<br>
+- ✅ Configure conversion options (title, author, theme, book creation, etc.)<br>
+- ✅ Download generated .qmd and .html files (or .zip archive for batch mode)<br>
+- ✅ No R installation required!</p>
 <hr>
 </div>
 <div class="section level3">
@@ -164,7 +169,15 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ddotta.github.io/quartify/">quartify</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/quartify_app.html">quartify_app</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Opens in your default web browser</span></span></code></pre></div>
-<p>This launches a browser-based interface where you can: - Convert <strong>one or multiple files</strong> OR an entire <strong>directory</strong> of R scripts - <strong>Create Quarto Books</strong> with automatic navigation (enabled by default for directories) - Select custom <strong>output directory</strong> for book generation - Select input files/directories using a file browser - Choose output file location for individual files - Customize document title, author, and theme - Toggle rendering and display options - Switch between English/French interface</p>
+<p>This launches a browser-based interface where you can:<br>
+- Convert <strong>one or multiple files</strong> OR an entire <strong>directory</strong> of R scripts<br>
+- <strong>Create Quarto Books</strong> with automatic navigation (enabled by default for directories)<br>
+- Select custom <strong>output directory</strong> for book generation<br>
+- Select input files/directories using a file browser<br>
+- Choose output file location for individual files<br>
+- Customize document title, author, and theme<br>
+- Toggle rendering and display options<br>
+- Switch between English/French interface</p>
 <p><strong>Perfect for users of Positron, VS Code, or any IDE that supports R!</strong></p>
 </div>
 <div class="section level4">
@@ -173,7 +186,7 @@
 <p>If you use RStudio, you can also access the same interface through:</p>
 <ol style="list-style-type: decimal">
 <li>Open your R script in RStudio</li>
-<li>Go to <strong>Addins</strong> menu → <strong>Convert R Script to Quarto</strong>
+<li>Go to <strong>Addins</strong> menu → <strong>Quartify</strong> → <strong>Convert R Script to Quarto</strong>
 </li>
 <li>A dialog window will appear with the same options as the standalone app</li>
 <li>Click <strong>GENERATE</strong> to convert your script</li>
@@ -312,7 +325,10 @@
 <h3 id="in-shiny-apps">In Shiny Apps<a class="anchor" aria-label="anchor" href="#in-shiny-apps"></a>
 </h3>
 <p>All three Shiny applications (<code><a href="reference/rtoqmd_addin.html">rtoqmd_addin()</a></code>, <code><a href="reference/quartify_app.html">quartify_app()</a></code>, and <code><a href="reference/quartify_app_web.html">quartify_app_web()</a></code>) include checkboxes for these options in the interface.</p>
-<p>📖 <strong>For detailed information</strong>, see: - <a href="inst/examples/CODE_QUALITY_README.html">Code Quality Guide</a> - <a href="https://ddotta.github.io/quartify/articles/advanced-features.html">Advanced Features Vignette</a> - Complete guide with examples - <a href="https://ddotta.github.io/quartify/">Package vignettes</a></p>
+<p>📖 <strong>For detailed information</strong>, see:<br>
+- <a href="inst/examples/CODE_QUALITY_README.html">Code Quality Guide</a><br>
+- <a href="https://ddotta.github.io/quartify/articles/advanced-features.html">Advanced Features Vignette</a> - Complete guide with examples<br>
+- <a href="https://ddotta.github.io/quartify/">Package vignettes</a></p>
 </div>
 </div>
 <div class="section level2">
@@ -376,7 +392,7 @@
 <strong>Description</strong>: <code># Description : Your description</code>
 </li>
 </ul>
-<p><strong>💡 RStudio Snippet:</strong> Create a snippet for quick metadata insertion (Tools &gt; Edit Code Snippets &gt; R):</p>
+<p><strong>💡 RStudio Snippet:</strong> Use <code><a href="reference/install_quartify_snippets.html">install_quartify_snippets()</a></code> function to install quartify’s snippets or create a snippet for quick metadata insertion (Tools &gt; Edit Code Snippets &gt; R):</p>
 <pre><code>snippet header
     # Title : ${1}
     #
