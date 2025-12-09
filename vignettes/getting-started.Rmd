@@ -30,7 +30,6 @@ If you're familiar with [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/),
 |---------|---------------|----------|
 | **Output Format** | R Markdown (.Rmd) | Quarto (.qmd) |
 | **Text Syntax** | `#'` for markdown | `#` (natural R comments) |
-| **Chunk Options** | `#+` prefix | RStudio code sections |
 | **Modern Features** | Limited to R Markdown | Full Quarto capabilities |
 | **Callouts** | Manual HTML/CSS | Native Quarto callouts |
 | **Diagrams** | External tools | Native Mermaid support |
@@ -38,13 +37,13 @@ If you're familiar with [`knitr::spin()`](https://yihui.org/knitr/demo/stitch/),
 
 **Why choose quartify?**
 
-1. **Modern Quarto Ecosystem**: Benefit from Quarto's next-generation features (callouts, tabsets, cross-references, Observable JS, etc.)
+1. **Modern Quarto Ecosystem**: Benefit from Quarto's next-generation features (callouts, tabsets, etc.)
 2. **Cleaner R Scripts**: Use natural R commenting without special `#'` or `#+` syntax - your scripts remain readable as standalone R code
 3. **Advanced Outputs**: Generate websites, books, presentations, and scientific articles with the same workflow
 4. **Better Theming**: Access to modern, responsive HTML themes with consistent styling
 5. **Future-Proof**: Quarto is actively developed by Posit as the successor to R Markdown
 
-S## Installation
+## Installation
 
 You can install the development version of quartify from GitHub:
 
@@ -67,10 +66,10 @@ rtoqmd("my_script.R", "my_document.qmd")
 rtoqmd("my_script.R", "my_document.qmd", render = FALSE)
 ```
 
-By default, `rtoqmd()` will:
-1. Create the .qmd file
-2. Render it to HTML using Quarto
-3. Open the HTML file in your default browser
+By default, `rtoqmd()` will:  
+1. Create the .qmd file  
+2. Render it to HTML using Quarto  
+3. Open the HTML file in your default browser  
 
 ### Output File Locations
 
@@ -224,8 +223,9 @@ The standalone app can be deployed for team access:
 **Local Network:**
 ```{r eval=FALSE}
 # Run on a specific port accessible to your network
-shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"), 
-              host = "0.0.0.0", port = 3838)
+shiny::runApp(system.file("shiny", "quartify_app", package = "quartify"),
+  host = "0.0.0.0", port = 3838
+)
 ```
 
 **RStudio Connect / Shiny Server:**
@@ -530,7 +530,7 @@ This will render as:
 ```{r, eval=FALSE}
 #| eval: false
 #| echo: true
-iris %>% 
+iris %>%
   # Select a column
   select(Species)
 ```
