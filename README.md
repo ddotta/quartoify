@@ -14,6 +14,14 @@ status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](htt
 
 The package facilitates the transformation of your R analyses into reproducible and well-structured Quarto documents, preserving the logical structure of your code through [RStudio code sections](https://docs.posit.co/ide/user/ide/guide/code/code-sections.html). It recognizes the standard RStudio code section syntax (`####`, `====`, `----`) to create properly indented navigation structures.
 
+### Differences with knitr::spin() and Quarto render-scripts
+
+[knitr::spin()](https://yihui.org/knitr/demo/stitch/#spin) and Quarto's [render-scripts feature](https://quarto.org/docs/computations/render-scripts.html) both allow rendering R scripts, but they require inserting Markdown structure directly into comments (`#'`, headers, chunk options, etc.).
+
+**quartify takes a different philosophy**: it imposes no Markdown syntax in comments and works on completely standard R scripts. Comments remain comments, code remains code.
+
+The goal is to keep clean, conventional scripts while making them convertible to .qmd — and when multiple scripts are selected, to automatically assemble them into a structured Quarto book without any source code rewriting.
+
 ### Use Cases
 
 If you have a working R script that contains comments, you may want to generate a Quarto document from this script that will allow you to automatically produce displayable HTML documentation. This is particularly useful for:
@@ -36,6 +44,8 @@ If you have a working R script that contains comments, you may want to generate 
 - **Customizable themes**: Choose from 25+ Quarto themes to customize the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from the R script in code chunks for traceability
 - **Code quality integration**: Optional integration with [styler](https://styler.r-lib.org/) and [lintr](https://lintr.r-lib.org/) to show code formatting suggestions and quality issues in interactive tabsets
+- **RStudio snippets support**: Quick metadata and structure insertion using customizable code snippets
+- **Special features**: Support for Mermaid diagrams, callouts (note, tip, warning, etc.), and tabsets for organizing content
 - **Output directory customization**: Specify custom output directories for book generation (defaults to `_book`)
 - **Web deployment ready**: Includes `quartify_app_web()` for deploying on web servers with file upload/download capabilities
 
@@ -221,7 +231,10 @@ rtoqmd("my_script.R", "output.qmd",
 
 All three Shiny applications (`rtoqmd_addin()`, `quartify_app()`, and `quartify_app_web()`) include checkboxes for these options in the interface.
 
-📖 **For detailed information**, see the [Code Quality Guide](inst/examples/CODE_QUALITY_README.md) and the [package vignettes](https://ddotta.github.io/quartify/).
+📖 **For detailed information**, see:
+- [Code Quality Guide](inst/examples/CODE_QUALITY_README.md)
+- [Advanced Features Vignette](https://ddotta.github.io/quartify/articles/advanced-features.html) - Complete guide with examples
+- [Package vignettes](https://ddotta.github.io/quartify/)
 
 ## Source R script format
 
