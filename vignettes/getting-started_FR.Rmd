@@ -447,7 +447,62 @@ Ceci créera deux chunks séparés au lieu d'un seul grand chunk.
 
 **Astuce :** Utilisez le [raccourci Commenter/Décommenter](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) de RStudio (`Ctrl+Shift+C` sur Windows/Linux ou `Cmd+Shift+C` sur Mac) pour ajouter ou retirer rapidement des commentaires de votre code.
 
-### 3. Lignes de code
+### 3. Documentation roxygen2
+
+Si votre script R contient des blocs de documentation roxygen2 (lignes commençant par `#'`), **quartify** les convertit automatiquement en élégantes sections callout-note avec le nom de la fonction :
+
+**Entrée (script R) :**
+
+```r
+#' Additionne deux nombres
+#'
+#' @param x Une valeur numérique
+#' @param y Une valeur numérique
+#' @return La somme de x et y
+#' @examples
+#' add_numbers(2, 3)
+#' @export
+add_numbers <- function(x, y) {
+  return(x + y)
+}
+```
+
+**Sortie (document Quarto) :**
+
+```markdown
+::: {.callout-note}
+## Documentation - add_numbers
+
+Additionne deux nombres
+
+@param x Une valeur numérique
+@param y Une valeur numérique
+@return La somme de x et y
+@examples
+add_numbers(2, 3)
+@export
+:::
+
+```{r}
+add_numbers <- function(x, y) {
+  return(x + y)
+}
+```
+```
+
+**Règles :**
+
+- Les blocs roxygen2 (lignes commençant par `#'`) sont automatiquement détectés
+- Le nom de la fonction est extrait de la définition de fonction suivante
+- Toutes les balises roxygen2 (@param, @return, @examples, @export, etc.) sont préservées
+- La documentation apparaît sous forme d'un beau bloc callout au-dessus du code
+- Fonctionne avec `rtoqmd()`, `rtoqmd_dir()`, et toutes les applications Shiny
+
+::: {.callout-tip title="Astuce : Développement de packages"}
+Cette fonctionnalité est particulièrement utile lors de la documentation de packages R ou du partage de code avec une documentation API complète. Les blocs roxygen2 restent lisibles dans la sortie Quarto sans nécessiter de construire la documentation du package.
+:::
+
+### 4. Lignes de code
 
 Toute ligne qui N'EST PAS un commentaire devient du code R exécutable :
 

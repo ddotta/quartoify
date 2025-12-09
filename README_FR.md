@@ -43,6 +43,7 @@ Si vous avez un script R fonctionnel qui contient des commentaires, vous pourrie
 - **Thèmes personnalisables** : Choisissez parmi 25+ thèmes Quarto pour personnaliser l'apparence de vos documents HTML
 - **Numéros de ligne source** : Affichage optionnel des numéros de ligne originaux du script R dans les chunks de code pour la traçabilité
 - **Intégration qualité du code** : Intégration optionnelle avec [styler](https://styler.r-lib.org/) et [lintr](https://lintr.r-lib.org/) pour afficher les suggestions de formatage et les problèmes de qualité dans des onglets interactifs
+- **Support de la documentation roxygen2** : Conversion automatique des blocs de documentation roxygen2 (`#'`) en sections callout-note avec les noms des fonctions
 - **Support des snippets RStudio** : Insertion rapide de métadonnées et de structure via des snippets de code personnalisables
 - **Fonctionnalités spéciales** : Support des diagrammes Mermaid, des callouts (note, tip, warning, etc.), et des tabsets pour organiser le contenu
 - **Personnalisation du répertoire de sortie** : Spécifiez des répertoires de sortie personnalisés pour la génération de livres (par défaut `_book`)

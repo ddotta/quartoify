@@ -44,6 +44,7 @@ If you have a working R script that contains comments, you may want to generate 
 - **Customizable themes**: Choose from 25+ Quarto themes to customize the appearance of your HTML documents
 - **Source line numbers**: Optionally display original line numbers from the R script in code chunks for traceability
 - **Code quality integration**: Optional integration with [styler](https://styler.r-lib.org/) and [lintr](https://lintr.r-lib.org/) to show code formatting suggestions and quality issues in interactive tabsets
+- **Roxygen2 documentation support**: Automatically converts roxygen2 documentation blocks (`#'`) into callout-note sections with function names
 - **RStudio snippets support**: Quick metadata and structure insertion using customizable code snippets
 - **Special features**: Support for Mermaid diagrams, callouts (note, tip, warning, etc.), and tabsets for organizing content
 - **Output directory customization**: Specify custom output directories for book generation (defaults to `_book`)

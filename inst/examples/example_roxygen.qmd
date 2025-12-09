@@ -1,0 +1,108 @@
+---
+title: "Roxygen Documentation Example"
+author: "Quartify Team"
+date: "2025-12-09"
+format:
+  html:
+    embed-resources: true
+    code-fold: false
+    number-sections: true
+toc: true
+toc-title: Sommaire
+toc-depth: 4
+toc-location: left
+execute: 
+  eval: false
+  echo: true
+output:
+  html_document:
+  output-file: example_roxygen.html
+---
+
+## Mathematical Functions
+
+::: {.callout-note}
+
+## Documentation - add_numbers
+
+Add Two Numbers
+
+This function takes two numeric values and returns their sum.
+
+@param x A numeric value.
+@param y A numeric value.
+
+@return A numeric value representing the sum of `x` and `y`.
+
+@examples
+add_numbers(3, 5)   # returns 8
+add_numbers(-2, 7)  # returns 5
+
+@export
+
+:::
+
+```{r}
+# Lignes 21-23
+add_numbers <- function(x, y) {
+  x + y
+}
+```
+
+::: {.callout-note}
+
+## Documentation - multiply_numbers
+
+Multiply Two Numbers
+
+This function multiplies two numeric values.
+
+@param a First number
+@param b Second number
+@return The product of a and b
+@examples
+multiply_numbers(4, 5)  # returns 20
+@export
+
+:::
+
+```{r}
+# Lignes 35-37
+multiply_numbers <- function(a, b) {
+  a * b
+}
+```
+
+## String Functions
+
+::: {.callout-note}
+
+## Documentation - to_upper
+
+Convert Text to Uppercase
+
+Takes a character string and converts all letters to uppercase.
+
+@param text A character string to convert
+@return The input string in uppercase
+@examples
+to_upper("hello world")  # returns "HELLO WORLD"
+@export
+
+:::
+
+```{r}
+# Lignes 50-52
+to_upper <- function(text) {
+  toupper(text)
+}
+```
+
+Regular comment without roxygen
+
+```{r}
+# Lignes 55-56
+result <- add_numbers(10, 20)
+print(result)
+```
+

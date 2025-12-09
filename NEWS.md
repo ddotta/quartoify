@@ -1,6 +1,24 @@
+# quartify 0.0.9
+
+## New Features
+
+* **Roxygen2 Documentation Support**: 
+  - Documentation blocks using roxygen2 syntax (`#'`) are now converted to callout-note blocks
+  - Function name automatically extracted and added to callout title (e.g., "Documentation - add_numbers")
+  - All roxygen2 tags (`@param`, `@return`, `@examples`, etc.) preserved in callout content
+  - Example file available: `inst/examples/example_roxygen.R`
+  - Works with `rtoqmd()`, `rtoqmd_dir()` and all Shiny applications (`rtoqmd_addin()`, `quartify_app()`, `quartify_app_web()`)
+  - Updated test suite to verify roxygen2 conversion behavior
+
 # quartify 0.0.8
 
 ## CRAN Submission Fixes
+
+* **Final CRAN Compliance**:
+  - Added `Language: en-US` field in DESCRIPTION to avoid "qmd" misspelling NOTE
+  - Fixed last partial argument match: `render` → `render_html` in `rtoqmd_dir()`
+  - Removed all non-ASCII characters: replaced accented characters (é → e) in French messages
+  - Package now passes R CMD check with 0 errors, 0 warnings, 0 notes
 
 * **Documentation Compliance**:
   - Added 'Quarto' in single quotes in DESCRIPTION per CRAN policy

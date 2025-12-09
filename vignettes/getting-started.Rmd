@@ -443,7 +443,62 @@ This will create two separate chunks instead of one large chunk.
 
 **Tip:** Use RStudio's [Comment/Uncomment shortcut](https://docs.posit.co/ide/user/ide/guide/productivity/text-editor.html#commentuncomment) (`Ctrl+Shift+C` on Windows/Linux or `Cmd+Shift+C` on Mac) to quickly add or remove comments from your code.
 
-### 3. Code Lines
+### 3. Roxygen2 Documentation
+
+If your R script contains roxygen2 documentation blocks (lines starting with `#'`), **quartify** automatically converts them into elegant callout-note sections with the function name:
+
+**Input (R script):**
+
+```r
+#' Add two numbers together
+#'
+#' @param x A numeric value
+#' @param y A numeric value
+#' @return The sum of x and y
+#' @examples
+#' add_numbers(2, 3)
+#' @export
+add_numbers <- function(x, y) {
+  return(x + y)
+}
+```
+
+**Output (Quarto document):**
+
+```markdown
+::: {.callout-note}
+## Documentation - add_numbers
+
+Add two numbers together
+
+@param x A numeric value
+@param y A numeric value
+@return The sum of x and y
+@examples
+add_numbers(2, 3)
+@export
+:::
+
+```{r}
+add_numbers <- function(x, y) {
+  return(x + y)
+}
+```
+```
+
+**Rules:**
+
+- Roxygen2 blocks (lines starting with `#'`) are automatically detected
+- The function name is extracted from the following function definition
+- All roxygen2 tags (@param, @return, @examples, @export, etc.) are preserved
+- The documentation appears as a beautiful callout box above the code
+- Works with `rtoqmd()`, `rtoqmd_dir()`, and all Shiny applications
+
+::: {.callout-tip title="Tip: Package Development"}
+This feature is particularly useful when documenting R packages or sharing code with full API documentation. The roxygen2 blocks remain readable in the Quarto output without requiring users to build package documentation.
+:::
+
+### 4. Code Lines
 
 Any line that is NOT a comment becomes executable R code:
 

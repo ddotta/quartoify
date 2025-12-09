@@ -98,7 +98,7 @@ test_that("rtoqmd groups consecutive code lines", {
   unlink(temp_qmd)
 })
 
-test_that("rtoqmd ignores roxygen comments", {
+test_that("rtoqmd converts roxygen comments to callouts", {
   temp_r <- tempfile(fileext = ".R")
   temp_qmd <- tempfile(fileext = ".qmd")
   
@@ -112,9 +112,11 @@ test_that("rtoqmd ignores roxygen comments", {
   rtoqmd(temp_r, temp_qmd)
   output <- readLines(temp_qmd)
   
-  # Roxygen comments should not appear in output
-  expect_false(any(grepl("This is roxygen", output)))
-  expect_false(any(grepl("@param", output)))
+  # Roxygen comments should be converted to callout-note
+  expect_true(any(grepl("callout-note", output)))
+  expect_true(any(grepl("Documentation - foo", output)))
+  expect_true(any(grepl("This is roxygen", output)))
+  expect_true(any(grepl("@param", output)))
   
   # Regular comment should appear
   expect_true(any(grepl("This is a regular comment", output)))

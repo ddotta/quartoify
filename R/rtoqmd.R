@@ -389,9 +389,64 @@ rtoqmd <- function(input_file, output_file = NULL,
     if (i %in% metadata_lines) {
       # Ignore metadata lines - do nothing
       
-    # Skip roxygen comments completely
+    # Process roxygen2 documentation blocks
     } else if (grepl("^#'", line)) {
-      # Ignore roxygen comments - do nothing
+      # Flush any accumulated code
+      if (length(code_block) > 0) {
+        output <- c(output, flush_code_block(code_block, code_chunk_lines, show_source_lines))
+        code_block <- character()
+        code_chunk_start <- NULL
+        code_chunk_lines <- integer()
+      }
+      
+      # Flush any accumulated comments
+      if (length(comment_block) > 0) {
+        output <- c(output, comment_block)
+        output <- c(output, "")
+        comment_block <- character()
+      }
+      
+      # Collect all roxygen2 lines
+      roxygen_lines <- character()
+      while (i <= length(lines) && grepl("^#'", lines[i])) {
+        # Remove #' prefix and trim
+        content <- sub("^#'\\s?", "", lines[i])
+        roxygen_lines <- c(roxygen_lines, content)
+        i <- i + 1
+      }
+      
+      # Try to find the function name in the next non-empty, non-comment line
+      function_name <- "Function"
+      temp_i <- i
+      while (temp_i <= length(lines)) {
+        next_line <- lines[temp_i]
+        if (grepl("^\\s*$", next_line) || grepl("^#[^']", next_line)) {
+          # Skip empty lines and regular comments
+          temp_i <- temp_i + 1
+          next
+        }
+        # Try to extract function name
+        if (grepl("<-\\s*function\\s*\\(", next_line)) {
+          func_match <- regmatches(next_line, regexec("^\\s*([a-zA-Z0-9_.]+)\\s*<-\\s*function", next_line))[[1]]
+          if (length(func_match) >= 2) {
+            function_name <- func_match[2]
+          }
+        }
+        break
+      }
+      
+      # Create callout-note with roxygen documentation
+      output <- c(output, "::: {.callout-note}")
+      output <- c(output, "")
+      output <- c(output, paste0("## Documentation - ", function_name))
+      output <- c(output, "")
+      output <- c(output, roxygen_lines)
+      output <- c(output, "")
+      output <- c(output, ":::")
+      output <- c(output, "")
+      
+      # Continue from current position (i already advanced)
+      next
       
     # Check if line is a RStudio code section
     } else if (grepl("^##\\s+.+\\s+[#=-]{4,}\\s*$", line)) {
