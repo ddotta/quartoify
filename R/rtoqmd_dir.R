@@ -259,7 +259,7 @@ rtoqmd_dir <- function(dir_path,
         author = author,
         format = format,
         theme = theme,
-        render = render_individual,
+        render_html = render_individual,
         output_html_file = html_file,
         open_html = FALSE,  # Never open individual files when creating a book
         code_fold = code_fold,

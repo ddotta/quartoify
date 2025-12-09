@@ -9,6 +9,7 @@ Description: Converts R scripts (.R) into 'Quarto' markdown documents (.qmd) wit
     automatic formatting. Recognizes 'RStudio' code sections, preserves comments as
     narrative text, extracts metadata from special comments, and provides both
     programmatic functions and an interactive 'RStudio' add-in for easy conversion.
+Language: en-US
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.2
