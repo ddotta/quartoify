@@ -215,14 +215,14 @@ example_file <- system.file("examples", "example.R", package = "quartify")
 # Convert and render to HTML (output in temp directory)
 output_qmd <- file.path(tempdir(), "output.qmd")
 rtoqmd(example_file, output_qmd)
-#> ✔ Quarto markdown file created: /tmp/RtmpSEdrzV/output.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpLnia8p/output.qmd
 #> Rendering Quarto document to HTML...
 #> ! Quarto is not installed or not available in PATH
 #> ℹ Install Quarto from <https://quarto.org/docs/get-started/>
 
 # Convert only, without rendering
 rtoqmd(example_file, output_qmd, render_html = FALSE)
-#> ✔ Quarto markdown file created: /tmp/RtmpSEdrzV/output.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpLnia8p/output.qmd
 
 # Example with metadata in the R script:
 # Create a script with metadata
@@ -240,7 +240,7 @@ writeLines(c(
 # Convert - metadata will override function parameters
 output_meta <- file.path(tempdir(), "output_with_metadata.qmd")
 rtoqmd(script_with_metadata, output_meta)
-#> ✔ Quarto markdown file created: /tmp/RtmpSEdrzV/output_with_metadata.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpLnia8p/output_with_metadata.qmd
 #> Rendering Quarto document to HTML...
 #> ! Quarto is not installed or not available in PATH
 #> ℹ Install Quarto from <https://quarto.org/docs/get-started/>
@@ -259,7 +259,7 @@ writeLines(c(
 # Convert with styler formatting
 output_styled <- file.path(tempdir(), "output_styled.qmd")
 rtoqmd(script_with_style_issues, output_styled, use_styler = TRUE)
-#> ✔ Quarto markdown file created: /tmp/RtmpSEdrzV/output_styled.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpLnia8p/output_styled.qmd
 #> Rendering Quarto document to HTML...
 #> ! Quarto is not installed or not available in PATH
 #> ℹ Install Quarto from <https://quarto.org/docs/get-started/>
@@ -268,7 +268,7 @@ rtoqmd(script_with_style_issues, output_styled, use_styler = TRUE)
 output_quality <- file.path(tempdir(), "output_quality.qmd")
 rtoqmd(script_with_style_issues, output_quality, 
        use_styler = TRUE, use_lintr = TRUE)
-#> ✔ Quarto markdown file created: /tmp/RtmpSEdrzV/output_quality.qmd
+#> ✔ Quarto markdown file created: /tmp/RtmpLnia8p/output_quality.qmd
 #> Rendering Quarto document to HTML...
 #> ! Quarto is not installed or not available in PATH
 #> ℹ Install Quarto from <https://quarto.org/docs/get-started/>

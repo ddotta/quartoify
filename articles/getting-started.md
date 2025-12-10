@@ -600,6 +600,8 @@ add_numbers <- function(x, y) {
 }
 ```
 
+    ::: {.alert .alert-info}
+
     **Rules:**
 
     - Roxygen2 blocks (lines starting with `#'`) are automatically detected
@@ -607,10 +609,12 @@ add_numbers <- function(x, y) {
     - All roxygen2 tags (@param, @return, @examples, @export, etc.) are preserved
     - The documentation appears as a beautiful callout box above the code
     - Works with `rtoqmd()`, `rtoqmd_dir()`, and all Shiny applications
+    :::
 
     ::: {.callout-tip title="Tip: Package Development"}
     This feature is particularly useful when documenting R packages or sharing code with full API documentation. The roxygen2 blocks remain readable in the Quarto output without requiring users to build package documentation.
     :::
+
 
     ### 4. Code Lines
 

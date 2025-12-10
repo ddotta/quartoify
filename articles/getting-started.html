@@ -819,6 +819,8 @@ name:</p>
 <span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a>  <span class="fu">return</span>(x <span class="sc">+</span> y)</span>
 <span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>
+::: {.alert .alert-info}
+
 **Rules:**
 
 - Roxygen2 blocks (lines starting with `#'`) are automatically detected
@@ -826,10 +828,12 @@ name:</p>
 - All roxygen2 tags (@param, @return, @examples, @export, etc.) are preserved
 - The documentation appears as a beautiful callout box above the code
 - Works with `rtoqmd()`, `rtoqmd_dir()`, and all Shiny applications
+:::
 
 ::: {.callout-tip title="Tip: Package Development"}
 This feature is particularly useful when documenting R packages or sharing code with full API documentation. The roxygen2 blocks remain readable in the Quarto output without requiring users to build package documentation.
 :::
+
 
 ### 4. Code Lines
 
