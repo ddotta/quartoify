@@ -7,6 +7,11 @@
 
 🇬🇧 [English version](https://ddotta.github.io/quartify/index.html)
 
+## TL;DR
+[Présentation en français](https://ddotta.github.io/quartify_presentation/)
+[Documentation officielle](https://ddotta.github.io/quartify_presentation/)
+[Version en ligne](https://quartify.lab.sspcloud.fr/)
+
 ## Description
 
 `quartify` est un package R qui convertit automatiquement des scripts R en documents Quarto markdown (.qmd).
