@@ -11,7 +11,7 @@ status](https://github.com/ddotta/quartify/workflows/R-CMD-check/badge.svg)](htt
 ## TL;DR
 - 💻 [English presentation](https://ddotta.github.io/quartify_presentation/index_en.html)  
 - 📖 [Official documentation](https://ddotta.github.io/quartify_presentation/)  
-- 📖 [Online version](https://quartify.lab.sspcloud.fr/)  
+- 🌐 [Online version](https://quartify.lab.sspcloud.fr/)  
 
 ## Description
 
